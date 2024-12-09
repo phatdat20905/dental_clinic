@@ -76,8 +76,16 @@ WSGI_APPLICATION = 'dental_clinic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "mssql",
+        "NAME": "dental_clinic",
+        "USER": "SA",
+        "PASSWORD": "YourPassword123!",
+        "HOST": "localhost",
+        "PORT": "1444",
+        "OPTIONS": {
+            "driver": "ODBC Driver 17 for SQL Server", 
+            "trusted_connection": "yes",
+        }
     }
 }
 
