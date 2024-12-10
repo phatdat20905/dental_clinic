@@ -1,0 +1,172 @@
+{% extends 'website/base.html' %} 
+{% load static%} 
+{% block banner-slider%}
+<div
+  id="carouselExampleIndicators"
+  class="carousel slide"
+  data-bs-ride="carousel"
+>
+  <div class="carousel-indicators">
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="0"
+      class="active"
+      aria-current="true"
+      aria-label="Slide 1"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="1"
+      aria-label="Slide 2"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="2"
+      aria-label="Slide 3"
+    ></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static "website/img/banner/b1.jpg"%}" class="d-block w-100" alt="..." />
+    </div>
+    <div class="carousel-item">
+      <img src="{% static "website/img/banner/b2.jpg"%}" class="d-block w-100" alt="..." />
+    </div>
+    <div class="carousel-item">
+        <img src="{% static "website/img/banner/b3.jpg"%}" class="d-block w-100" alt="..." />
+      </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% endblock banner-slider%} 
+{% block main-content %} 
+<div class="specialty-container">
+  <div class="title">Chuyên khoa nổi bật</div>
+  <div class="container swiper">
+    <div class="slider-wrapper">
+      <div class="card-list swiper-wrapper">
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">James Wilson</h2>
+          <p class="user-profession">Software Developer</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">Sarah Johnson</h2>
+          <p class="user-profession">Graphic Designer</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">Michael Brown</h2>
+          <p class="user-profession">Project Manager</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">Emily Davis</h2>
+          <p class="user-profession">Marketing Specialist</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-slide-button swiper-button-prev"></div>
+      <div class="swiper-slide-button swiper-button-next"></div>
+    </div>
+  </div>
+</div>
+<div class="clinic-container">
+  <div class="title">Phòng nha uy tín</div>
+  <div class="container swiper">
+    <div class="slider-wrapper">
+      <div class="card-list swiper-wrapper">
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">James Wilson</h2>
+          <p class="user-profession">Software Developer</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">Sarah Johnson</h2>
+          <p class="user-profession">Graphic Designer</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">Michael Brown</h2>
+          <p class="user-profession">Project Manager</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
+          <h2 class="user-name">Emily Davis</h2>
+          <p class="user-profession">Marketing Specialist</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-slide-button swiper-button-prev"></div>
+      <div class="swiper-slide-button swiper-button-next"></div>
+    </div>
+  </div>
+</div>
+<div class="dentist-container">
+  <div class="title">Nha sĩ nổi bật</div>
+  <div class="container swiper">
+    <div class="slider-wrapper">
+      <div class="card-list swiper-wrapper">
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="user-image">
+          <h2 class="user-name">James Wilson</h2>
+          <p class="user-profession">Software Developer</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="user-image">
+          <h2 class="user-name">Sarah Johnson</h2>
+          <p class="user-profession">Graphic Designer</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="user-image">
+          <h2 class="user-name">Michael Brown</h2>
+          <p class="user-profession">Project Manager</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+        <div class="card-item swiper-slide">
+          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="user-image">
+          <h2 class="user-name">Emily Davis</h2>
+          <p class="user-profession">Marketing Specialist</p>
+          <a href="#" class="message-button btn">Go somewhere</a>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-slide-button swiper-button-prev"></div>
+      <div class="swiper-slide-button swiper-button-next"></div>
+    </div>
+  </div>
+</div>
+
+{%endblock main-content %}
