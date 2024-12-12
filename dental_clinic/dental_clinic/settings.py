@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_cleanup.apps.CleanupConfig', # should be placed after your apps
+    # 'django_cleanup.apps.CleanupConfig', # should be placed after your apps
 ]
 
 ROOT_URLCONF = 'dental_clinic.urls'
