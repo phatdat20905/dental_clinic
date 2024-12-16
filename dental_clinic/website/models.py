@@ -26,18 +26,6 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     image = models.ImageField(upload_to='website/img/dentist', null=True, blank=True)  # Ảnh đại diện
-
-    # Add unique related_name to avoid conflicts
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_user_groups',
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_user_permissions',
-        blank=True
-    )
     def __str__(self):
         return self.username
 
@@ -59,31 +47,36 @@ class Clinic(models.Model):
 
     def __str__(self):
         return self.clinic_name
+    @property
+    def ImageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ""
+        return url
 
-class Dentist(models.Model):
-    """
-    Dentist model to represent doctors in the system.
-    """
-    dentist = models.OneToOneField(User, on_delete=models.CASCADE, related_name="dentist_profile")
-    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name="dentists")
-    specialization = models.CharField(max_length=100)
-    experience_years = models.PositiveIntegerField()
-    description = HTMLField()
-
-    def __str__(self):
-        return self.dentist    
-    
 class Specialty(models.Model):
     """
     Specialty model to represent specialties in the system.
     """
-    id = models.AutoField(primary_key=True)  # ID tự động tăng
     name = models.CharField(max_length=100, unique=True)  # Tên chuyên khoa
     description = HTMLField()  # Mô tả chuyên khoa
     image = models.ImageField(upload_to='website/img/specialties', null=True, blank=True)  # Ảnh đại diện
 
     def __str__(self):
         return self.name
+class Dentist(models.Model):
+    """
+    Dentist model to represent doctors in the system.
+    """
+    dentist = models.OneToOneField(User, on_delete=models.CASCADE, related_name="dentist_profile")
+    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name="dentists")
+    specialization = models.ForeignKey(Specialty, on_delete=models.CASCADE, related_name="specialty")
+    experience_years = models.PositiveIntegerField()
+    description = HTMLField()
+
+    def __str__(self):
+        return self.dentist    
 
 
 class Schedule(models.Model):
@@ -117,7 +110,7 @@ class Appointment(models.Model):
     Appointment model to manage appointments for customers.
     """
     STATUS_CHOICES = [
-        ('Scheduled', 'Scheduled'),
+        ('Pending', 'Pending'),
         ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled'),
     ]
@@ -126,9 +119,9 @@ class Appointment(models.Model):
     dentist = models.ForeignKey(Dentist, on_delete=models.SET_NULL, null=True, blank=True, related_name="appointments")
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name="appointments")
     appointment_date = models.DateTimeField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Scheduled')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Appointment  - {self.customer.username}"
+        return f"Appointment - {self.customer.username}"

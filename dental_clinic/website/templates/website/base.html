@@ -32,9 +32,9 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <link rel="stylesheet" href="{% static 'website/css/styles.css' %}" />
-    <link rel="stylesheet" href="{% static 'website/css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'website/css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/styles.css' %}?{% now "U" %}" />
+    <link rel="stylesheet" href="{% static 'website/css/base.css' %}?{% now "U" %}" />
+    <link rel="stylesheet" href="{% static 'website/css/home.css' %}?{% now "U" %}" />
 
     <!--js-->
     <script
@@ -78,42 +78,42 @@
   </div>
   <!-- Topbar End -->
     <!-- Navbar Start -->
-    {% comment %} <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
-      <a href="" class="navbar-brand p-0">
-          <h1 class="m-1 text-primary"><i class="fa fa-tooth me-2"></i>DentalHealth</h1>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-          <div class="navbar-nav ms-auto py-0">
-              <a href="" class="nav-item nav-link active">Home</a>
-              <a href="" class="nav-item nav-link">About</a>
-              <a href="" class="nav-item nav-link">Service</a>
-              <div class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                  <div class="dropdown-menu m-0">
-                      <a href="" class="dropdown-item">Pricing Plan</a>
-                      <a href="" class="dropdown-item">Our Dentist</a>
-                      <a href="" class="dropdown-item">Testimonial</a>
-                      <a href="" class="dropdown-item">Appointment</a>
-                  </div>
-              </div>
-              <a href="" class="nav-item nav-link">Contact</a>
-          </div>
-          <div class="container-fluid">
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div> 
-          <a href="" class="btn btn-primary py-2 px-4 ms-3" style="min-width: 105px">Đặt lịch</a>
-          <a href="" class="btn btn-outline-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng nhập</a>
-      </div>
-    </nav> {% endcomment %}
+      <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0 home-header-container">
+        <a href="" class="navbar-brand p-0">
+            <h1 class="m-1 text-primary"><i class="fa fa-tooth me-2"></i>DentalHealth</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="" class="nav-item nav-link active">Home</a>
+                <a href="" class="nav-item nav-link">About</a>
+                <a href="" class="nav-item nav-link">Service</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="" class="dropdown-item">Pricing Plan</a>
+                        <a href="" class="dropdown-item">Our Dentist</a>
+                        <a href="" class="dropdown-item">Testimonial</a>
+                        <a href="" class="dropdown-item">Appointment</a>
+                    </div>
+                </div>
+                <a href="" class="nav-item nav-link">Contact</a>
+            </div>
+            {% comment %} <div class="container-fluid">
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>  {% endcomment %}
+            <a href="" class="btn btn-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng nhập</a>
+            <a href="" class="btn btn-outline-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng kí</a>
+        </div>
+      </nav> 
   <!-- Navbar End -->
    
-  <div class="home-header-container">
+  {% comment %} <div class="home-header-container">
     <div class="home-header-content">
       <div class="left-content">
         <img class="bt-dautrang" height="40" src="{% static "website/img/logo/logo-dentalhealth.png"%}" alt="DentalHealth/">
@@ -141,7 +141,7 @@
         <a href="/login" class="btn btn-outline-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng nhập</a>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
     {% block banner-slider%} {% endblock banner-slider%}
     
     

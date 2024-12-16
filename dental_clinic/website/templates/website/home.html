@@ -101,31 +101,15 @@
   <div class="container swiper">
     <div class="slider-wrapper">
       <div class="card-list swiper-wrapper">
+        {% for item in clinic%}
         <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
-          <h2 class="user-name">James Wilson</h2>
-          <p class="user-profession">Software Developer</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
+          <img src="{{item.ImageURL}}" alt="User Image" class="specialty-image">
+          <div class="user-name">{{item.clinic_name}}</div>
+          <p class="user-profession">Thời gian hoạt động: {{item.opening_hours}}</p>
+          <p class="user-profession">Địa chỉ: {{item.address}}</p>
+          <a href="#" class="message-button btn">Đặt lịch</a>
         </div>
-        <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
-          <h2 class="user-name">Sarah Johnson</h2>
-          <p class="user-profession">Graphic Designer</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
-        </div>
-        <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
-          <h2 class="user-name">Michael Brown</h2>
-          <p class="user-profession">Project Manager</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
-        </div>
-        <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="specialty-image">
-          <h2 class="user-name">Emily Davis</h2>
-          <p class="user-profession">Marketing Specialist</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
-        </div>
-      </div>
+        {% endfor %}
       <div class="swiper-pagination"></div>
       <div class="swiper-slide-button swiper-button-prev"></div>
       <div class="swiper-slide-button swiper-button-next"></div>
