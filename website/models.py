@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from tinymce.models import HTMLField
+from django.utils.translation import gettext_lazy as _
+
+from .managers import CustomUserManager
 # Create your models here.
 
 
@@ -20,14 +23,20 @@ class User(AbstractUser):
     """
     Custom User model to handle different roles.
     """
+    username = first_name = last_name = None
+    email = models.EmailField(_("email address"), unique=True)
+    full_name = models.CharField(max_length=120, null=True, blank=True)
     role = models.CharField(max_length=20, choices=USER_ROLES, default='Customer')
     address = models.TextField(null=True, blank=True)
     gender = models.CharField(max_length=20, choices=USER_GENDERS, default='Nam')
     phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
-    is_verified = models.BooleanField(default=False)
     image = models.ImageField(upload_to='website/img/dentist', null=True, blank=True)  # Ảnh đại diện
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
     def __str__(self):
-        return self.username
+        return self.email
 
 class Clinic(models.Model):
     """
@@ -76,7 +85,7 @@ class Dentist(models.Model):
     description = HTMLField()
 
     def __str__(self):
-        return self.dentist    
+        return f"{self.dentist.full_name}"  
 
 
 class Schedule(models.Model):
