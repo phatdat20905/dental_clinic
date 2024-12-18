@@ -13,36 +13,12 @@
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-  {% comment %} <section class="container forms">
-
-    <div class="form signup">
-      <div class="form-content">
-        <header>Signup</header>
-        <form action="#">
-          <div class="field input-field">
-            <input type="email" placeholder="Email" class="input">
-          </div>
-          <div class="field input-field">
-            <input type="password" placeholder="Create password" class="password">
-          </div>
-          <div class="field input-field">
-            <input type="password" placeholder="Confirm password" class="password">
-            <i class='bx bx-hide eye-icon'></i>
-          </div>
-          <div class="field button-field">
-            <button>Signup</button>
-          </div>
-        </form>
-        <div class="form-link">
-          <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
-        </div>
-      </div>
-    </div>
-  </section> {% endcomment %}
-  <form method="post">
+  <h5>Register</h5>
+  <form method="POST" action="">
     {% csrf_token %}
-    {{ form }}
-    <button type="submit">Log In</button>
+    {{ form.as_p }}
+    {{form.email}}
+    <button type="submit">Register</button>
   </form>
   <!-- JavaScript -->
   <script src="{%static "website/js/login.js"%}"></script>

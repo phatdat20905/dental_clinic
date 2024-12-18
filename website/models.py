@@ -36,7 +36,7 @@ class User(AbstractUser):
 
     objects = CustomUserManager()
     def __str__(self):
-        return self.email
+        return self.full_name
 
 class Clinic(models.Model):
     """

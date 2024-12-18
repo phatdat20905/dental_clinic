@@ -82,9 +82,9 @@
         <a href="" class="navbar-brand p-0">
             <h1 class="m-1 text-primary"><i class="fa fa-tooth me-2"></i>DentalHealth</h1>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        {% comment %} <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> {% endcomment %}
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
                 <a href="" class="nav-item nav-link active">Home</a>
@@ -107,8 +107,32 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
             </div>  {% endcomment %}
-            <a href="" class="btn btn-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng nhập</a>
-            <a href="" class="btn btn-outline-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng kí</a>
+            {% if user.is_authenticated %}
+            <div>
+              <span>{{request.user}}</span>
+            </div>
+            <div class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <img
+                  src="https://mdbootstrap.com/img/Photos/Avatars/img%20(9).jpg"
+                  class="rounded-circle"
+                  height="30"
+                  alt=""
+                  loading="lazy"
+                />
+              </a>
+              <div class="dropdown-menu m-0">
+                  <a href="" class="dropdown-item">Lịch hẹn</a>
+                  <a href="{% url "logout" %}" class="dropdown-item">Đăng xuất</a>
+              </div>
+          </div>
+          {% else %}
+          <a href="{%url 'login'%}" class="btn btn-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng nhập</a>
+          <a href="{%url 'register'%}" class="btn btn-outline-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng kí</a>
+          {% endif %}
+ 
+            
+            
         </div>
       </nav> 
   <!-- Navbar End -->
@@ -143,13 +167,13 @@
     </div>
   </div> {% endcomment %}
     {% block banner-slider%} {% endblock banner-slider%}
-    
+    {% block register-content%} {% endblock register-content%}
     
     <!--main body-->
     {% block main-content %}{% endblock main-content %}
 
      <!-- Footer Start -->
-     <div class="container-fluid bg-dark text-light py-5 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: 0px;">
+    <div class="container-fluid bg-dark text-light py-5 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: 0px;">
       <div class="container">
           <div class="row g-5">
               <div class="col-lg-3 col-md-6">
@@ -190,19 +214,19 @@
               </div>
           </div>
       </div>
-  </div>
-  <div class="container-fluid text-light py-4" style="background: #051225;">
-      <div class="container">
-          <div class="row g-0">
-              <div class="col-md-6 text-center text-md-start">
-                  <p class="mb-md-0">&copy; <a class="text-white border-bottom" href="#">Apec</a>. All Rights Reserved.</p>
-              </div>
-              <div class="col-md-6 text-center text-md-end">
-                  <p class="mb-0">Designed by <a class="text-white border-bottom" href="https://github.com/phatdat20905/django-dental-clinic">NgoPhatDat</a></p>
-              </div>
-          </div>
-      </div>
-  </div>
+    </div>
+    <div class="container-fluid text-light py-4" style="background: #051225;">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-md-0">&copy; <a class="text-white border-bottom" href="#">Apec</a>. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">Designed by <a class="text-white border-bottom" href="https://github.com/phatdat20905/django-dental-clinic">NgoPhatDat</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
   <!-- Footer End -->
   <!--- *** Footer Area End *** -->
     <script src="" async defer></script>

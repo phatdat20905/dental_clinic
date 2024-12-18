@@ -14,46 +14,35 @@
 </head>
 <body>
   {% comment %} <section class="container forms">
-    <div class="form login">
+
+    <div class="form signup">
       <div class="form-content">
-        <header>Login</header>
+        <header>Signup</header>
         <form action="#">
           <div class="field input-field">
             <input type="email" placeholder="Email" class="input">
           </div>
           <div class="field input-field">
-            <input type="password" placeholder="Password" class="password">
+            <input type="password" placeholder="Create password" class="password">
+          </div>
+          <div class="field input-field">
+            <input type="password" placeholder="Confirm password" class="password">
             <i class='bx bx-hide eye-icon'></i>
           </div>
-          <div class="form-link">
-            <a href="#" class="forgot-pass">Forgot password?</a>
-          </div>
           <div class="field button-field">
-            <button>Login</button>
+            <button>Signup</button>
           </div>
         </form>
         <div class="form-link">
-          <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
+          <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
         </div>
       </div>
     </div>
   </section> {% endcomment %}
-  <h5>Login</h5>
-  <form method="post" action=''>
+  <form method="post">
     {% csrf_token %}
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-      <i class='bx bx-hide eye-icon'></i>
-    </div>
-    <button type="submit">Login</button>
-    <div class="form-link">
-      <span>Don't have an account? <a href="">Signup</a></span>
-    </div>
+    {{ form }}
+    <button type="submit">Log In</button>
   </form>
   <!-- JavaScript -->
   <script src="{%static "website/js/login.js"%}"></script>

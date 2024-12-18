@@ -104,12 +104,13 @@
         {% for item in clinic%}
         <div class="card-item swiper-slide">
           <img src="{{item.ImageURL}}" alt="User Image" class="specialty-image">
-          <div class="user-name">{{item.clinic_name}}</div>
+          <h2 class="user-name">{{item.clinic_name}}</h2>
           <p class="user-profession">Thời gian hoạt động: {{item.opening_hours}}</p>
           <p class="user-profession">Địa chỉ: {{item.address}}</p>
           <a href="#" class="message-button btn">Đặt lịch</a>
         </div>
         {% endfor %}
+      </div>
       <div class="swiper-pagination"></div>
       <div class="swiper-slide-button swiper-button-prev"></div>
       <div class="swiper-slide-button swiper-button-next"></div>
