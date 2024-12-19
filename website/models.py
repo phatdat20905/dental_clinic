@@ -4,12 +4,9 @@ from tinymce.models import HTMLField
 from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager
-# Create your models here.
-
-
 
 class User(AbstractUser):
-# USER ROLES
+    # USER ROLES
     USER_ROLES = [
         ('Customer', 'Customer'),
         ('Dentist', 'Dentist'),
@@ -20,6 +17,7 @@ class User(AbstractUser):
         ('Nam', 'Nam'),
         ('Nữ', 'Nữ')
     ]
+
     """
     Custom User model to handle different roles.
     """
@@ -31,12 +29,14 @@ class User(AbstractUser):
     gender = models.CharField(max_length=20, choices=USER_GENDERS, default='Nam')
     phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
     image = models.ImageField(upload_to='website/img/dentist', null=True, blank=True)  # Ảnh đại diện
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
+
     def __str__(self):
-        return self.full_name
+        return self.full_name or 'Unnamed User'
 
 class Clinic(models.Model):
     """
@@ -56,6 +56,7 @@ class Clinic(models.Model):
 
     def __str__(self):
         return self.clinic_name
+
     @property
     def ImageURL(self):
         try:
@@ -74,6 +75,7 @@ class Specialty(models.Model):
 
     def __str__(self):
         return self.name
+
 class Dentist(models.Model):
     """
     Dentist model to represent doctors in the system.
@@ -85,18 +87,18 @@ class Dentist(models.Model):
     description = HTMLField()
 
     def __str__(self):
-        return f"{self.dentist.full_name}"  
-
+        return self.dentist.full_name or 'Unnamed Dentist'
 
 class Schedule(models.Model):
-    SCHUDULE_DAY = [('thuhai', 'Thứ Hai'), ('thuba', 'Thứ Ba'), ('thutu', 'Thứ Tư'),
-                 ('Thursday', 'Thursday'), ('Friday', 'Friday'), ('Saturday', 'Saturday'), ('Sunday', 'Sunday')],
     """
     Schedule model to store working schedules for clinics and dentists.
     """
+    SCHUDULE_DAY = [('thuhai', 'Thứ Hai'), ('thuba', 'Thứ Ba'), ('thutu', 'Thứ Tư'),
+                 ('Thursday', 'Thursday'), ('Friday', 'Friday'), ('Saturday', 'Saturday'), ('Sunday', 'Sunday')]
+
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name="schedules")
     dentist = models.ForeignKey(Dentist, on_delete=models.CASCADE, related_name="schedules", null=True, blank=True)
-    day_of_week = models.CharField(max_length=20,)
+    day_of_week = models.CharField(max_length=20)
     time = models.TextField()
 
     def __str__(self):
@@ -113,7 +115,7 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.service_name} - {self.clinic.clinic_name}"
-    
+
 class Appointment(models.Model):
     """
     Appointment model to manage appointments for customers.
@@ -133,4 +135,4 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Appointment - {self.customer.username}"
+        return f"Appointment - {self.customer.full_name or 'Unnamed Customer'}"
