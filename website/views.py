@@ -11,9 +11,11 @@ from .forms import CreateUserForm
 # Create your views here.
 def homePage(request):
     clinic = Clinic.objects.all()
+    dentist = Dentist.objects.all()
     # template = loader.get_template('home.html')
     context = {
         'clinic': clinic,
+        'dentist': dentist,
     }
     return render(request, 'website/home.html', context)
 

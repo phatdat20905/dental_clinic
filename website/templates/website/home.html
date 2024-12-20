@@ -122,12 +122,15 @@
   <div class="container swiper">
     <div class="slider-wrapper">
       <div class="card-list swiper-wrapper">
+        {% for item in dentist%}
         <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="user-image">
-          <h2 class="user-name">James Wilson</h2>
-          <p class="user-profession">Software Developer</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
+          <img src="{{item.dentist.image.url}}" alt="User Image" class="user-image">
+          <h2 class="user-name">{{item.dentist.full_name}}</h2>
+          <p class="user-profession">Chuyên khoa: {{item.specialization}}</p>
+          <p class="user-profession">kinh nghiệm: {{item.experience_years}}</p>
+          <a href="#" class="message-button btn">Đặt lịch</a>
         </div>
+        {% endfor %}
         <div class="card-item swiper-slide">
           <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image" class="user-image">
           <h2 class="user-name">Sarah Johnson</h2>
