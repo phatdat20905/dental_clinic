@@ -1,4 +1,4 @@
-/* :root {
+:root {
     --primary: #06A3DA;
     --secondary: #F57E57;
     --light: #EEF9FF;
@@ -100,7 +100,7 @@ h6,
 }
 
 .navbar-light .navbar-nav .nav-link {
-    font-family: 'Jost', sans-serif;
+    /* font-family: 'Jost', sans-serif; */
     padding: 35px 15px;
     font-size: 18px;
     color: var(--dark);
@@ -321,4 +321,4 @@ h6,
 .testimonial-carousel .owl-item img {
     width: 120px;
     height: 120px;
-} */
+}

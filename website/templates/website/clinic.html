@@ -1,0 +1,184 @@
+{% extends 'website/base.html' %} {% load static%} {% block clinic-content%}
+<div class="container">
+  <div class="header-container">
+    <div class="header">
+      <img
+        src="{%static 'website/img/dentist/bs1.jpg'%}"
+        alt="Hoàng Hương Logo"
+      />
+    </div>
+    <div class="info-container">
+      <div class="clinic-info">
+        <h1>Phòng Khám Nha Khoa Hoàng Hương</h1>
+        <p class="address">
+          <i class="fas fa-map-marker-alt"></i> Số nhà 43 - 45 - 47 Nguyễn
+          Hoàng, Mỹ Đình 2, Nam Từ Liêm, Hà Nội
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="main-content">
+        <ul class="navigation-bar d-none d-md-flex d-sm-none">
+          <li class="active"><a href="#information">Thông tin chung</a></li>
+          <li><a href="#about">Giới thiệu</a></li>
+          <li><a href="#service">Bảng giá & dịch vụ</a></li>
+        </ul>
+        <div class="info-section" id="information">
+          <h3>Thông tin chung</h3>
+          <div class="schedule">
+            <h4>Giờ làm việc</h4>
+            <table>
+              <tr>
+                <th>Thứ</th>
+                <th>Giờ làm việc</th>
+              </tr>
+              <tr>
+                <td>Thứ hai</td>
+                <td>08:00 - 18:00</td>
+              </tr>
+              <tr>
+                <td>Thứ ba</td>
+                <td>08:00 - 18:00</td>
+              </tr>
+              <tr>
+                <td>Thứ tư</td>
+                <td>08:00 - 18:00</td>
+              </tr>
+              <tr>
+                <td>Thứ năm</td>
+                <td>08:00 - 18:00</td>
+              </tr>
+              <tr>
+                <td>Thứ sáu</td>
+                <td>08:00 - 18:00</td>
+              </tr>
+              <tr>
+                <td>Thứ bảy</td>
+                <td>08:00 - 18:00</td>
+              </tr>
+              <tr>
+                <td>Chủ nhật</td>
+                <td>08:00 - 18:00</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="about-content" id="about">
+          <h3>Giới thiệu</h3>
+          <p>
+            Phòng khám nha khoa Tâm Đức là một trong những cơ sở nha khoa uy
+            tín, chất lượng tại khu vực miền Nam, được nhiều khách hàng và
+            chuyên gia đánh giá cao. Phòng khám đáp ứng đầy đủ các tiêu chí của
+            Bộ Y tế và ngày càng nâng cấp về chất lượng dịch vụ. Phòng khám nha
+            khoa Tâm Đức hoạt động dựa trên tiêu chí: Tận tâm – Uy tín – Chất
+            Lượng, mong muốn mang đến trải nghiệm tốt nhất cho khách hàng khi sử
+            dụng dịch vụ tại đây. Địa chỉ nha khoa Tâm Đức sở hữu đội ngũ bác sĩ
+            dày dặn kinh nghiệm, được đào tạo tại các trường đại học danh giá
+            trong và ngoài nước. Đặc biệt, các bác sĩ tại đây liên tục cập nhật
+            những xu hướng và công nghệ mới trong ngành nha khoa thẩm mỹ. Ngoài
+            ra, phòng khám Tâm Đức còn được nhiều khách hàng tin tưởng lựa chọn
+            bởi sự nhiệt tình, chu đáo của toàn bộ nhân sự. Mọi thắc mắc của
+            bệnh nhân đều được các bác sĩ tư vấn, giải đáp kỹ lưỡng.
+          </p>
+        </div>
+        <div class="service-content" id="service">
+          <h3>Bảng giá & dịch vụ</h3>
+          <div class="caption">BẢNG GIÁ NIỀNG RĂNG INVISALIGN</div>
+          <table class="pricing-table">
+            <thead>
+              <tr>
+                <th>Tên dịch vụ</th>
+                <th>Đơn vị</th>
+                <th>Giá tham khảo (VNĐ)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Invisalign Express (Standard)</td>
+                <td>1 gói</td>
+                <td>50,000,000₫ - 70,000,000₫</td>
+              </tr>
+              <tr>
+                <td>Invisalign Lite (Standard) mức 4</td>
+                <td>1 gói</td>
+                <td>75,000,000₫ - 85,000,000₫</td>
+              </tr>
+              <tr>
+                <td>Invisalign Moderate (Standard) mức 5</td>
+                <td>1 gói</td>
+                <td>100,000,000₫ - 110,000,000₫</td>
+              </tr>
+              <tr>
+                <td>Invisalign Moderate (Expert) mức 5</td>
+                <td>1 gói</td>
+                <td>110,000,000₫ - 120,000,000₫</td>
+              </tr>
+              <tr>
+                <td>Invisalign Comprehensive (Standard) mức 6</td>
+                <td>1 gói</td>
+                <td>120,000,000₫ - 130,000,000₫</td>
+              </tr>
+              <tr>
+                <td>Invisalign Comprehensive (Expert) mức 6</td>
+                <td>1 gói</td>
+                <td>130,000,000₫ - 140,000,000₫</td>
+              </tr>
+              <tr>
+                <td>Invisalign Comprehensive Plus (Standard) mức 7</td>
+                <td>1 gói</td>
+                <td>130,000,000₫ - 135,000,000₫</td>
+              </tr>
+              <tr>
+                <td>Invisalign Comprehensive Plus (Expert) mức 7</td>
+                <td>1 gói</td>
+                <td>150,000,000₫ - 160,000,000₫</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="booking-form">
+        <h3>Đặt lịch</h3>
+        <form>
+          <label for="clinic">Phòng khám</label>
+          <select id="clinic">
+            <option value="">Nha khoa Paris</option>
+          </select>
+
+          <label for="specialist">Chuyên gia</label>
+          <select id="specialist">
+            <option value="">Lựa chọn chuyên gia</option>
+          </select>
+
+          <label for="service">Dịch vụ</label>
+          <select id="service">
+            <option value="">Lựa chọn dịch vụ</option>
+          </select>
+
+          <label for="time">Thời gian</label>
+          <input type="time" id="time" />
+
+          <label for="date">Ngày</label>
+          <input type="date" id="date" />
+
+          <label for="name">Họ và tên</label>
+          <input type="text" id="name" />
+
+          <label for="phone">Số điện thoại</label>
+          <input type="tel" id="phone" />
+
+          <label for="address">Địa chỉ</label>
+          <input type="text" id="address" />
+
+          <button type="submit" style="margin-top: 5px">Đặt lịch hẹn</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock clinic-content%}

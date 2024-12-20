@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="{% static 'website/css/styles.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/base.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/home.css' %}?{% now "U" %}" />
+    <link rel="stylesheet" href="{% static 'website/css/clinic.css' %}?{% now "U" %}" />
 
     <!--js-->
     <script
@@ -87,9 +88,9 @@
         </button> {% endcomment %}
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="" class="nav-item nav-link active">Home</a>
-                <a href="" class="nav-item nav-link">About</a>
-                <a href="" class="nav-item nav-link">Service</a>
+                <a href="" class="nav-item nav-link active">Trang chủ</a>
+                <a href="" class="nav-item nav-link">Giới thiệu</a>
+                <a href="" class="nav-item nav-link">Dịch vụ</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
@@ -99,7 +100,7 @@
                         <a href="" class="dropdown-item">Appointment</a>
                     </div>
                 </div>
-                <a href="" class="nav-item nav-link">Contact</a>
+                <a href="" class="nav-item nav-link">Liên hệ</a>
             </div>
             {% comment %} <div class="container-fluid">
               <form class="d-flex">
@@ -168,6 +169,7 @@
   </div> {% endcomment %}
     {% block banner-slider%} {% endblock banner-slider%}
     {% block register-content%} {% endblock register-content%}
+    {% block clinic-content%} {% endblock clinic-content%}
     
     <!--main body-->
     {% block main-content %}{% endblock main-content %}
