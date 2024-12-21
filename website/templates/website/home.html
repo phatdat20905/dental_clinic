@@ -117,7 +117,9 @@
             Thời gian hoạt động: {{item.opening_hours}}
           </p>
           <p class="user-profession">Địa chỉ: {{item.address}}</p>
-          <a href="{%url 'clinic'%}" class="message-button btn">Đặt lịch</a>
+          <a href="{%url 'clinic' slug=item.slug%}" class="message-button btn"
+            >Đặt lịch</a
+          >
         </div>
         {% endfor %}
       </div>
@@ -135,7 +137,7 @@
         {% for item in dentist%}
         <div class="card-item swiper-slide">
           <img
-            src="{{item.dentist.image.url}}"
+            src="{{item.ImageURL}}"
             alt="User Image"
             class="user-image"
           />

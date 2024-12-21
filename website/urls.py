@@ -8,5 +8,8 @@ urlpatterns = [
     path('login/', views.loginPage, name="login"),
     path('register/', views.registerPage, name="register"),
     path('logout/', views.logoutPage, name ='logout'),
-    path('clinic/', views.clinicPage, name="clinic"),
+    path('clinic/<slug:slug>/', views.clinicPage, name="clinic"),
+    path('api/get-available-times', views.get_available_times, name='get_available_times'),
+    # path("appointments/create/", views.create_appointment, name="create_appointment"),
+    path("book-appointment/", views.book_appointment, name="book_appointment"),
 ]

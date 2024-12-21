@@ -104,7 +104,13 @@ class Dentist(models.Model):
         if not self.slug:
             self.slug = slugify(f'{self.position}-{self.dentist.full_name}')
         super().save(*args, **kwargs)
-
+    @property
+    def ImageURL(self):
+        try:
+            url = self.dentist.image.url
+        except:
+            url = ""
+        return url
 
 class Schedule(models.Model):
     """
@@ -141,7 +147,7 @@ class Service(models.Model):
     price = models.CharField(max_length=30, null=True, blank=True)
   
     def __str__(self):
-        return f"{self.service_name} - {self.clinic.clinic_name}"
+        return f"{self.service_name}"
 
 class Appointment(models.Model):
     """
@@ -158,8 +164,7 @@ class Appointment(models.Model):
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name="appointments")
     appointment_date = models.DateField()
     time = models.CharField(max_length=20,null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-    notes = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
