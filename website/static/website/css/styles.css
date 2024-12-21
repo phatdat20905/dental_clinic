@@ -101,7 +101,7 @@ h6,
 
 .navbar-light .navbar-nav .nav-link {
     /* font-family: 'Jost', sans-serif; */
-    padding: 35px 15px;
+    /* padding: 35px 15px; */
     font-size: 18px;
     color: var(--dark);
     outline: none;
@@ -321,4 +321,8 @@ h6,
 .testimonial-carousel .owl-item img {
     width: 120px;
     height: 120px;
+}
+
+.dropdown-menu[data-bs-popper] {
+    left: -45px;
 }

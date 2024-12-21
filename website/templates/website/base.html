@@ -80,15 +80,16 @@
   <!-- Topbar End -->
     <!-- Navbar Start -->
       <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0 home-header-container">
-        <a href="" class="navbar-brand p-0">
+        <a href="{%url 'home'%}" class="navbar-brand p-0">
             <h1 class="m-1 text-primary"><i class="fa fa-tooth me-2"></i>DentalHealth</h1>
         </a>
-        {% comment %} <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button> {% endcomment %}
         <div class="collapse navbar-collapse" id="navbarCollapse">
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
             <div class="navbar-nav ms-auto py-0">
-                <a href="" class="nav-item nav-link active">Trang chủ</a>
+                <a href="{%url 'home'%}" class="nav-item nav-link active">Trang chủ</a>
                 <a href="" class="nav-item nav-link">Giới thiệu</a>
                 <a href="" class="nav-item nav-link">Dịch vụ</a>
                 <div class="nav-item dropdown">
@@ -123,6 +124,7 @@
                 />
               </a>
               <div class="dropdown-menu m-0">
+                  <a href="" class="dropdown-item">Hồ sơ cá nhân</a>
                   <a href="" class="dropdown-item">Lịch hẹn</a>
                   <a href="{% url "logout" %}" class="dropdown-item">Đăng xuất</a>
               </div>
