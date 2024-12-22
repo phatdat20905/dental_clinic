@@ -103,13 +103,6 @@
         <form method="POST" action="{% url 'book_appointment' %}">
           {% csrf_token %}
           <label for="clinic">Phòng khám</label>
-          {% comment %} <input
-            type="text"
-            id="clinic"
-            value="{{clinic.id}}"
-            disabled
-            name="clinic"
-          /> {% endcomment %}
           <select id="clinic" name="clinic" required>
             <option value="{{ clinic.id }}">{{ clinic.clinic_name }}</option>
           </select>

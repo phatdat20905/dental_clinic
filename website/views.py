@@ -209,3 +209,31 @@ def book_appointment(request):
 
 def appointment_access(request):
     return render(request, "website/appointment_access.html")
+
+
+def searchPage(request):
+    if request.method == "POST":
+        search = request.POST.get("searched", "").strip()  # Lấy từ khóa tìm kiếm và loại bỏ khoảng trắng thừa
+        
+        # Tìm kiếm phòng khám (không phân biệt hoa thường)
+        clinic_results = Clinic.objects.filter(clinic_name__icontains=search)
+        
+        # Tìm kiếm nha sĩ (không phân biệt hoa thường)
+        dentist_results = User.objects.filter(full_name__icontains=search, role="Dentist")
+        
+        # Lấy thông tin từ Dentist model (nếu có)
+        dentist_ids = dentist_results.values_list('id', flat=True)  # Lấy danh sách ID của nha sĩ
+        dentist_details = Dentist.objects.filter(id__in=dentist_ids)  # Lấy thông tin từ bảng Dentist
+        
+        print('Dentist IDs:', list(dentist_ids))  # Debug: In ra danh sách ID của nha sĩ
+        print('Dentist Details:', dentist_details)  # Debug: In ra thông tin chi tiết nha sĩ
+        
+        context = {
+            "search": search,
+            "clinic": clinic_results,
+            "dentist": dentist_details,  # Trả về thông tin chi tiết từ bảng Dentist
+        }
+        return render(request, "website/search.html", context)
+    
+    # Trường hợp không có POST request
+    return render(request, "website/search.html", {"search": None})

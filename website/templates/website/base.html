@@ -84,8 +84,9 @@
             <h1 class="m-1 text-primary"><i class="fa fa-tooth me-2"></i>DentalHealth</h1>
         </a>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <form class="d-flex" method="POST" action="{%url 'search'%}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched" required>
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
             <div class="navbar-nav ms-auto py-0">
@@ -172,6 +173,7 @@
     {% block banner-slider%} {% endblock banner-slider%}
     {% block register-content%} {% endblock register-content%}
     {% block clinic-content%} {% endblock clinic-content%}
+    {% block search-content%} {% endblock search-content%}
     
     <!--main body-->
     {% block main-content %}{% endblock main-content %}
