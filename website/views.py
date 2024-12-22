@@ -10,6 +10,8 @@ from .forms import CreateUserForm, AppointmentForm
 from django.utils.dateparse import parse_date
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 def homePage(request):
@@ -42,12 +44,35 @@ def loginPage(request):
 
 def registerPage(request):
     form = CreateUserForm()
-
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            # Lưu thông tin người dùng
+            user = form.save()
+            
+            # Gửi email xác nhận
+            email_subject = "Chào mừng bạn đến với hệ thống của chúng tôi!"
+            email_message = (
+                f"Xin chào {user.full_name},\n\n"
+                f"Cảm ơn bạn đã đăng ký tài khoản tại hệ thống của chúng tôi.\n"
+                f"Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua email này.\n\n"
+                f"Trân trọng,\n"
+                f"Đội ngũ hỗ trợ khách hàng."
+            )
+            try:
+                send_mail(
+                    email_subject,
+                    email_message,
+                    settings.EMAIL_HOST_USER,
+                    [user.email],  # Email người dùng
+                    fail_silently=False,
+                )
+                messages.success(request, "Account created successfully! An email has been sent to your email address.")
+            except Exception as e:
+                messages.warning(request, f"Account created successfully, but email sending failed: {e}")
+
             return redirect('login')
+
     context = {'form': form}
     return render(request, 'website/register.html', context)
 
@@ -179,6 +204,29 @@ def book_appointment(request):
                 service=service,
                 appointment_date=appointment_date,
                 time=time,
+            )
+
+            # Gửi email xác nhận
+            email_subject = "Xác nhận lịch hẹn nha khoa"
+            email_message = (
+                f"Xin chào {customer_name},\n\n"
+                f"Cảm ơn bạn đã đặt lịch hẹn tại {clinic.clinic_name}.\n"
+                f"Thông tin lịch hẹn của bạn:\n"
+                f"- Ngày: {appointment_date}\n"
+                f"- Giờ: {time}\n"
+                f"- Nha sĩ: {dentist}\n"
+                f"- Dịch vụ: {service.service_name}\n"
+                f"- Địa chỉ phòng khám: {clinic.address}\n\n"
+                f"Vui lòng liên hệ số điện thoại: {clinic.phone_number} hoặc email: {settings.EMAIL_HOST_USER} nếu bạn cần hỗ trợ thêm.\n"
+                f"Trân trọng,\n{clinic.clinic_name}"
+            )
+            send_mail(
+                email_subject,
+                email_message,
+                settings.EMAIL_HOST_USER,
+                # [customer.email],
+                ['ngophatdat80@gmail.com'],  # Địa chỉ email của khách hàng
+                fail_silently=False,
             )
 
             messages.success(request, "Đặt lịch hẹn thành công!")

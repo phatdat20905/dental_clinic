@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <!-- Coding by CodingLab | www.codinglabweb.com-->
@@ -14,7 +13,23 @@
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-  <h1>lỗi</h1>
+  <h5>Login</h5>
+  <form method="post" action=''>
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required/>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required/>
+      <i class='bx bx-hide eye-icon'></i>
+    </div>
+    <button type="submit">Login</button>
+    <div class="form-link">
+      <span>Don't have an account? <a href="">Signup</a></span>
+    </div>
+  </form>
   <!-- JavaScript -->
   <script src="{%static "website/js/login.js"%}"></script>
 </body>
