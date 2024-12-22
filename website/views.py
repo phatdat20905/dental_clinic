@@ -6,7 +6,7 @@ from django.contrib import messages
 from .models import *
 import json
 from django.template import loader
-from .forms import CreateUserForm
+from .forms import CreateUserForm, AppointmentForm
 from django.utils.dateparse import parse_date
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -101,58 +101,6 @@ def get_available_times(request):
     except Dentist.DoesNotExist:
         return JsonResponse({"error": "Dentist not found"}, status=404)
     
-
-
-
-# @login_required
-# def create_appointment(request):
-    if request.method == "POST":
-        clinic_id = request.POST.get("clinic")
-        dentist_id = request.POST.get("dentist")
-        service_name = request.POST.get("service")
-        appointment_date = request.POST.get("date")
-        time_slot = request.POST.get("time")
-        customer = request.user
-        notes = request.POST.get("notes", "")
-
-        # Validate and get objects
-        clinic = get_object_or_404(Clinic, id=clinic_id)
-        dentist = get_object_or_404(Dentist, id=dentist_id)
-        service = get_object_or_404(Service, service_name=service_name, clinic=clinic)
-
-        # Check if the time slot is available
-        if Appointment.objects.filter(
-            clinic=clinic,
-            dentist=dentist,
-            appointment_date=appointment_date,
-            time=time_slot,
-            status="Pending",
-        ).exists():
-            return JsonResponse({"error": "Time slot is already booked"}, status=400)
-
-        # Create the appointment
-        appointment = Appointment.objects.create(
-            customer=customer,
-            clinic=clinic,
-            dentist=dentist,
-            appointment_date=appointment_date,
-            time=time_slot,
-            notes=notes,
-        )
-
-        return JsonResponse({"message": "Appointment created successfully", "appointment_id": appointment.id})
-
-    # Load the form with data for GET request
-    clinics = Clinic.objects.all()
-    dentists = Dentist.objects.all()
-    services = Service.objects.all()
-    return render(
-        request,
-        "appointments/create_appointment.html",
-        {"clinics": clinics, "dentists": dentists, "services": services},
-    )
-
-# def get_available_times(request):
     dentist_id = request.GET.get("dentist_id")
     appointment_date = request.GET.get("date")
 
@@ -174,47 +122,81 @@ def get_available_times(request):
 
     return JsonResponse({"times": available_times})
 
-
 def book_appointment(request):
+    print(f"Request method: {request.method}")
     if request.method == "POST":
         clinic_id = request.POST.get("clinic")
         dentist_id = request.POST.get("dentist")
-        service_name = request.POST.get("service")
+        service_id = request.POST.get("service")
         appointment_date = request.POST.get("date")
         time = request.POST.get("time")
         customer_name = request.POST.get("name")
         phone = request.POST.get("phone")
         address = request.POST.get("address")
-        print('data', clinic_id, service_name, appointment_date, time, customer_name, phone, address)
+        print(f"clinic_id: {clinic_id}, dentist_id: {dentist_id}, service_id: {service_id}")
+        print(f"appointment_date: {appointment_date}, time: {time}")
+        print(f"customer_name: {customer_name}, phone: {phone}, address: {address}")
+
         try:
+            # Kiểm tra dữ liệu nhập vào
+            if not clinic_id or not service_id or not appointment_date or not time or not customer_name or not phone:
+                raise ValueError("Vui lòng điền đầy đủ thông tin.")
+
             clinic = Clinic.objects.get(id=clinic_id)
+            print('Clinic', clinic)
+
             dentist = Dentist.objects.get(id=dentist_id) if dentist_id else None
-            customer = User.objects.filter(full_name=customer_name, phone_number=phone).first()
+            print('dentist', dentist)
 
-            # Tạo người dùng nếu chưa tồn tại
-            if not customer:
-                customer = User.objects.create(
-                    full_name=customer_name,
-                    phone_number=phone,
-                    address=address,
-                    role="Customer",
-                )
 
-            # Tạo lịch hẹn
-            appointment = Appointment.objects.create(
-                customer=customer,
+            service = Service.objects.get(id=service_id)
+
+            # Tìm hoặc tạo khách hàng
+            customer, created = User.objects.get_or_create(
+                full_name=customer_name,
+                phone_number=phone,
+                defaults={"address": address, "role": "Customer"}
+            )
+
+            # Kiểm tra nếu khách hàng đã có lịch hẹn
+            if Appointment.objects.filter(customer=customer).exists():
+                raise ValueError("Khách hàng này đã có lịch hẹn. Vui lòng hủy lịch hẹn trước đó để đặt lịch mới.")
+
+            # Kiểm tra xem đã có lịch hẹn trùng không
+            if Appointment.objects.filter(
                 clinic=clinic,
                 dentist=dentist,
                 appointment_date=appointment_date,
+                time=time
+            ).exists():
+                raise ValueError("Lịch hẹn này đã được đặt, vui lòng chọn thời gian khác.")
+
+            # Tạo lịch hẹn
+            Appointment.objects.create(
+                customer=customer,
+                clinic=clinic,
+                dentist=dentist,
+                service=service,
+                appointment_date=appointment_date,
                 time=time,
             )
+
             messages.success(request, "Đặt lịch hẹn thành công!")
-            return redirect("appointment_success")
+            return redirect("appointment_access")
+        except Clinic.DoesNotExist:
+            messages.error(request, "Phòng khám không tồn tại.")
+        except Dentist.DoesNotExist:
+            messages.error(request, "Bác sĩ không tồn tại.")
+        except Service.DoesNotExist:
+            messages.error(request, "Dịch vụ không tồn tại.")
+        except ValueError as e:
+            messages.error(request, str(e))
         except Exception as e:
-            messages.error(request, f"Đặt lịch hẹn thất bại: {e}")
-            return redirect("book_appointment")
+            messages.error(request, f"Có lỗi xảy ra: {e}")
+
+        return redirect("home")
+
     else:
-        # Render form đặt lịch
         clinics = Clinic.objects.all()
         dentists = Dentist.objects.all()
         services = Service.objects.all()
@@ -223,3 +205,7 @@ def book_appointment(request):
             "dentists": dentists,
             "services": services,
         })
+
+
+def appointment_access(request):
+    return render(request, "website/appointment_access.html")

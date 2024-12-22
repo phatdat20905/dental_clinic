@@ -162,6 +162,7 @@ class Appointment(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="appointments")
     dentist = models.ForeignKey(Dentist, on_delete=models.SET_NULL, null=True, blank=True, related_name="appointments")
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name="appointments")
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, related_name="appointments")
     appointment_date = models.DateField()
     time = models.CharField(max_length=20,null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', null=True, blank=True)

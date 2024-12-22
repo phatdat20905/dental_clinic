@@ -31,7 +31,7 @@ class ServiceAdmin(admin.ModelAdmin):
     search_fields = ('service_name', 'price')
 
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'dentist', 'clinic','appointment_date', 'time', 'status')
+    list_display = ('customer', 'dentist', 'clinic', 'service', 'appointment_date', 'time', 'status')
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Clinic, ClinicAdmin)
