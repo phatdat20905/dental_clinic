@@ -1,0 +1,98 @@
+.dangkythuonghieu {
+  border-radius: 30px;
+  background-color: #f4f9ff;
+  font-weight: 700;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  border: 1px solid #9bb8dd;
+}
+.dangkythuonghieu {
+  color: #000000;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+}
+
+.nav-action {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+}
+
+.banner4 {
+  display: block;
+  margin: 0 auto;
+}
+
+.main-banner {
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 60%;
+  height: 60%;
+}
+
+.main-banner img {
+  max-width: 100%;
+  height: auto;
+}
+.mb-4 {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+.mb-4 li {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+}
+.mb-4 li:last-child {
+  border-bottom: none;
+}
+.mb-4 li a {
+  text-decoration: none;
+  color: #000000;
+}
+.mb-4 li a:hover {
+  background-color: #153bc6;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.togg {
+  list-style: none;
+}
+
+.btn-toggler-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: auto;
+}
+
+.btn-toggler-menu span {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background-color: rgb(128, 125, 125);
+  margin: 3px 0;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
