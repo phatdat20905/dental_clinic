@@ -37,7 +37,13 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.full_name or 'Unnamed User'
-
+    @property
+    def ImageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ""
+        return url
 class Clinic(models.Model):
     """
     Clinic model to store information about the dental clinics.

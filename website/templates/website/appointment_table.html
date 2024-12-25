@@ -1,0 +1,37 @@
+{% extends 'website/base.html' %} {% load static%} 
+{% block main-content %}
+<div class="appointment-table-container">
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Khách</th>
+                <th>Nha sĩ</th>
+                <th>Phòng khám</th>
+                <th>Dịch vụ</th>
+                <th>Ngày</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for item in appointments%}
+            <tr>
+                <td>{{item.customer}}</td>
+                <td>{{item.dentist}}</td>
+                <td>{{item.clinic}}</td>
+                <td>{{item.service}}</td>
+                <td>{{item.appointment_date}}</td>
+                <td>{{item.time}}</td>
+                <td>{{item.status}}</td>
+                <td>
+                    <a href="{%url 'cancel_appointment' item.id%}" class="btn"
+                        >Hủy</a
+                    >
+                </td>
+            </tr>
+            {%endfor%}
+        </tfoot>
+    </table>
+</div>
+{% endblock main-content %}

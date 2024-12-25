@@ -51,11 +51,11 @@ def registerPage(request):
             user = form.save()
             
             # Gửi email xác nhận
-            email_subject = "Chào mừng bạn đến với hệ thống của chúng tôi!"
+            email_subject = "Chào mừng bạn đến với nền tảng đặt lịch khám của chúng tôi!"
             email_message = (
                 f"Xin chào {user.full_name},\n\n"
                 f"Cảm ơn bạn đã đăng ký tài khoản tại hệ thống của chúng tôi.\n"
-                f"Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua email này.\n\n"
+                f"Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua {settings.EMAIL_HOST_USER} này.\n\n"
                 f"Trân trọng,\n"
                 f"Đội ngũ hỗ trợ khách hàng."
             )
@@ -285,3 +285,75 @@ def searchPage(request):
     
     # Trường hợp không có POST request
     return render(request, "website/search.html", {"search": None})
+
+
+def appointment(request, customer_id):
+    try:
+        # Lấy thông tin khách hàng
+        customer = get_object_or_404(User, id=customer_id)
+        
+        # Lấy danh sách lịch hẹn của khách hàng
+        appointments = Appointment.objects.filter(customer=customer)
+
+        context = {
+            "customer": customer,
+            "appointments": appointments,
+        }
+        return render(request, "website/appointment_table.html", context)
+    except Exception as e:
+        return render(request, "website/appointment_table.html", {"error": str(e)})
+    
+def cancel_appointment(request, appointment_id):
+    try:
+        # Lấy lịch hẹn theo ID
+        appointment = get_object_or_404(Appointment, id=appointment_id)
+
+        # Kiểm tra trạng thái lịch hẹn
+        if appointment.status == "Xác nhận":
+            messages.error(request, "Lịch hẹn đã được xác nhận và không thể hủy.")
+        else:
+            # Xóa lịch hẹn nếu chưa xác nhận
+            appointment.delete()
+            messages.success(request, "Lịch hẹn đã được hủy thành công!")
+    except Exception as e:
+        messages.error(request, f"Có lỗi xảy ra khi hủy lịch hẹn: {e}")
+
+    # Quay lại trang danh sách lịch hẹn
+    return redirect('appointments', customer_id=request.user.id)
+def profilePage(request, customer_id):
+    # Lấy thông tin khách hàng
+    customer = get_object_or_404(User, id=customer_id)
+    context = {
+            "customer": customer,
+        }
+    return render(request, "website/profile.html", context)
+
+def update_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        full_name = request.POST.get("fullname")
+        gender = request.POST.get("gender")
+        phone = request.POST.get("phone")
+        address = request.POST.get("address")
+        image = request.FILES.get("image")
+
+        try:
+            user.email = email
+            user.full_name = full_name
+            user.gender = gender
+            user.phone_number = phone
+            user.address = address
+
+            if image:
+                user.image = image
+
+            user.save()
+            messages.success(request, "Cập nhật thông tin người dùng thành công!")
+            return redirect("profile", customer_id=user.id)  # Cung cấp customer_id
+        except Exception as e:
+            messages.error(request, f"Có lỗi xảy ra: {e}")
+
+    context = {"user": user}
+    return render(request, context)
