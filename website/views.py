@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def homePage(request):
@@ -81,6 +82,7 @@ def logoutPage(request):
     return redirect('home')
 
 def clinicPage(request, slug):
+    customer = request.user
     clinic = Clinic.objects.get(slug=slug)
     dentists = Dentist.objects.filter(clinic=clinic)
     services = Service.objects.filter(clinic=clinic)
@@ -93,6 +95,7 @@ def clinicPage(request, slug):
         "dentists": dentists,
         "services": services,
         "schedules_by_dentist": schedules_by_dentist,
+        "customer": customer,
     }
     return render(request, 'website/clinic.html', context)
 
@@ -147,6 +150,7 @@ def get_available_times(request):
 
     return JsonResponse({"times": available_times})
 
+@login_required(login_url='register')  # Chuyển hướng đến trang đăng ký nếu chưa đăng nhập
 def book_appointment(request):
     print(f"Request method: {request.method}")
     if request.method == "POST":
@@ -173,15 +177,16 @@ def book_appointment(request):
             dentist = Dentist.objects.get(id=dentist_id) if dentist_id else None
             print('dentist', dentist)
 
-
             service = Service.objects.get(id=service_id)
 
-            # Tìm hoặc tạo khách hàng
-            customer, created = User.objects.get_or_create(
-                full_name=customer_name,
-                phone_number=phone,
-                defaults={"address": address, "role": "Customer"}
-            )
+            # Lấy thông tin khách hàng từ người dùng đang đăng nhập
+            customer = request.user
+            # # Tìm hoặc tạo khách hàng
+            # customer, created = User.objects.get_or_create(
+            #     full_name=customer_name,
+            #     phone_number=phone,
+            #     defaults={"address": address, "role": "Customer"}
+            # )
 
             # Kiểm tra nếu khách hàng đã có lịch hẹn
             if Appointment.objects.filter(customer=customer).exists():
@@ -202,6 +207,9 @@ def book_appointment(request):
                 clinic=clinic,
                 dentist=dentist,
                 service=service,
+                full_name=customer_name,
+                phone_number=phone,
+                address=address,
                 appointment_date=appointment_date,
                 time=time,
             )
@@ -224,8 +232,8 @@ def book_appointment(request):
                 email_subject,
                 email_message,
                 settings.EMAIL_HOST_USER,
-                # [customer.email],
-                ['ngophatdat80@gmail.com'],  # Địa chỉ email của khách hàng
+                [customer.email],
+                # ['ngophatdat80@gmail.com'],  # Địa chỉ email của khách hàng
                 fail_silently=False,
             )
 
@@ -253,7 +261,6 @@ def book_appointment(request):
             "dentists": dentists,
             "services": services,
         })
-
 
 def appointment_access(request):
     return render(request, "website/appointment_access.html")
@@ -287,10 +294,10 @@ def searchPage(request):
     return render(request, "website/search.html", {"search": None})
 
 
-def appointment(request, customer_id):
+def appointment(request, slug):
     try:
         # Lấy thông tin khách hàng
-        customer = get_object_or_404(User, id=customer_id)
+        customer = get_object_or_404(User, slug=slug)
         
         # Lấy danh sách lịch hẹn của khách hàng
         appointments = Appointment.objects.filter(customer=customer)
@@ -314,22 +321,22 @@ def cancel_appointment(request, appointment_id):
         else:
             # Xóa lịch hẹn nếu chưa xác nhận
             appointment.delete()
-            messages.success(request, "Lịch hẹn đã được hủy thành công!")
+            # messages.success(request, "Lịch hẹn đã được hủy thành công!")
     except Exception as e:
         messages.error(request, f"Có lỗi xảy ra khi hủy lịch hẹn: {e}")
 
     # Quay lại trang danh sách lịch hẹn
-    return redirect('appointments', customer_id=request.user.id)
-def profilePage(request, customer_id):
+    return redirect('appointments', slug=request.user.slug)
+def profilePage(request, slug):
     # Lấy thông tin khách hàng
-    customer = get_object_or_404(User, id=customer_id)
+    customer = get_object_or_404(User, slug=slug)
     context = {
             "customer": customer,
         }
     return render(request, "website/profile.html", context)
 
-def update_user(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def update_user(request, slug):
+    user = get_object_or_404(User, slug=slug)
 
     if request.method == "POST":
         email = request.POST.get("email")
@@ -351,9 +358,13 @@ def update_user(request, user_id):
 
             user.save()
             messages.success(request, "Cập nhật thông tin người dùng thành công!")
-            return redirect("profile", customer_id=user.id)  # Cung cấp customer_id
+            return redirect("profile", slug=slug)  # Cung cấp customer_id
         except Exception as e:
             messages.error(request, f"Có lỗi xảy ra: {e}")
 
     context = {"user": user}
     return render(request, context)
+
+
+def testPage(request):
+    return render(request, "website/test.html")

@@ -9,10 +9,17 @@ class UserAdmin(admin.ModelAdmin):
         (
             "Infor",
             {
-                "fields": ['email', 'full_name', 'password','role', 'address', 'gender', 'phone_number', 'image'],
+                "fields": ['email', 'full_name', 'password','role', 'address', 'gender', 'phone_number', 'image', 'slug'],
             },
         ),
+        (
+            "Permissions",
+            {
+                "fields": ['is_staff', 'is_superuser', 'is_active'],
+            },
+        )
     ]
+    
 
 class ClinicAdmin(admin.ModelAdmin):
     list_display = ('owner', 'clinic_name', 'address', 'phone_number', 'opening_hours', 'is_approved')

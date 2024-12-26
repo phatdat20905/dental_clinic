@@ -132,8 +132,8 @@
                 />
               </a>
               <div class="dropdown-menu m-0">
-                  <a href="{%url "profile" user.id%}" class="dropdown-item">Hồ sơ cá nhân</a>
-                  <a href="{%url "appointments" user.id%}" class="dropdown-item">Lịch hẹn</a>
+                  <a href="{%url "profile" user.slug%}" class="dropdown-item">Hồ sơ cá nhân</a>
+                  <a href="{%url "appointments" user.slug%}" class="dropdown-item">Lịch hẹn</a>
                   <a href="{% url "logout" %}" class="dropdown-item">Đăng xuất</a>
               </div>
           </div>

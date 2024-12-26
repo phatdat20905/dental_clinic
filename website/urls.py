@@ -10,14 +10,15 @@ urlpatterns = [
     path('logout/', views.logoutPage, name ='logout'),
     path('clinic/<slug:slug>/', views.clinicPage, name="clinic"),
     path('api/get-available-times', views.get_available_times, name='get_available_times'),
-    # path("appointments/create/", views.create_appointment, name="create_appointment"),
+    
     path("book-appointment/", views.book_appointment, name="book_appointment"),
     path("apppointment-access/", views.appointment_access, name="appointment_access"),
 
     path('search/', views.searchPage, name="search"),
-    path('appointments/<int:customer_id>/', views.appointment, name='appointments'),
+    path('appointments/<slug:slug>/', views.appointment, name='appointments'),
     path('appointments/cancel/<int:appointment_id>/', views.cancel_appointment, name='cancel_appointment'),
-    path('profile/<int:customer_id>/', views.profilePage, name="profile"),
-    path("update-user/<int:user_id>/", views.update_user, name="update_user"),
-    # path('appointments/<int:clinic_id>/', views.appointment_form, name='appointment_form'),
+    path('profile/<slug:slug>/', views.profilePage, name="profile"),
+    path("update-user/<slug:slug>/", views.update_user, name="update_user"),
+
+    path('test/', views.testPage, name="test"),
 ]

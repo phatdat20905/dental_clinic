@@ -1,0 +1,41 @@
+{% extends "app_manage/index.html" %}
+{% block main-content %}
+<div class="container mt-4">
+    <h2>Thêm lịch làm việc</h2>
+    <form method="POST" action="{% url 'add_schedule' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="clinic">Phòng khám:</label>
+            <select id="clinic" name="clinic" class="form-control" required>
+                <option value="">-- Chọn phòng khám --</option>
+                {% for clinic in clinics %}
+                <option value="{{ clinic.id }}">{{ clinic.clinic_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="day">Ngày:</label>
+            <input type="date" id="day" name="day" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Khung giờ:</label>
+            <select id="time" name="time" class="form-control" required>
+                <option value="">-- Chọn khung giờ --</option>
+                {% for slot in time_slots %}
+                <option value="{{ slot.0 }}">{{ slot.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Thêm</button>
+        <a href="{% url 'schedule' %}" class="btn btn-secondary mt-3">Hủy</a>
+    </form>
+</div>
+<script>
+    // Đặt giá trị tối thiểu cho ngày là ngày mai
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const minDate = tomorrow.toISOString().split("T")[0];
+    document.getElementById("day").setAttribute("min", minDate);
+</script>
+{% endblock %}

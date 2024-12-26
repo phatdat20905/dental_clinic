@@ -29,6 +29,8 @@ class User(AbstractUser):
     gender = models.CharField(max_length=20, choices=USER_GENDERS, default='Nam')
     phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
     image = models.ImageField(upload_to='website/img/dentist', null=True, blank=True)  # Ảnh đại diện
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -44,6 +46,10 @@ class User(AbstractUser):
         except:
             url = ""
         return url
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.full_name)
+        super().save(*args, **kwargs)
 class Clinic(models.Model):
     """
     Clinic model to store information about the dental clinics.
@@ -169,6 +175,9 @@ class Appointment(models.Model):
     dentist = models.ForeignKey(Dentist, on_delete=models.SET_NULL, null=True, blank=True, related_name="appointments")
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name="appointments")
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, related_name="appointments")
+    full_name = models.CharField(max_length=120, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
     appointment_date = models.DateField()
     time = models.CharField(max_length=20,null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', null=True, blank=True)
