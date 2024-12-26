@@ -40,6 +40,11 @@ class ServiceAdmin(admin.ModelAdmin):
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('customer', 'dentist', 'clinic', 'service', 'appointment_date', 'time', 'status')
 
+class MedicalRecordAdmin(admin.ModelAdmin):
+    list_display = ("appointment", "created_at", "updated_at")
+    search_fields = ("appointment__customer__full_name", "diagnosis", "treatment_plan")
+    list_filter = ("created_at",)
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Clinic, ClinicAdmin)
 admin.site.register(Dentist, DentistAdmin)
@@ -47,3 +52,5 @@ admin.site.register(Specialty)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
+admin.site.register(MedicalRecord, MedicalRecordAdmin)
+admin.site.register(Notification)

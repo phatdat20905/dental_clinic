@@ -166,9 +166,9 @@ class Appointment(models.Model):
     Appointment model to manage appointments for customers.
     """
     STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('Completed', 'Completed'),
-        ('Cancelled', 'Cancelled'),
+        ('Chờ', 'Chờ'),
+        ('Xác nhận', 'Xác nhận'),
+        ('Hoàn thành', 'Hoàn thành'),
     ]
 
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="appointments")
@@ -180,8 +180,42 @@ class Appointment(models.Model):
     phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
     appointment_date = models.DateField()
     time = models.CharField(max_length=20,null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Chờ', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Appointment - {self.customer.full_name or 'Unnamed Customer'}"
+
+class MedicalRecord(models.Model):
+    """
+    MedicalRecord model to store examination results for customers.
+    """
+    appointment = models.OneToOneField(
+        Appointment, on_delete=models.CASCADE, related_name="medical_record"
+    )  # Mỗi cuộc hẹn có 1 kết quả khám
+    dentist_notes = models.TextField(null=True, blank=True)  # Ghi chú của nha sĩ
+    diagnosis = models.TextField(null=True, blank=True)  # Chẩn đoán
+    treatment_plan = models.TextField(null=True, blank=True)  # Kế hoạch điều trị
+    medication = models.TextField(null=True, blank=True)  # Thuốc kê đơn
+    follow_up_date = models.DateField(null=True, blank=True)  # Ngày tái khám
+    image = models.ImageField(upload_to='website/img/medical_records', null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)  # Thời gian tạo
+    updated_at = models.DateTimeField(auto_now=True)  # Thời gian cập nhật
+
+    def __str__(self):
+        return f"Medical Record - {self.appointment.customer.full_name or 'Unnamed Customer'}"
+
+
+class Notification(models.Model):
+    """
+    Notification model for reminders and updates.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    message = models.TextField()  # Nội dung thông báo
+    is_read = models.BooleanField(default=False)  # Trạng thái đã đọc
+    created_at = models.DateTimeField(auto_now_add=True)  # Thời gian tạo
+    send_at = models.DateTimeField(null=True, blank=True)  # Thời gian gửi
+
+    def __str__(self):
+        return f"Notification for {self.user.full_name or 'Unnamed User'}"

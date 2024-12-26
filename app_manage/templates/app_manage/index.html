@@ -64,13 +64,14 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="#" class="logo">
-            <i class='bx bx-code-alt'></i>
-            <div class="logo-name"><span>Asmr</span>Prog</div>
+            {% comment %} <i class='bx bx-code-alt'></i>
+            <div class="logo-name"><span>Asmr</span>Prog</div> {% endcomment %}
+            <i class="fa fa-tooth me-2"></i>DentalHealth
         </a>
         <ul class="side-menu">
-            <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li class="active"><a href="{%url 'index'%}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             <li><a href="{%url 'schedule' %}"><i class='bx bx-store-alt'></i>Lịch làm việc</a></li>
-            <li><a href="#"><i class='bx bx-analyse'></i>Lệch hẹn</a></li>
+            <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-analyse'></i>Lịch hẹn</a></li>
             <li><a href="#"><i class='bx bx-message-square-dots'></i>Tickets</a></li>
             <li><a href="#"><i class='bx bx-group'></i>Users</a></li>
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>

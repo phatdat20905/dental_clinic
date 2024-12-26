@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from website.models import *
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
+from .forms import MedicalRecordForm
 from datetime import datetime, timedelta
 
 # Create your views here.
 def indexPage(request):
-    return render(request, 'app_manage/schedule.html')
+    return render(request, 'app_manage/dashboard.html')
 
 
 # @login_required(login_url='login')  # Đảm bảo chỉ nha sĩ đã đăng nhập mới có thể truy cập
@@ -169,3 +170,82 @@ def add_schedule(request):
     except Exception as e:
         messages.error(request, f"Có lỗi xảy ra: {e}")
         return redirect("schedule")
+    
+
+def appointment_schedule(request):
+    try:
+        # Lấy thông tin nha sĩ đang đăng nhập
+        user = request.user
+
+        # Kiểm tra xem người dùng hiện tại có phải là nha sĩ không
+        if not user.role == "Dentist":  # Giả định `role` xác định vai trò người dùng
+            raise ValueError("Bạn không có quyền truy cập vào trang này.")
+
+        dentist = Dentist.objects.get(dentist=user)
+        
+        # Lấy lịch làm việc của nha sĩ
+        appointments = Appointment.objects.filter(dentist=dentist)
+
+        # Nếu không có lịch làm việc nào, chuyển hướng tới trang thêm lịch
+        if not appointments.exists():
+            messages.info(request, "Hiện tại bạn chưa có lịch làm việc. Vui lòng thêm lịch làm việc.")
+            return redirect('add_schedule')  # 'add_schedule' là tên URL của trang thêm lịch
+
+        context = {
+            'appointments': appointments,  # Truyền danh sách lịch làm việc vào context
+        }
+        return render(request, 'app_manage/appointment_schedule.html', context)
+
+    except ValueError as e:
+        messages.error(request, str(e))
+        return redirect('home')  # Chuyển hướng về trang chủ nếu có lỗi
+
+    except Exception as e:
+        messages.error(request, f"Có lỗi xảy ra: {e}")
+        return redirect('home')
+    
+def update_appointments(request, appointment_id):
+    try:
+        # Lấy lịch hẹn theo ID
+        appointment = get_object_or_404(Appointment, id=appointment_id)
+        # Kiểm tra trạng thái lịch hẹn
+        if appointment.status == "Xác nhận":
+            messages.error(request, "Lịch hẹn đã được xác nhận và không thể hủy.")
+        else:
+            # xác nhận lịch hẹn nếu chưa xác nhận
+            appointment.status = "Xác nhận"
+            appointment.save()
+            messages.success(request, "Lịch h��n đã được xác nhận thành công!")
+    except Exception as e:
+        messages.error(request, f"Có lỗi xảy ra khi xác nhận lịch hẹn: {e}")
+
+    # Quay lại trang danh sách lịch hẹn
+    return redirect('appointment_schedule')
+        
+        
+def add_medical_record(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+
+    # Kiểm tra trạng thái cuộc hẹn
+    if appointment.status == 'Hoàn thành':
+        messages.error(request, "Chỉ có thể nhập kết quả cho cuộc hẹn đang chờ.")
+        return redirect('appointment_schedule')
+
+    if request.method == 'POST':
+        form = MedicalRecordForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Lưu kết quả khám
+            medical_record = form.save(commit=False)
+            medical_record.appointment = appointment
+            medical_record.save()
+
+            # Cập nhật trạng thái cuộc hẹn
+            appointment.status = 'Hoàn thành'
+            appointment.save()
+
+            messages.success(request, "Kết quả khám đã được lưu.")
+            return redirect('appointment_schedule')
+    else:
+        form = MedicalRecordForm()
+
+    return render(request, 'app_manage/add_medical_record.html', {'form': form, 'appointment': appointment})

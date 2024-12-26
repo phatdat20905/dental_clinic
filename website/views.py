@@ -365,6 +365,25 @@ def update_user(request, slug):
     context = {"user": user}
     return render(request, context)
 
+def medical_records(request, slug):
+    # Lấy thông tin khách hàng
+    customer = get_object_or_404(User, slug=slug)
+    
+    # Lấy danh sách lịch hẹn đã hoàn thành của khách hàng
+    completed_appointments = Appointment.objects.filter(customer=customer, status="Hoàn thành")
+
+    # Lấy danh sách kết quả khám tương ứng
+    medical_record = MedicalRecord.objects.get(appointment__in=completed_appointments)
+    # Truyền dữ liệu vào context
+    context = {
+        'customer': customer,
+        'medical_record': medical_record,
+    }
+    
+    return render(request, 'website/medical_record_detail.html', context)
+
+
 
 def testPage(request):
     return render(request, "website/test.html")
+

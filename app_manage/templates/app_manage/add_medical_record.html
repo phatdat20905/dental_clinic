@@ -1,0 +1,18 @@
+{% extends 'app_manage/index.html' %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <h2>Nhập kết quả khám cho cuộc hẹn</h2>
+    <p>Khách: {{ appointment.customer }}</p>
+    <p>Nha sĩ: {{ appointment.dentist }}</p>
+    <p>Ngày: {{ appointment.appointment_date }}</p>
+    <p>Thời gian: {{ appointment.time }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Lưu kết quả</button>
+        <a href="{% url 'appointment_schedule' %}" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
+{% endblock %}

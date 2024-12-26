@@ -1,0 +1,57 @@
+{% extends 'app_manage/index.html' %} {% load static%} 
+{% block main-content %}
+<main>
+    <div class="header">
+        <div class="left">
+            <h1>Dashboard</h1>
+            <ul class="breadcrumb">
+                <li><a href="#">
+                        Analytics
+                    </a></li>
+                /
+                <li><a href="#" class="active">Shop</a></li>
+            </ul>
+        </div>
+        <a href="#" class="report">
+            <i class='bx bx-cloud-download'></i>
+            <span>Download CSV</span>
+        </a>
+    </div>
+    <div class="appointment-table-container">
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Khách</th>
+                    <th>Nha sĩ</th>
+                    <th>Phòng khám</th>
+                    <th>Dịch vụ</th>
+                    <th>Ngày</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for item in appointments%}
+                <tr>
+                    <td>{{item.customer}}</td>
+                    <td>{{item.dentist}}</td>
+                    <td>{{item.clinic}}</td>
+                    <td>{{item.service}}</td>
+                    <td>{{item.appointment_date}}</td>
+                    <td>{{item.time}}</td>
+                    <td>{{item.status}}</td>
+                    <td>
+                        <a href="{%url 'update_appointments' item.id%}" class="btn btn-primary btn-sm"
+                            >Xác nhận</a
+                        >
+                        <a href="{% url 'add_medical_record' item.id %}" class="btn btn-primary btn-sm">Hoàn thành</a>
+
+                    </td>
+                </tr>
+                {%endfor%}
+            </tfoot>
+        </table>
+    </div>
+</main>
+{% endblock main-content %}

@@ -20,5 +20,7 @@ urlpatterns = [
     path('profile/<slug:slug>/', views.profilePage, name="profile"),
     path("update-user/<slug:slug>/", views.update_user, name="update_user"),
 
+    path('medical_records/<slug:slug>/', views.medical_records, name='medical_records'),
+    
     path('test/', views.testPage, name="test"),
 ]
