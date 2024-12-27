@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from website.models import *
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
-from .forms import MedicalRecordForm
+from .forms import MedicalRecordForm, ClinicForm
 from datetime import datetime, timedelta
 
 # Create your views here.
@@ -92,11 +94,11 @@ def schedulePage(request):
 
     except ValueError as e:
         messages.error(request, str(e))
-        return redirect('home')  # Chuyển hướng về trang chủ nếu có lỗi
+        # return redirect('home')  # Chuyển hướng về trang chủ nếu có lỗi
 
-    except Exception as e:
-        messages.error(request, f"Có lỗi xảy ra: {e}")
-        return redirect('home')
+    # except Exception as e:
+    #     messages.error(request, f"Có lỗi xảy ra: {e}")
+    #     # return redirect('home')
 
 
 def cancel_schedule(request, schedule_id):
@@ -288,3 +290,124 @@ def update_profile(request, slug):
 
     context = {"user": user}
     return render(request, 'app_manage/update_profile.html', context)
+
+@login_required
+def my_clinics(request):
+    if request.user.role != 'ClinicOwner':
+        return render(request, '403.html', {"message": "You are not authorized to view this page."})
+
+    clinics = Clinic.objects.filter(owner=request.user)
+    context = {
+        'clinics': clinics,
+    }
+    return render(request, 'app_manage/my_clinics.html', context)
+
+def add_clinic(request):
+    if request.method == "POST":
+        clinic_name = request.POST.get("clinic_name")
+        address = request.POST.get("address")
+        description = request.POST.get("description")
+        phone_number = request.POST.get("phone_number")
+        opening_hours = request.POST.get("opening_hours")
+        max_patients_per_slot = request.POST.get("max_patients_per_slot")
+        max_treatment_per_slot = request.POST.get("max_treatment_per_slot")
+        slot_duration_minutes = request.POST.get("slot_duration_minutes")
+        image = request.FILES.get("image")
+        # owner_id = request.POST.get(id=request.user.id)
+
+        try:
+            # owner = User.objects.get(id=owner_id, role="ClinicOwner")
+            owner = request.user
+            clinic = Clinic.objects.create(
+                owner=owner,
+                clinic_name=clinic_name,
+                address=address,
+                description=description,
+                phone_number=phone_number,
+                opening_hours=opening_hours,
+                max_patients_per_slot=max_patients_per_slot,
+                max_treatment_per_slot=max_treatment_per_slot,
+                slot_duration_minutes=slot_duration_minutes,
+                image=image,
+            )
+            clinic.save()
+            messages.success(request, "Clinic added successfully!")
+            return redirect("clinic_list")
+        except User.DoesNotExist:
+            messages.error(request, "Invalid clinic owner.")
+        except Exception as e:
+            messages.error(request, f"Error: {e}")
+    return render(request, "app_manage/add_clinic.html")
+
+@login_required
+def edit_clinic(request, slug):
+    # Lấy phòng khám dựa trên slug
+    clinic = get_object_or_404(Clinic, slug=slug)
+
+    # Kiểm tra quyền sở hữu
+    if clinic.owner != request.user:
+        return render(request, '403.html', {"message": "You are not authorized to edit this clinic."})
+
+    # Nếu là POST, xử lý form
+    if request.method == 'POST':
+        form = ClinicForm(request.POST, request.FILES, instance=clinic)
+        if form.is_valid():
+            form.save()
+            return redirect('my_clinics')  # Chuyển hướng về danh sách phòng khám
+    else:
+        form = ClinicForm(instance=clinic)
+
+    # Hiển thị form chỉnh sửa
+    context = {
+        'form': form,
+        'clinic': clinic,
+    }
+    return render(request, 'app_manage/edit_clinic.html', context)
+
+
+@login_required
+def list_dentists(request, clinic_slug):
+    # # Lấy phòng khám dựa trên slug và chủ sở hữu
+    # clinic = get_object_or_404(Clinic, slug=clinic_slug, owner=request.user)
+
+    # # Lấy danh sách nha sĩ thuộc phòng khám
+    # dentists = Dentist.objects.filter(clinic=clinic)
+
+    return render(request, 'app_manage/dentist_list.html')
+
+# @login_required
+# def add_dentist(request, clinic_slug):
+#     clinic = get_object_or_404(Clinic, slug=clinic_slug, owner=request.user)
+
+#     if request.method == "POST":
+#         form = DentistForm(request.POST)
+#         if form.is_valid():
+#             dentist_user = form.save(commit=False)
+#             dentist_user.role = 'Dentist'
+#             dentist_user.save()
+
+#             Dentist.objects.create(
+#                 dentist=dentist_user,
+#                 clinic=clinic,
+#                 specialization=form.cleaned_data['specialization'],
+#                 position=form.cleaned_data['position'],
+#                 experience_years=form.cleaned_data['experience_years'],
+#                 description=form.cleaned_data['description']
+#             )
+#             return HttpResponseRedirect(reverse('list_dentists', args=[clinic.slug]))
+#     else:
+#         form = DentistForm()
+
+#     return render(request, 'app_manage/add_dentist.html', {'form': form, 'clinic': clinic})
+
+
+# @login_required
+# def delete_dentist(request, clinic_slug, dentist_id):
+#     clinic = get_object_or_404(Clinic, slug=clinic_slug, owner=request.user)
+#     dentist = get_object_or_404(Dentist, id=dentist_id, clinic=clinic)
+
+#     if request.method == "POST":
+#         dentist.delete()
+#         return HttpResponseRedirect(reverse('list_dentists', args=[clinic.slug]))
+
+#     return render(request, 'app_manage/delete_dentist.html', {'dentist': dentist, 'clinic': clinic})

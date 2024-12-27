@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="{% static 'app_manage/css/index.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'app_manage/css/table.css' %}?{% now "U" %}" />
+    <link rel="stylesheet" href="{% static 'app_manage/css/clinic.css' %}?{% now "U" %}" />
 
     <!--js-->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -67,7 +68,8 @@
             <li><a href="{%url 'schedule' %}"><i class='bx bxs-calendar'></i></i>Lịch làm việc</a></li>
             <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-calendar'></i></i>Lịch hẹn</a></li>
             <li><a href="{%url "profile_dentist" user.slug%}"><i class='bx bx-user-circle'></i>Hồ sơ cá nhân</a></li>
-            <li><a href="#"><i class='bx bx-group'></i>Users</a></li>
+            <li><a href="{%url 'my_clinics'%}"><i class='bx bx-group'></i>Phòng khám</a></li>
+            {% comment %} <li><a href="{%url 'list_dentists'%}"><i class='bx bx-group'></i>Nha sĩ</a></li> {% endcomment %}
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">

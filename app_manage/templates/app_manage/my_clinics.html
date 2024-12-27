@@ -1,0 +1,32 @@
+{% extends "app_manage/index.html" %}
+
+{% block main-content %}
+<div class="clinic-list-container">
+    <h2>Danh sách phòng khám của bạn</h2>
+
+    <div class="action-buttons">
+        <a href="{%url 'add_clinic'%}" class="btn add-clinic-btn">Thêm phòng khám</a>
+    </div>
+
+    {% if clinics %}
+        <ul class="clinic-list">
+            {% for clinic in clinics %}
+                <li class="clinic-item">
+                    <div class="clinic-header">
+                        <h3>{{ clinic.clinic_name }}</h3>
+                        <a href="{%url 'edit_clinic' clinic.slug%}" class="btn add-clinic-btn">Sửa</a>
+                    </div>
+                    <div class="clinic-details">
+                        <p><i class="fa fa-map-marker"></i> Địa chỉ: {{ clinic.address }}</p>
+                        <p><i class="fa fa-phone"></i> Số điện thoại: {{ clinic.phone_number }}</p>
+                        <p><i class="fa fa-clock"></i> Giờ mở cửa: {{ clinic.opening_hours }}</p>
+                        <a href="">Xem chi tiết</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Bạn chưa có phòng khám nào.</p>
+    {% endif %}
+</div>
+{% endblock %}

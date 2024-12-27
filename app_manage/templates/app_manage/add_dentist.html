@@ -1,0 +1,30 @@
+{% extends 'app_manage/index.html' %}
+
+{% block main-content %}
+{% comment %} <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="full_name" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <select name="clinic" required>
+        {% for clinic in clinics %}
+        <option value="{{ clinic.id }}">{{ clinic.clinic_name }}</option>
+        {% endfor %}
+    </select>
+    <input type="text" name="specialization" placeholder="Specialization">
+    <select name="position">
+        <option value="Thạc sĩ">Thạc sĩ</option>
+        <option value="Tiến sĩ">Tiến sĩ</option>
+    </select>
+    <input type="number" name="experience_years" placeholder="Years of Experience">
+    <textarea name="description" placeholder="Description"></textarea>
+    <input type="file" name="image">
+    <button type="submit">Add Dentist</button>
+</form> {% endcomment %}
+<h1>Thêm nha sĩ vào phòng khám {{ clinic.clinic_name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Thêm nha sĩ</button>
+</form>
+{% endblock %}

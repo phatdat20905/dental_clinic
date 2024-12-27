@@ -1,0 +1,14 @@
+{% extends "app_manage/index.html" %}
+
+{% block main-content %}
+<div class="edit-clinic-container">
+    <h2>Chỉnh sửa thông tin phòng khám</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        <a href="{% url 'my_clinics' %}" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "app_manage/index.html" %}
+
+{% block main-content %}
+{% comment %} <h1>Danh sách nha sĩ của phòng khám {{ clinic.clinic_name }}</h1>
+<ul>
+    {% for dentist in dentists %}
+        <li>{{ dentist.dentist.full_name }} - {{ dentist.specialization }}</li>
+    {% endfor %}
+</ul> {% endcomment %}
+<h1>hehe</h1>
+{%endblock%}

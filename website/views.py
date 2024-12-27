@@ -28,7 +28,7 @@ def homePage(request):
 def loginPage(request):
     if request.user.is_authenticated:
         # Kiểm tra vai trò của người dùng đã đăng nhập
-        if request.user.role == "Dentist":
+        if request.user.role == "Dentist" or request.user.role == "ClinicOwner":
             return redirect('index')  # Trang admin cho Dentist
         return redirect('home')  # Trang chính cho các vai trò khác
 

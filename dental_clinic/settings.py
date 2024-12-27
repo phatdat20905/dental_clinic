@@ -152,3 +152,12 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "ngophatdat2k5@gmail.com"
 EMAIL_HOST_PASSWORD = "ibgtilanroeamyfx"
+
+
+TINYMCE_DEFAULT_CONFIG = {
+    "height": 500,
+    "width": 900,
+    "menubar": "file edit view insert format tools table help",
+    "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount",
+    "toolbar": "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
+}

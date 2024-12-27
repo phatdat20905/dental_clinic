@@ -1,0 +1,11 @@
+{% extends 'app_manage/index.html' %}
+
+{% block main-content %}
+<h1>Xóa nha sĩ</h1>
+<p>Bạn có chắc chắn muốn xóa nha sĩ {{ dentist.dentist.full_name }} khỏi phòng khám {{ clinic.clinic_name }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Xóa</button>
+    <a href="{% url 'list_dentists' clinic.slug %}">Hủy</a>
+</form>
+{%endblock %}
