@@ -249,3 +249,42 @@ def add_medical_record(request, appointment_id):
         form = MedicalRecordForm()
 
     return render(request, 'app_manage/add_medical_record.html', {'form': form, 'appointment': appointment})
+
+
+def profileDentist(request, slug):
+    # Lấy thông tin khách hàng
+    dentist = get_object_or_404(User, slug=slug)
+    context = {
+            "dentist": dentist,
+        }
+    return render(request, "app_manage/profile_dentist.html", context)
+
+def update_profile(request, slug):
+    user = get_object_or_404(User, slug=slug)
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        full_name = request.POST.get("fullname")
+        gender = request.POST.get("gender")
+        phone = request.POST.get("phone")
+        address = request.POST.get("address")
+        image = request.FILES.get("image")
+
+        try:
+            user.email = email
+            user.full_name = full_name
+            user.gender = gender
+            user.phone_number = phone
+            user.address = address
+
+            if image:
+                user.image = image
+
+            user.save()
+            messages.success(request, "Cập nhật thông tin người dùng thành công!")
+            return redirect("profile_dentist", slug=slug)  # Cung cấp customer_id
+        except Exception as e:
+            messages.error(request, f"Có lỗi xảy ra: {e}")
+
+    context = {"user": user}
+    return render(request, 'app_manage/update_profile.html', context)

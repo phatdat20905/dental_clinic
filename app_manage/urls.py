@@ -11,4 +11,7 @@ urlpatterns = [
     path('appointment_schedule/', views.appointment_schedule, name="appointment_schedule"),
     path('appointment_schedule/update/<int:appointment_id>/', views.update_appointments, name="update_appointments"),
     path('add_medical_record/<int:appointment_id>/', views.add_medical_record, name='add_medical_record'),
+
+    path('profile/<slug:slug>/', views.profileDentist, name="profile_dentist"),
+    path("update-user/<slug:slug>/", views.update_profile, name="update_dentist"),
 ]

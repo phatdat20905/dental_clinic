@@ -14,12 +14,6 @@
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-    <!-- ===== Boxicons CSS ===== -->
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-
-    <!-- Favicon -->
-    <!-- <link href="{% static 'website/img/favicon.ico' %}" rel="icon"> -->
-
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
@@ -63,22 +57,22 @@
   <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="#" class="logo">
+        <a href="{%url 'index'%}" class="logo">
             {% comment %} <i class='bx bx-code-alt'></i>
             <div class="logo-name"><span>Asmr</span>Prog</div> {% endcomment %}
             <i class="fa fa-tooth me-2"></i>DentalHealth
         </a>
         <ul class="side-menu">
-            <li class="active"><a href="{%url 'index'%}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="{%url 'schedule' %}"><i class='bx bx-store-alt'></i>Lịch làm việc</a></li>
-            <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-analyse'></i>Lịch hẹn</a></li>
-            <li><a href="#"><i class='bx bx-message-square-dots'></i>Tickets</a></li>
+            <li><a href="{%url 'index'%}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li><a href="{%url 'schedule' %}"><i class='bx bxs-calendar'></i></i>Lịch làm việc</a></li>
+            <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-calendar'></i></i>Lịch hẹn</a></li>
+            <li><a href="{%url "profile_dentist" user.slug%}"><i class='bx bx-user-circle'></i>Hồ sơ cá nhân</a></li>
             <li><a href="#"><i class='bx bx-group'></i>Users</a></li>
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">
             <li>
-                <a href="#" class="logout">
+                <a href="{%url 'logout'%}" class="logout">
                     <i class='bx bx-log-out-circle'></i>
                     Logout
                 </a>
@@ -105,7 +99,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="images/logo.png">
+                <img src="{{request.user.image.url}}">
             </a>
         </nav>
 
@@ -117,5 +111,6 @@
     <script src="" async defer></script>
     <script src="{% static 'app_manage/js/index.js'%}" defer></script>
     <script src="{% static 'app_manage/js/table.js'%}" defer></script>
+    <script src="{% static 'app_manage/js/profile_dentist.js'%}" defer></script>
   </body>
 </html>

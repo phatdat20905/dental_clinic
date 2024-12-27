@@ -1,0 +1,152 @@
+{% extends 'app_manage/index.html' %} {% load static%} 
+{% block main-content %}
+<main>
+  <div class="header">
+    <div class="left">
+        <h1>Hồ sơ cá nhân</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="{%url 'index'%}">
+                    Home
+                </a>
+            </li>
+            /
+            <li><a href="{%url 'profile_dentist' user.slug%}" class="active">Hồ sơ cá nhân</a></li>
+        </ul>
+    </div>
+</div>
+<div class="profile-container">
+  <div class="container">
+      <div class="main-body">
+            <div class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                      <img src="{{user.ImageURL}}" alt="Admin" class="rounded-circle" width="150">
+                      <div class="mt-3">
+                        <h4>{{dentist.full_name}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Full Name</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{dentist.full_name}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Email</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{dentist.email}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Gender</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{dentist.gender}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Phone</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                          {{dentist.phone_number}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Address</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{ dentist.address }}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <a href="{%url 'update_dentist' dentist.slug%}" class="btn btn-sm btn-primary"
+                      >Sửa</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Button trigger modal -->
+              
+              
+                <div class="modal fade model-container" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <form method="POST" enctype="multipart/form-data" action="{% url 'update_user' user.slug %}">
+                              {% csrf_token %}
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Cập nhật thông tin người dùng</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <div class="row g-3">
+                                      <div class="col-md-6">
+                                          <label for="email" class="form-label">Email</label>
+                                          <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label for="fullname" class="form-label">Fullname</label>
+                                          <input type="text" class="form-control" id="fullname" name="fullname" value="{{ user.full_name }}">
+                                      </div>
+                                      <div class="col-md-4">
+                                          <label for="gender" class="form-label">Gender</label>
+                                          <select id="gender" class="form-select" name="gender">
+                                              <option value="Nam" {% if user.gender == "Nam" %}selected{% endif %}>Nam</option>
+                                              <option value="Nữ" {% if user.gender == "Nữ" %}selected{% endif %}>Nữ</option>
+                                          </select>
+                                      </div>
+                                      <div class="col-md-8">
+                                          <label for="phone" class="form-label">Phone</label>
+                                          <input type="text" class="form-control" id="phone" name="phone" value="{{ user.phone_number }}">
+                                      </div>
+                                      <div class="col-12">
+                                          <label for="address" class="form-label">Address</label>
+                                          <input type="text" class="form-control" id="address" name="address" value="{{ user.address }}">
+                                      </div>
+                                      <div class="col-md-8">
+                                          <label for="image" class="form-label">Ảnh</label>
+                                          <input type="file" class="form-control" id="image" name="image" onchange="readURL(this);">
+                                      </div>
+                                      <div class="col-md-4">
+                                          <img id="blah" src="{{user.ImageURL}}" alt="your image" />
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Save</button>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+</main>
+
+{% endblock main-content %}

@@ -27,18 +27,27 @@ def homePage(request):
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        # Kiểm tra vai trò của người dùng đã đăng nhập
+        if request.user.role == "Dentist":
+            return redirect('index')  # Trang admin cho Dentist
+        return redirect('home')  # Trang chính cho các vai trò khác
+
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
         try:
             user = User.objects.get(email=email)
-        except Exception as e:
+        except User.DoesNotExist:
             messages.error(request, "Can't Find User")
+            return render(request, 'website/login.html')
+
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            # Chuyển hướng dựa trên vai trò của người dùng
+            if user.role == "Dentist":
+                return redirect('index')  # Trang admin cho Dentist
+            return redirect('home')  # Trang chính cho các vai trò khác
         else:
             messages.error(request, "Wrong Email Or Password!")
     return render(request, 'website/login.html')

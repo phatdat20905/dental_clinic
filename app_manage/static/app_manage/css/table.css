@@ -1,3 +1,18 @@
 .appointment-table-container {
-    padding: 40px;
+    background-color: white;
+    padding: 10px;
+}
+.content nav::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    box-shadow: -20px -20px 0 var(--light);
+}
+
+.appointment-table-container .content nav{
+    background-color: #a49b9b !important;
 }
