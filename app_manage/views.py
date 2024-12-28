@@ -10,70 +10,14 @@ from datetime import datetime, timedelta
 
 # Create your views here.
 def indexPage(request):
-    if request.user.role != 'ClinicOwner':
-        return render(request, '403.html', {"message": "You are not authorized to view this page."})
+    # if request.user.role != 'ClinicOwner':
+    #     return render(request, '403.html', {"message": "You are not authorized to view this page."})
 
     clinics = Clinic.objects.filter(owner=request.user)
     context = {
         'clinics': clinics,
     }
     return render(request, 'app_manage/dashboard.html', context)
-
-
-# @login_required(login_url='login')  # Đảm bảo chỉ nha sĩ đã đăng nhập mới có thể truy cập
-# def schedulePage(request):
-#     try:
-#         # Lấy thông tin nha sĩ đang đăng nhập
-#         user = request.user
-
-#         # Kiểm tra xem người dùng hiện tại có phải là nha sĩ không
-#         if not user.role == "Dentist":  # Giả định `role` xác định vai trò người dùng
-#             raise ValueError("Bạn không có quyền truy cập vào trang này.")
-
-#         dentist = Dentist.objects.get(dentist=user)
-        
-#         # Lấy lịch làm việc của nha sĩ
-#         schedule = Schedule.objects.filter(dentist=dentist)
-
-#         # Nếu không có lịch làm việc nào, tạo lịch làm việc mặc định
-#         if not schedule.exists():
-#             today = datetime.now().date()
-#             time_slots = Schedule.TIME_SLOTS  # Các khung giờ mặc định từ model
-#             default_clinic = Clinic.objects.first()  # Giả định sử dụng phòng khám đầu tiên
-#             if not default_clinic:
-#                 raise ValueError("Không có phòng khám nào để tạo lịch làm việc mặc định.")
-
-#             # Tạo lịch cho 7 ngày tiếp theo
-#             new_schedules = []
-#             for i in range(7):  # Lặp qua 7 ngày tiếp theo
-#                 day = today + timedelta(days=i + 1)  # Từ ngày mai trở đi
-#                 for time_slot in time_slots:
-#                     new_schedules.append(
-#                         Schedule(
-#                             clinic=default_clinic,
-#                             dentist=dentist,
-#                             day=day,
-#                             time=time_slot[0],
-#                         )
-#                     )
-
-#             # Lưu tất cả lịch làm việc mới
-#             Schedule.objects.bulk_create(new_schedules)
-#             messages.success(request, "Lịch làm việc mặc định đã được tạo thành công!")
-#             schedule = Schedule.objects.filter(dentist=dentist)
-
-#         context = {
-#             'schedule': schedule,  # Truyền danh sách lịch làm việc vào context
-#         }
-#         return render(request, 'app_manage/schedule.html', context)
-
-#     except ValueError as e:
-#         messages.error(request, str(e))
-#         return redirect('home')  # Chuyển hướng về trang chủ nếu có lỗi
-
-#     except Exception as e:
-#         messages.error(request, f"Có lỗi xảy ra: {e}")
-#         return redirect('home')
 
 @login_required(login_url='login')  # Đảm bảo chỉ nha sĩ đã đăng nhập mới có thể truy cập
 def schedulePage(request):
@@ -426,7 +370,7 @@ def edit_dentist(request, slug, dentist_id):
     clinic = get_object_or_404(Clinic, slug=slug, owner=request.user)
     dentist = get_object_or_404(Dentist, id=dentist_id, clinic=clinic)
     if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=dentist.dentist)
+        user_form = UpdateUserForm(request.POST, request.FILES, instance=dentist.dentist)
         dentist_form = DentistForm(request.POST, instance=dentist)
         if user_form.is_valid() and dentist_form.is_valid():
             user_form.save()
@@ -462,3 +406,52 @@ def delete_dentist(request, slug, dentist_id):
         'clinic': clinic,
     }
     return render(request, 'app_manage/delete_dentist.html', context)
+
+
+def clinic_schedule(request, slug):
+    clinic = get_object_or_404(Clinic, slug=slug)
+    schedules = Schedule.objects.filter(clinic=clinic)
+    context = {
+        'clinic': clinic,
+        'schedules': schedules,
+    }
+    return render(request, 'app_manage/clinic_schedule.html', context)
+
+
+@login_required
+def cancel_schedule_clinic(request, slug, schedule_id):
+    clinic = get_object_or_404(Clinic, slug=slug, owner=request.user)
+    schedule = get_object_or_404(Schedule, id=schedule_id, clinic=clinic)
+    if request.method == 'POST':
+        schedule.delete()
+        messages.success(request, "Lịch làm việc đã được xóa thành công!")
+        return redirect('clinic_schedule', slug=slug)
+
+    context = {
+        'schedule': schedule,
+        'clinic': clinic,
+    }
+    return render(request, 'app_manage/delete_schedule_clinic.html', context)
+
+@login_required(login_url='login')  # Chỉ cho phép người dùng đã đăng nhập
+def add_schedule_clinic(request, slug):
+    clinic = get_object_or_404(Clinic, slug=slug, owner=request.user)
+    if request.method == 'POST':
+        form = ScheduleForm(request.POST, clinic=clinic)
+        if form.is_valid():
+            schedule = form.save(commit=False)
+            schedule.clinic = clinic
+            schedule.save()
+            messages.success(request, "Lịch làm việc đã được thêm thành công!")
+            return redirect('clinic_schedule', slug=slug)
+        else:
+            messages.error(request, "Vui lòng kiểm tra lại thông tin.")
+    else:
+        form = ScheduleForm(clinic=clinic)
+
+    context = {
+        'form': form,
+        'clinic': clinic,
+    }
+    return render(request, 'app_manage/add_schedule_clinic.html', context)
+

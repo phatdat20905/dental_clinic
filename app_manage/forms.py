@@ -87,3 +87,17 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email', 'full_name', 'gender', 'phone_number', 'address', 'image']
+
+class ScheduleForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        clinic = kwargs.pop('clinic', None)
+        super(ScheduleForm, self).__init__(*args, **kwargs)
+        if clinic:
+            self.fields['dentist'].queryset = Dentist.objects.filter(clinic=clinic)
+
+    class Meta:
+        model = Schedule
+        fields = ['day', 'time', 'dentist']
+        widgets = {
+            'day': forms.DateInput(attrs={'type': 'date'}),  # Widget cho trường ngày
+        }

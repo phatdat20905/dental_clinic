@@ -26,4 +26,8 @@ urlpatterns = [
     path('clinic/<slug:slug>/dentists/add/', views.add_dentist, name='add_dentist'),
     path('clinic/<slug:slug>/edit_dentist/<int:dentist_id>/', views.edit_dentist, name='edit_dentist'),
     path('clinic/<slug:slug>/delete_dentist/<int:dentist_id>/', views.delete_dentist, name='delete_dentist'),
+
+    path('clinic/<slug:slug>/schedule/', views.clinic_schedule, name='clinic_schedule'),
+    path('clinic/<slug:slug>/cancel_schedule/<int:schedule_id>/', views.cancel_schedule_clinic, name='cancel_schedule_clinic'),
+    path('clinic/<slug:slug>/add_schedule/', views.add_schedule_clinic, name='add_schedule_clinic'),
 ]

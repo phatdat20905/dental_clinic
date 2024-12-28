@@ -51,24 +51,21 @@
       integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
       crossorigin="anonymous"
     ></script>
-    {% comment %} <script type="text/javascript">
-      var user = {{request.user}}
-    </script> {% endcomment %}
   </head>
   <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="{%url 'index'%}" class="logo">
-            {% comment %} <i class='bx bx-code-alt'></i>
-            <div class="logo-name"><span>Asmr</span>Prog</div> {% endcomment %}
             <i class="fa fa-tooth me-2"></i>DentalHealth
         </a>
         <ul class="side-menu">
             <li><a href="{%url 'index'%}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            {%if request.user.role == 'Dentist'%}
             <li><a href="{%url 'schedule' %}"><i class='bx bxs-calendar'></i></i>Lịch làm việc</a></li>
             <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-calendar'></i></i>Lịch hẹn</a></li>
+            {%endif%}
             <li><a href="{%url "profile_dentist" user.slug%}"><i class='bx bx-user-circle'></i>Hồ sơ cá nhân</a></li>
-            <li><a href="{%url 'my_clinics'%}"><i class='bx bx-group'></i>Phòng khám</a></li>
+            <li><a href="{%url 'my_clinics'%}"><i class='bx bx-clinic' ></i></i>Phòng khám</a></li>
             <!-- Dropdown for Phòng khám -->
             {%for clinic in clinics%}
             <li><a href="{%url 'list_dentists' clinic.slug%}"><i class='bx bx-group'></i>Nha sĩ</a></li>

@@ -15,9 +15,11 @@
                 <li class="clinic-item">
                     <div class="clinic-header">
                         <h3>{{ clinic.clinic_name }}</h3>
-                        <a href="{%url 'edit_clinic' clinic.slug%}" class="btn add-clinic-btn">Sửa</a>
-                        <a href="{%url 'list_dentists' clinic.slug%}" class="btn add-clinic-btn">Danh sách nha sĩ</a>
+                        <a href="{%url 'edit_clinic' clinic.slug%}" class="btn btn-success ms">Sửa</a>
+                        <a href="{%url 'list_dentists' clinic.slug%}" class="btn  btn-success ms" >Danh sách nha sĩ</a>
+                        <a href="{%url 'clinic_schedule' clinic.slug%}" class="btn  btn-success ms">Lịch làm việc</a>
                     </div>
+                    
                     <div class="clinic-details">
                         <p><i class="fa fa-map-marker"></i> Địa chỉ: {{ clinic.address }}</p>
                         <p><i class="fa fa-phone"></i> Số điện thoại: {{ clinic.phone_number }}</p>

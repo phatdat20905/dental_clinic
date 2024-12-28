@@ -1,0 +1,49 @@
+{% extends 'app_manage/index.html' %}
+
+{% block main-content %}
+<div class="form-container">
+    <h2 class="text-center">Thêm lịch làm việc mới cho phòng khám: {{ clinic.clinic_name }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success btn-lg">Thêm lịch làm việc</button>
+        <a href="{% url 'clinic_schedule' clinic.slug %}" class="btn btn-secondary btn-lg">Hủy</a>
+    </form>
+</div>
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    .form-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1.25rem;
+        border-radius: 5px;
+    }
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+</style>
+{% endblock %}
