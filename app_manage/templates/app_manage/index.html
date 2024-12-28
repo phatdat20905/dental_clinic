@@ -59,7 +59,8 @@
             <i class="fa fa-tooth me-2"></i>DentalHealth
         </a>
         <ul class="side-menu">
-            <li><a href="{%url 'index'%}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li><a href="{%url 'index'%}"><i class='bx bxs-home'></i>Trang chủ</a></li>
+            <li><a href="{%url 'dashboard'%}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             {%if request.user.role == 'Dentist'%}
             <li><a href="{%url 'schedule' %}"><i class='bx bxs-calendar'></i></i>Lịch làm việc</a></li>
             <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-calendar'></i></i>Lịch hẹn</a></li>

@@ -21,20 +21,20 @@
             <i class='bx bx-calendar-check'></i>
             <span class="info">
                 <h3>
-                    1,074
+                    {{ total_clinics }}
                 </h3>
-                <p>Paid Order</p>
+                <p>Tổng số phòng khám</p>
             </span>
         </li>
         <li><i class='bx bx-show-alt'></i>
             <span class="info">
                 <h3>
-                    3,944
+                    {{ total_dentists}}
                 </h3>
-                <p>Site Visit</p>
+                <p>Tổng số nha sĩ</p>
             </span>
         </li>
-        <li><i class='bx bx-line-chart'></i>
+        {% comment %} <li><i class='bx bx-line-chart'></i>
             <span class="info">
                 <h3>
                     14,721
@@ -49,11 +49,11 @@
                 </h3>
                 <p>Total Sales</p>
             </span>
-        </li>
+        </li> {% endcomment %}
     </ul>
     <!-- End of Insights -->
 
-    <div class="bottom-data">
+    {% comment %} <div class="bottom-data">
         <div class="orders">
             <div class="header">
                 <i class='bx bx-receipt'></i>
@@ -133,7 +133,7 @@
 
         <!-- End of Reminders-->
 
-    </div>
+    </div> {% endcomment %}
 
 </main> 
 {% endblock main-content %}

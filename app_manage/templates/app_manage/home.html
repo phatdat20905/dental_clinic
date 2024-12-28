@@ -1,0 +1,112 @@
+{% extends "app_manage/index.html" %}
+
+{% block main-content %}
+<div class="home-container">
+    <div class="hero-section">
+        <h1>Chào mừng đến với DentalHealth</h1>
+        <p>Quản lý phòng khám nha khoa của bạn một cách dễ dàng và hiệu quả.</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg">Xem Dashboard</a>
+    </div>
+
+    <div class="features-section">
+        <div class="feature-item">
+            <i class='bx bxs-clinic'></i>
+            <h3>Danh sách phòng khám</h3>
+            <p>Quản lý thông tin và danh sách phòng khám của bạn.</p>
+            <a href="{% url 'my_clinics' %}" class="btn btn-outline-primary">Xem chi tiết</a>
+        </div>
+        {% comment %} <div class="feature-item">
+            <i class='bx bxs-calendar'></i>
+            <h3>Lịch làm việc</h3>
+            <p>Xem và quản lý lịch làm việc của các phòng khám.</p>
+            <a href="{%url 'clinic_schedule' clinics.slug%}" class="btn btn-outline-primary">Xem chi tiết</a>
+        </div> {% endcomment %}
+        <div class="feature-item">
+            <i class='bx bx-user'></i>
+            <h3>Hồ sơ cá nhân</h3>
+            <p>Xem thông tin cá nhân.</p>
+            <a href="{%url "profile_dentist" user.slug%}" class="btn btn-outline-primary">Xem chi tiết</a>
+        </div>
+        <div class="feature-item">
+            <i class='bx bxs-chart'></i>
+            <h3>Thống kê</h3>
+            <p>Xem số liệu thống kê về phòng khám và nha sĩ.</p>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-primary">Xem chi tiết</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .home-container {
+        text-align: center;
+        margin: 50px auto;
+        padding: 20px;
+        max-width: 1200px;
+    }
+
+    .hero-section {
+        margin-bottom: 50px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .hero-section p {
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+    }
+
+    .features-section {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .feature-item {
+        width: 45%;
+        background-color: #f9f9f9;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+    .feature-item:hover {
+        transform: scale(1.05);
+    }
+
+    .feature-item i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+
+    .feature-item h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .feature-item p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #007bff;
+        color: #007bff;
+        background-color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+</style>
+{% endblock %}

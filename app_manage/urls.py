@@ -30,4 +30,7 @@ urlpatterns = [
     path('clinic/<slug:slug>/schedule/', views.clinic_schedule, name='clinic_schedule'),
     path('clinic/<slug:slug>/cancel_schedule/<int:schedule_id>/', views.cancel_schedule_clinic, name='cancel_schedule_clinic'),
     path('clinic/<slug:slug>/add_schedule/', views.add_schedule_clinic, name='add_schedule_clinic'),
+
+
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]

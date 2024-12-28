@@ -17,7 +17,7 @@ def indexPage(request):
     context = {
         'clinics': clinics,
     }
-    return render(request, 'app_manage/dashboard.html', context)
+    return render(request, 'app_manage/home.html', context)
 
 @login_required(login_url='login')  # Đảm bảo chỉ nha sĩ đã đăng nhập mới có thể truy cập
 def schedulePage(request):
@@ -455,3 +455,14 @@ def add_schedule_clinic(request, slug):
     }
     return render(request, 'app_manage/add_schedule_clinic.html', context)
 
+
+@login_required(login_url='login')  # Chỉ cho phép người dùng đã đăng nhập
+def dashboard(request):
+    total_clinics = Clinic.objects.filter(owner=request.user).count()
+    total_dentists = Dentist.objects.filter(clinic__owner=request.user).count()
+    
+    context = {
+        'total_clinics': total_clinics,
+        'total_dentists': total_dentists,
+    }
+    return render(request, 'app_manage/dashboard.html', context)
