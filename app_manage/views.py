@@ -40,6 +40,7 @@ def schedulePage(request):
             return redirect('add_schedule')  # 'add_schedule' là tên URL của trang thêm lịch
 
         context = {
+            'dentist': dentist,
             'schedule': schedule,  # Truyền danh sách lịch làm việc vào context
         }
         return render(request, 'app_manage/schedule.html', context)
@@ -458,11 +459,46 @@ def add_schedule_clinic(request, slug):
 
 @login_required(login_url='login')  # Chỉ cho phép người dùng đã đăng nhập
 def dashboard(request):
-    total_clinics = Clinic.objects.filter(owner=request.user).count()
-    total_dentists = Dentist.objects.filter(clinic__owner=request.user).count()
+    if request.user.role == 'ClinicOwner':
+        total_clinics = Clinic.objects.filter(owner=request.user).count()
+        total_dentists = Dentist.objects.filter(clinic__owner=request.user).count()
+        clinics = Clinic.objects.filter(owner=request.user)
+        dentists = Dentist.objects.filter(clinic__owner=request.user)
+
+        context = {
+            'total_clinics': total_clinics,
+            'total_dentists': total_dentists,
+            'clinics': clinics,
+            'dentists': dentists,
+        }
+        return render(request, 'app_manage/dashboard.html', context)
     
-    context = {
-        'total_clinics': total_clinics,
-        'total_dentists': total_dentists,
-    }
-    return render(request, 'app_manage/dashboard.html', context)
+    elif request.user.role == 'Dentist':
+        try:
+            dentist = Dentist.objects.get(dentist=request.user)
+        except Dentist.DoesNotExist:
+            messages.error(request, "Nha sĩ không tồn tại.")
+            return redirect('home')  # Chuyển hướng đến trang chủ hoặc trang khác nếu cần
+
+        total_schedule = Schedule.objects.filter(dentist=dentist).count()
+        total_appointment = Appointment.objects.filter(dentist=dentist).count()
+        
+        schedules = Schedule.objects.filter(dentist=dentist)
+        appointments = Appointment.objects.filter(dentist=dentist)
+
+        context = {
+            'dentist': dentist,
+            'total_schedule': total_schedule,
+            'total_appointment': total_appointment,
+            'schedules': schedules,
+            'appointments': appointments,
+        }
+        return render(request, 'app_manage/dashboard.html', context)
+
+    else:
+        messages.error(request, "Vai trò người dùng không hợp lệ.")
+        return redirect('home')  # Chuyển hướng đến trang chủ hoặc trang khác nếu cần
+
+
+    
+

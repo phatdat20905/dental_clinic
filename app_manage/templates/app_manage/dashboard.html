@@ -1,139 +1,156 @@
 {% extends "app_manage/index.html" %}
-{%load static%}
+{% load static %}
 {% block main-content %}
 <main>
     <div class="header">
         <div class="left">
             <h1>Dashboard</h1>
             <ul class="breadcrumb">
-                <li><a href="">
-                        Home
-                    </a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
                 /
-                <li><a href="" class="active">Dashboard</a></li>
+                <li><a href="{% url 'dashboard' %}" class="active">Dashboard</a></li>
             </ul>
         </div>
     </div>
 
     <!-- Insights -->
-    <ul class="insights">
-        <li>
-            <i class='bx bx-calendar-check'></i>
-            <span class="info">
-                <h3>
-                    {{ total_clinics }}
-                </h3>
-                <p>Tổng số phòng khám</p>
-            </span>
-        </li>
-        <li><i class='bx bx-show-alt'></i>
-            <span class="info">
-                <h3>
-                    {{ total_dentists}}
-                </h3>
-                <p>Tổng số nha sĩ</p>
-            </span>
-        </li>
-        {% comment %} <li><i class='bx bx-line-chart'></i>
-            <span class="info">
-                <h3>
-                    14,721
-                </h3>
-                <p>Searches</p>
-            </span>
-        </li>
-        <li><i class='bx bx-dollar-circle'></i>
-            <span class="info">
-                <h3>
-                    $6,742
-                </h3>
-                <p>Total Sales</p>
-            </span>
-        </li> {% endcomment %}
-    </ul>
-    <!-- End of Insights -->
-
-    {% comment %} <div class="bottom-data">
-        <div class="orders">
-            <div class="header">
-                <i class='bx bx-receipt'></i>
-                <h3>Recent Orders</h3>
-                <i class='bx bx-filter'></i>
-                <i class='bx bx-search'></i>
+    {% if request.user.role == 'ClinicOwner' %}
+        <ul class="insights">     
+            <li>
+                <i class='bx bx-calendar-check'></i>
+                <span class="info">
+                    <h3>{{ total_clinics }}</h3>
+                    <p>Tổng số phòng khám</p>
+                </span>
+            </li>
+            <li>
+                <i class='bx bx-show-alt'></i>
+                <span class="info">
+                    <h3>{{ total_dentists }}</h3>
+                    <p>Tổng số nha sĩ</p>
+                </span>
+            </li>
+        </ul>
+        <div class="dashboard-container">
+            <div class="lists-container">
+                <div class="clinics-list">
+                    <h3>Danh sách phòng khám</h3>
+                    {% if clinics %}
+                        <ul>
+                            {% for clinic in clinics %}
+                                <li>{{ clinic.clinic_name }} - {{ clinic.address }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Không có phòng khám nào.</p>
+                    {% endif %}
+                </div>
+                <div class="dentists-list">
+                    <h3>Danh sách nha sĩ</h3>
+                    {% if dentists %}
+                        <ul>
+                            {% for dentist in dentists %}
+                                <li>{{ dentist.dentist.full_name }} - {{ dentist.clinic.clinic_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Không có nha sĩ nào.</p>
+                    {% endif %}
+                </div>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Order Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <img src="images/profile-1.jpg">
-                            <p>John Doe</p>
-                        </td>
-                        <td>14-08-2023</td>
-                        <td><span class="status completed">Completed</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="images/profile-1.jpg">
-                            <p>John Doe</p>
-                        </td>
-                        <td>14-08-2023</td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="images/profile-1.jpg">
-                            <p>John Doe</p>
-                        </td>
-                        <td>14-08-2023</td>
-                        <td><span class="status process">Processing</span></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-
-        <!-- Reminders -->
-        <div class="reminders">
-            <div class="header">
-                <i class='bx bx-note'></i>
-                <h3>Remiders</h3>
-                <i class='bx bx-filter'></i>
-                <i class='bx bx-plus'></i>
+    {% elif request.user.role == 'Dentist' %}
+        <ul class="insights">     
+            <li>
+                <i class='bx bx-calendar-check'></i>
+                <span class="info">
+                    <h3>{{ total_schedule }}</h3>
+                    <p>Tổng số lịch làm việc</p>
+                </span>
+            </li>
+            <li>
+                <i class='bx bx-show-alt'></i>
+                <span class="info">
+                    <h3>{{ total_appointment }}</h3>
+                    <p>Tổng số lịch hẹn</p>
+                </span>
+            </li>
+        </ul>
+        <div class="dashboard-container">
+            <div class="lists-container">
+                <div class="schedules-list">
+                    <h3>Danh sách lịch làm việc</h3>
+                    {% if schedules %}
+                        <ul>
+                            {% for schedule in schedules %}
+                                <li>{{ schedule.date }} - {{ schedule.time }} - {{ schedule.clinic.clinic_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Không có lịch làm việc nào.</p>
+                    {% endif %}
+                </div>
+                <div class="appointments-list">
+                    <h3>Danh sách lịch hẹn</h3>
+                    {% if appointments %}
+                        <ul>
+                            {% for appointment in appointments %}
+                                <li>{{ appointment.appointment_date }} - {{ appointment.time }} - {{ appointment.full_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Không có lịch hẹn nào.</p>
+                    {% endif %}
+                </div>
             </div>
-            <ul class="task-list">
-                <li class="completed">
-                    <div class="task-title">
-                        <i class='bx bx-check-circle'></i>
-                        <p>Start Our Meeting</p>
-                    </div>
-                    <i class='bx bx-dots-vertical-rounded'></i>
-                </li>
-                <li class="completed">
-                    <div class="task-title">
-                        <i class='bx bx-check-circle'></i>
-                        <p>Analyse Our Site</p>
-                    </div>
-                    <i class='bx bx-dots-vertical-rounded'></i>
-                </li>
-                <li class="not-completed">
-                    <div class="task-title">
-                        <i class='bx bx-x-circle'></i>
-                        <p>Play Footbal</p>
-                    </div>
-                    <i class='bx bx-dots-vertical-rounded'></i>
-                </li>
-            </ul>
         </div>
-
-        <!-- End of Reminders-->
-
-    </div> {% endcomment %}
-
+    {% endif %}
 </main> 
+<style>
+    .dashboard-container {
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .dashboard-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .lists-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .clinics-list, .dentists-list, .schedules-list, .appointments-list {
+        width: 45%;
+        background-color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .clinics-list h3, .dentists-list h3, .schedules-list h3, .appointments-list h3 {
+        margin-bottom: 10px;
+        color: #555;
+    }
+
+    .clinics-list ul, .dentists-list ul, .schedules-list ul, .appointments-list ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .clinics-list li, .dentists-list li, .schedules-list li, .appointments-list li {
+        margin: 5px 0;
+        font-size: 1.1em;
+        color: #333;
+    }
+</style>
 {% endblock main-content %}

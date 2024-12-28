@@ -66,11 +66,13 @@
             <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-calendar'></i></i>Lịch hẹn</a></li>
             {%endif%}
             <li><a href="{%url "profile_dentist" user.slug%}"><i class='bx bx-user-circle'></i>Hồ sơ cá nhân</a></li>
+            {%if request.user.role == 'ClinicOwner'%}
             <li><a href="{%url 'my_clinics'%}"><i class='bx bx-clinic' ></i></i>Phòng khám</a></li>
             <!-- Dropdown for Phòng khám -->
             {%for clinic in clinics%}
             <li><a href="{%url 'list_dentists' clinic.slug%}"><i class='bx bx-group'></i>Nha sĩ</a></li>
             {%endfor%}
+            {%endif%}
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">

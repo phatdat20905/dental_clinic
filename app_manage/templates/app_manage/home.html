@@ -9,18 +9,28 @@
     </div>
 
     <div class="features-section">
+        {%if request.user.role == 'ClinicOwner'%}
         <div class="feature-item">
             <i class='bx bxs-clinic'></i>
             <h3>Danh sách phòng khám</h3>
             <p>Quản lý thông tin và danh sách phòng khám của bạn.</p>
             <a href="{% url 'my_clinics' %}" class="btn btn-outline-primary">Xem chi tiết</a>
         </div>
-        {% comment %} <div class="feature-item">
+        {%elif request.user.role == 'Dentist'%}
+        <div class="feature-item">
             <i class='bx bxs-calendar'></i>
             <h3>Lịch làm việc</h3>
-            <p>Xem và quản lý lịch làm việc của các phòng khám.</p>
-            <a href="{%url 'clinic_schedule' clinics.slug%}" class="btn btn-outline-primary">Xem chi tiết</a>
-        </div> {% endcomment %}
+            <p>Xem và quản lý lịch làm việc của nha sĩ.</p>
+            <a href="{%url 'schedule'%}" class="btn btn-outline-primary">Xem chi tiết</a>
+        </div>
+        <div class="feature-item">
+            <i class='bx bxs-calendar-plus' ></i>
+            <h3>Lịch làm hẹn</h3>
+            <p>Xem và quản lý lịch làm hẹn của nha sĩ.</p>
+            <a href="{%url 'appointment_schedule' %}" class="btn btn-outline-primary">Xem chi tiết</a>
+        </div>
+        {%endif%}
+        
         <div class="feature-item">
             <i class='bx bx-user'></i>
             <h3>Hồ sơ cá nhân</h3>
