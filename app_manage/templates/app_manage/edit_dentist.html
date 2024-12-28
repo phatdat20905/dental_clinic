@@ -1,0 +1,14 @@
+{% extends 'app_manage/index.html' %}
+
+{% block main-content %}
+<div class="form-container">
+    <h2>Chỉnh sửa thông tin nha sĩ</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ dentist_form.as_p }}
+        <button type="submit" class="submit-btn">Cập nhật</button>
+        <a href="{% url 'list_dentists' clinic.slug %}" class="cancel-btn">Hủy</a>
+    </form>
+</div>
+{% endblock %}

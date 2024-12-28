@@ -20,7 +20,10 @@ urlpatterns = [
     path('clinic/edit/<slug:slug>/', views.edit_clinic, name='edit_clinic'),
 
 
-    path('clinic/<slug:clinic_slug>/dentists/', views.list_dentists, name='list_dentists'),
-    # path('clinic/<slug:clinic_slug>/dentists/add/', views.add_dentist, name='add_dentist'),
-    # path('clinic/<slug:clinic_slug>/dentists/<int:dentist_id>/delete/', views.delete_dentist, name='delete_dentist'),
+    path('clinic/<slug:slug>/dentists/', views.list_dentists, name='list_dentists'),
+    path("edit-dentist/<slug:slug>/", views.update_profile, name="edit-dentist"),
+
+    path('clinic/<slug:slug>/dentists/add/', views.add_dentist, name='add_dentist'),
+    path('clinic/<slug:slug>/edit_dentist/<int:dentist_id>/', views.edit_dentist, name='edit_dentist'),
+    path('clinic/<slug:slug>/delete_dentist/<int:dentist_id>/', views.delete_dentist, name='delete_dentist'),
 ]

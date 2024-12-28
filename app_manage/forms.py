@@ -1,6 +1,7 @@
 from django import forms
 from website.models import *
 from tinymce.widgets import TinyMCE
+from django.contrib.auth.forms import UserCreationForm
 class MedicalRecordForm(forms.ModelForm):
     class Meta:
         model = MedicalRecord
@@ -40,12 +41,49 @@ class ClinicForm(forms.ModelForm):
             'address': forms.Textarea(attrs={'rows': 2}),
         }
 
-# class DentistForm(forms.ModelForm):
-#     specialization = forms.CharField(max_length=30, required=True)
-#     position = forms.ChoiceField(choices=Dentist.POSITION_CHOICE, required=True)
-#     experience_years = forms.IntegerField(required=True)
-#     description = forms.CharField(widget=forms.Textarea, required=True)
 
+class DentistForm(forms.ModelForm):
+    class Meta:
+        model = Dentist
+        fields = ['specialization', 'position', 'experience_years', 'description']
+        widgets = {
+            'description': TinyMCE(attrs={'cols': 80, 'rows': 20}),
+        }
+
+# class UserForm(forms.ModelForm):
+#     password1 = forms.CharField(
+#         widget=forms.PasswordInput(attrs={'placeholder': 'Nhập mật khẩu'}),
+#         label="Mật khẩu",
+#         max_length=128
+#     )
+#     password2 = forms.CharField(
+#         widget=forms.PasswordInput(attrs={'placeholder': 'Xác nhận mật khẩu'}),
+#         label="Xác nhận mật khẩu",
+#         max_length=128
+#     )
+    
 #     class Meta:
 #         model = User
-#         fields = ['full_name', 'email', 'phone_number', 'image']
+#         fields = ['email', 'full_name', 'gender', 'phone_number','address', 'image']
+#         widgets = {
+#             'address': forms.Textarea(attrs={'rows': 2}),
+#         }
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         password1 = cleaned_data.get("password1")
+#         password2 = cleaned_data.get("password2")
+#         if password1 and password2 and password1 != password2:
+#             raise forms.ValidationError("Mật khẩu không khớp.")
+        # return cleaned_data
+
+class UserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['email','full_name', 'gender', 'phone_number', 'address', 'image', 'password1', 'password2']
+
+
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'full_name', 'gender', 'phone_number', 'address', 'image']

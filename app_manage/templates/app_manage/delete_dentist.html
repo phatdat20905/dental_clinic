@@ -1,11 +1,56 @@
 {% extends 'app_manage/index.html' %}
 
 {% block main-content %}
-<h1>Xóa nha sĩ</h1>
-<p>Bạn có chắc chắn muốn xóa nha sĩ {{ dentist.dentist.full_name }} khỏi phòng khám {{ clinic.clinic_name }}?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Xóa</button>
-    <a href="{% url 'list_dentists' clinic.slug %}">Hủy</a>
-</form>
-{%endblock %}
+<div class="delete-container">
+    <h2 class="text-center">Xóa Nha Sĩ</h2>
+    <div class="alert alert-warning text-center">
+        <p>Bạn có chắc chắn muốn xóa nha sĩ <strong>{{ dentist.dentist.full_name }}</strong> không?</p>
+    </div>
+    <form method="POST" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-lg mx-2">Xóa</button>
+        <a href="{% url 'list_dentists' clinic.slug %}" class="btn btn-secondary btn-lg mx-2">Hủy</a>
+    </form>
+</div>
+
+<style>
+    .delete-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    .delete-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+        color: #856404;
+    }
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1.25rem;
+        border-radius: 5px;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+</style>
+{% endblock %}

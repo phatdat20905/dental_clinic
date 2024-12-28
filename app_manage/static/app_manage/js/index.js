@@ -55,3 +55,4 @@ toggler.addEventListener('change', function () {
         document.body.classList.remove('dark');
     }
 });
+

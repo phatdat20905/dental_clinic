@@ -17,6 +17,11 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.header-container .header img {
+    width: 180px;
+    height: 130px;
+}
+
 .navigation-bar {
     list-style: none;
     font-size: 14px;

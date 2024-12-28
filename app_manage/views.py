@@ -4,12 +4,20 @@ from django.urls import reverse
 from website.models import *
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
-from .forms import MedicalRecordForm, ClinicForm
+from .forms import *
+from django.utils.text import slugify
 from datetime import datetime, timedelta
 
 # Create your views here.
 def indexPage(request):
-    return render(request, 'app_manage/dashboard.html')
+    if request.user.role != 'ClinicOwner':
+        return render(request, '403.html', {"message": "You are not authorized to view this page."})
+
+    clinics = Clinic.objects.filter(owner=request.user)
+    context = {
+        'clinics': clinics,
+    }
+    return render(request, 'app_manage/dashboard.html', context)
 
 
 # @login_required(login_url='login')  # Đảm bảo chỉ nha sĩ đã đăng nhập mới có thể truy cập
@@ -100,7 +108,7 @@ def schedulePage(request):
     #     messages.error(request, f"Có lỗi xảy ra: {e}")
     #     # return redirect('home')
 
-
+@login_required
 def cancel_schedule(request, schedule_id):
     try:
         # Lấy lịch hẹn theo ID
@@ -173,7 +181,7 @@ def add_schedule(request):
         messages.error(request, f"Có lỗi xảy ra: {e}")
         return redirect("schedule")
     
-
+@login_required
 def appointment_schedule(request):
     try:
         # Lấy thông tin nha sĩ đang đăng nhập
@@ -205,7 +213,8 @@ def appointment_schedule(request):
     except Exception as e:
         messages.error(request, f"Có lỗi xảy ra: {e}")
         return redirect('home')
-    
+
+@login_required
 def update_appointments(request, appointment_id):
     try:
         # Lấy lịch hẹn theo ID
@@ -224,7 +233,7 @@ def update_appointments(request, appointment_id):
     # Quay lại trang danh sách lịch hẹn
     return redirect('appointment_schedule')
         
-        
+@login_required
 def add_medical_record(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
@@ -252,7 +261,7 @@ def add_medical_record(request, appointment_id):
 
     return render(request, 'app_manage/add_medical_record.html', {'form': form, 'appointment': appointment})
 
-
+@login_required
 def profileDentist(request, slug):
     # Lấy thông tin khách hàng
     dentist = get_object_or_404(User, slug=slug)
@@ -260,7 +269,7 @@ def profileDentist(request, slug):
             "dentist": dentist,
         }
     return render(request, "app_manage/profile_dentist.html", context)
-
+@login_required
 def update_profile(request, slug):
     user = get_object_or_404(User, slug=slug)
 
@@ -301,7 +310,7 @@ def my_clinics(request):
         'clinics': clinics,
     }
     return render(request, 'app_manage/my_clinics.html', context)
-
+@login_required
 def add_clinic(request):
     if request.method == "POST":
         clinic_name = request.POST.get("clinic_name")
@@ -364,50 +373,92 @@ def edit_clinic(request, slug):
     }
     return render(request, 'app_manage/edit_clinic.html', context)
 
+@login_required
+def list_dentists(request, slug):
+    # Lấy phòng khám dựa trên slug và chủ sở hữu
+    clinic = get_object_or_404(Clinic, slug=slug, owner=request.user)
+
+    # Lấy danh sách nha sĩ thuộc phòng khám
+    dentists = Dentist.objects.filter(clinic=clinic)
+
+    # Nếu không có nha sĩ, thêm thông báo
+    if not dentists.exists():
+        messages.info(request, "Phòng khám hiện chưa có nha sĩ nào. Hãy thêm nha sĩ mới!")
+
+    return render(request, 'app_manage/dentist_list.html', {'clinic': clinic, 'dentists': dentists})
+
 
 @login_required
-def list_dentists(request, clinic_slug):
-    # # Lấy phòng khám dựa trên slug và chủ sở hữu
-    # clinic = get_object_or_404(Clinic, slug=clinic_slug, owner=request.user)
+def add_dentist(request, slug):
+    clinic = get_object_or_404(Clinic, slug=slug, owner=request.user)
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, request.FILES)
+        dentist_form = DentistForm(request.POST)
+        if user_form.is_valid() and dentist_form.is_valid():
+            # Tạo tài khoản User cho nha sĩ
+            user = user_form.save(commit=False)
+            user.role = 'Dentist'
+            # user.set_password(user_form.cleaned_data['password1'])  # Lấy mật khẩu từ password1
+            user.save()
 
-    # # Lấy danh sách nha sĩ thuộc phòng khám
-    # dentists = Dentist.objects.filter(clinic=clinic)
+            # Liên kết thông tin Dentist
+            dentist = dentist_form.save(commit=False)
+            dentist.dentist = user
+            dentist.clinic = clinic
+            dentist.save()
 
-    return render(request, 'app_manage/dentist_list.html')
+            messages.success(request, "Nha sĩ đã được thêm thành công!")
+            return redirect('add_dentist', slug=slug)
+        else:
+            messages.error(request, "Vui lòng kiểm tra lại thông tin.")
+    else:
+        user_form = UserForm()
+        dentist_form = DentistForm()
 
-# @login_required
-# def add_dentist(request, clinic_slug):
-#     clinic = get_object_or_404(Clinic, slug=clinic_slug, owner=request.user)
+    context = {
+        'user_form': user_form,
+        'dentist_form': dentist_form,
+    }
+    return render(request, 'app_manage/add_dentist.html', context)
 
-#     if request.method == "POST":
-#         form = DentistForm(request.POST)
-#         if form.is_valid():
-#             dentist_user = form.save(commit=False)
-#             dentist_user.role = 'Dentist'
-#             dentist_user.save()
+@login_required
+def edit_dentist(request, slug, dentist_id):
+    clinic = get_object_or_404(Clinic, slug=slug, owner=request.user)
+    dentist = get_object_or_404(Dentist, id=dentist_id, clinic=clinic)
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=dentist.dentist)
+        dentist_form = DentistForm(request.POST, instance=dentist)
+        if user_form.is_valid() and dentist_form.is_valid():
+            user_form.save()
+            dentist_form.save()
+            messages.success(request, "Thông tin nha sĩ đã được cập nhật thành công!")
+            return redirect('list_dentists', slug=slug)
+        else:
+            messages.error(request, "Vui lòng kiểm tra lại thông tin.")
+            print(user_form.errors, dentist_form.errors)
+    else:
+        user_form = UpdateUserForm(instance=dentist.dentist)
+        dentist_form = DentistForm(instance=dentist)
 
-#             Dentist.objects.create(
-#                 dentist=dentist_user,
-#                 clinic=clinic,
-#                 specialization=form.cleaned_data['specialization'],
-#                 position=form.cleaned_data['position'],
-#                 experience_years=form.cleaned_data['experience_years'],
-#                 description=form.cleaned_data['description']
-#             )
-#             return HttpResponseRedirect(reverse('list_dentists', args=[clinic.slug]))
-#     else:
-#         form = DentistForm()
+    context = {
+        'user_form': user_form,
+        'dentist_form': dentist_form,
+        'clinic': clinic,
+    }
+    return render(request, 'app_manage/edit_dentist.html', context)
 
-#     return render(request, 'app_manage/add_dentist.html', {'form': form, 'clinic': clinic})
-
-
-# @login_required
-# def delete_dentist(request, clinic_slug, dentist_id):
-#     clinic = get_object_or_404(Clinic, slug=clinic_slug, owner=request.user)
-#     dentist = get_object_or_404(Dentist, id=dentist_id, clinic=clinic)
-
-#     if request.method == "POST":
-#         dentist.delete()
-#         return HttpResponseRedirect(reverse('list_dentists', args=[clinic.slug]))
-
-#     return render(request, 'app_manage/delete_dentist.html', {'dentist': dentist, 'clinic': clinic})
+@login_required
+def delete_dentist(request, slug, dentist_id):
+    clinic = get_object_or_404(Clinic, slug=slug, owner=request.user)
+    dentist = get_object_or_404(Dentist, id=dentist_id, clinic=clinic)
+    if request.method == 'POST':
+        user = dentist.dentist
+        dentist.delete()
+        user.delete()
+        messages.success(request, "Nha sĩ đã được xóa thành công!")
+        return redirect('list_dentists', slug=slug)
+    context = {
+        'dentist': dentist,
+        'clinic': clinic,
+    }
+    return render(request, 'app_manage/delete_dentist.html', context)
