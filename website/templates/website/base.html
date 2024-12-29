@@ -39,7 +39,11 @@
     <link rel="stylesheet" href="{% static 'website/css/home.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/clinic.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/profile.css' %}?{% now "U" %}" />
+    <link rel="stylesheet" href="{% static 'website/css/services.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/medical_record.css' %}?{% now "U" %}" />
+
+
+    
 
     <!--js-->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -99,17 +103,15 @@
           </form>
             <div class="navbar-nav ms-auto py-0">
                 <a href="{%url 'home'%}" class="nav-item nav-link active">Trang chủ</a>
-                <a href="" class="nav-item nav-link">Giới thiệu</a>
-                <a href="" class="nav-item nav-link">Dịch vụ</a>
+                <a href="" class="nav-item nav-link">Giới thiệu</a>           
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="" class="dropdown-item">Pricing Plan</a>
-                        <a href="" class="dropdown-item">Our Dentist</a>
-                        <a href="" class="dropdown-item">Testimonial</a>
-                        <a href="" class="dropdown-item">Appointment</a>
-                    </div>
-                </div>
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dịch vụ</a>
+                  <div class="dropdown-menu m-0">
+                      {% for item in categories %}
+                          <a href="{%url 'categories' item.slug%}" class="dropdown-item">{{ item.name }}</a>
+                      {% endfor %}
+                  </div>
+              </div>              
                 <a href="" class="nav-item nav-link">Liên hệ</a>
             </div>
             {% if user.is_authenticated %}

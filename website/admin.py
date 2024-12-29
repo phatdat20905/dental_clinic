@@ -45,6 +45,15 @@ class MedicalRecordAdmin(admin.ModelAdmin):
     search_fields = ("appointment__customer__full_name", "diagnosis", "treatment_plan")
     list_filter = ("created_at",)
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+
+class ServiceItemAdmin(admin.ModelAdmin):
+    list_display = ('service_name', 'category', 'unit', 'price')
+    search_fields = ('service_name', 'category__name')
+    list_filter = ('category',)
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Clinic, ClinicAdmin)
 admin.site.register(Dentist, DentistAdmin)
@@ -54,3 +63,5 @@ admin.site.register(Service, ServiceAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(MedicalRecord, MedicalRecordAdmin)
 admin.site.register(Notification)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(ServiceItem, ServiceItemAdmin)

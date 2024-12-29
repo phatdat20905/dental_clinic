@@ -58,7 +58,7 @@ class Clinic(models.Model):
     clinic_name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     address = models.TextField(null=True, blank=True)
-    description = HTMLField()
+    description = HTMLField(null=True, blank=True)
     phone_number = models.CharField(max_length=15, unique=True)
     opening_hours = models.CharField(max_length=50)
     max_patients_per_slot = models.PositiveIntegerField()
@@ -106,7 +106,7 @@ class Dentist(models.Model):
     specialization = models.CharField(max_length=30, null=True, blank=True)
     position = models.CharField(max_length=20, null=True, blank=True, choices=POSITION_CHOICE, default='Thạc sĩ')
     experience_years = models.PositiveIntegerField(null=True, blank=True)
-    description = HTMLField()
+    description = HTMLField(null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
 
     def __str__(self):
@@ -219,3 +219,27 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.full_name or 'Unnamed User'}"
+
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    description = HTMLField(null=True, blank=True)
+    image = models.ImageField(upload_to='website/img/service', null=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+class ServiceItem(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="service_items")
+    service_name = models.CharField(max_length=100)
+    unit = models.CharField(max_length=20, null=True, blank=True)
+    price = models.CharField(max_length=30, null=True, blank=True)
+
+    def __str__(self):
+        return self.service_name

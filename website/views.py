@@ -18,12 +18,15 @@ from django.contrib.auth.decorators import login_required
 def homePage(request):
     clinic = Clinic.objects.all()
     dentist = Dentist.objects.all()
-    # template = loader.get_template('home.html')
+    categories = Category.objects.all()
+    
     context = {
         'clinic': clinic,
         'dentist': dentist,
+        'categories': categories,
     }
     return render(request, 'website/home.html', context)
+
 
 def loginPage(request):
     if request.user.is_authenticated:
@@ -395,4 +398,18 @@ def medical_records(request, slug):
 
 def testPage(request):
     return render(request, "website/test.html")
+
+
+
+def categories(request, slug):
+    selected_category = get_object_or_404(Category, slug=slug)
+    service_items = ServiceItem.objects.filter(category=selected_category)
+    context = {
+        'selected_category': selected_category,
+        'service_items': service_items,
+    }
+    return render(request, 'website/services.html', context)
+
+
+
 

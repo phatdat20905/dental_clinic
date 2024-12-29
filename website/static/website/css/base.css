@@ -169,3 +169,7 @@
 .home-header-banner .content-down .options .option-child .text-child:hover {
     color: #49bce2;
 }
+
+a {
+    text-decoration: none;
+}

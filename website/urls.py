@@ -22,5 +22,7 @@ urlpatterns = [
 
     path('medical_records/<slug:slug>/', views.medical_records, name='medical_records'),
     
+    path('categories/<slug:slug>/', views.categories, name='categories'),
+
     path('test/', views.testPage, name="test"),
 ]
