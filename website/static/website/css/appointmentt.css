@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.text-muted {
+    color: #7f8c8d;
+}
+.doctor-info img {
+    max-width: 100%;
+    width: 100px;
+    height: 100px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    margin: 0; 
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.btn {
+    padding: 12px 20px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.registration-form-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.col-md-6 {
+    flex: 1;
+    max-width: 48%;
+}
+
+.experience ul, .education ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.experience li, .education li {
+    margin-bottom: 10px;
+}
