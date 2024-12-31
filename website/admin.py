@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from .forms import *
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
     list_display = ('email', 'full_name', 'role', 'address', 'gender', 'phone_number')
@@ -24,17 +25,20 @@ class UserAdmin(admin.ModelAdmin):
 class ClinicAdmin(admin.ModelAdmin):
     list_display = ('owner', 'clinic_name', 'address', 'phone_number', 'opening_hours', 'is_approved')
     search_fields = ('clinic_name', 'address')
+    form = ClinicAdminForm
 
 class DentistAdmin(admin.ModelAdmin):
     list_display = ('dentist', 'clinic', 'specialization', 'position')
     # search_fields = ('dentist', 'posotion')
+    form = DentistAdminForm
+    
 
 
 class ScheduleAdmin(admin.ModelAdmin):
     list_display = ('dentist', 'clinic')
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('service_name', 'unit', 'price')
+    list_display = ('service_name', 'unit', 'price', 'clinic')
     search_fields = ('service_name', 'price')
 
 class AppointmentAdmin(admin.ModelAdmin):

@@ -141,10 +141,10 @@ def appointment_schedule(request):
         # Lấy lịch làm việc của nha sĩ
         appointments = Appointment.objects.filter(dentist=dentist)
 
-        # Nếu không có lịch làm việc nào, chuyển hướng tới trang thêm lịch
-        if not appointments.exists():
-            messages.info(request, "Hiện tại bạn chưa có lịch làm việc. Vui lòng thêm lịch làm việc.")
-            return redirect('add_schedule')  # 'add_schedule' là tên URL của trang thêm lịch
+        # # Nếu không có lịch làm việc nào, chuyển hướng tới trang thêm lịch
+        # if not appointments.exists():
+        #     messages.info(request, "Hiện tại bạn chưa có lịch làm việc. Vui lòng thêm lịch làm việc.")
+        #     return redirect('add_schedule')  # 'add_schedule' là tên URL của trang thêm lịch
 
         context = {
             'appointments': appointments,  # Truyền danh sách lịch làm việc vào context

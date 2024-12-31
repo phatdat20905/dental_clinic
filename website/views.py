@@ -31,7 +31,7 @@ def homePage(request):
 def loginPage(request):
     if request.user.is_authenticated:
         # Kiểm tra vai trò của người dùng đã đăng nhập
-        if request.user.role == "Dentist" or request.user.role == "ClinicOwner":
+        if request.user.role in ["Dentist", "ClinicOwner"]:
             return redirect('index')  # Trang admin cho Dentist
         return redirect('home')  # Trang chính cho các vai trò khác
 
@@ -48,7 +48,7 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             # Chuyển hướng dựa trên vai trò của người dùng
-            if user.role == "Dentist":
+            if request.user.role in ["Dentist", "ClinicOwner"]:
                 return redirect('index')  # Trang admin cho Dentist
             return redirect('home')  # Trang chính cho các vai trò khác
         else:
@@ -409,6 +409,8 @@ def categories(request, slug):
         'service_items': service_items,
     }
     return render(request, 'website/services.html', context)
+
+
 
 
 

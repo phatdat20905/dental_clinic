@@ -15,6 +15,7 @@
             </ul>
         </div>
     </div>
+    {%if appointments%}
     <div class="appointment-table-container">
         <table id="example" class="display" style="width:100%">
             <thead>
@@ -51,5 +52,8 @@
             </tfoot>
         </table>
     </div>
+    {% else %}
+        <p class="text-center">Nha sĩ hiện chưa có lịch làm việc nào.</p>
+    {% endif %}
 </main>
 {% endblock main-content %}

@@ -24,7 +24,7 @@
       <div class="description">
         {{ selected_category.description|safe}}
       </div>
-      
+      {%if service_items%}
       <h2>Bảng giá các dịch vụ</h2>
       <div class="table-price-service">
         <div class="heading-table">Bảng Giá {{selected_category.name}}</div>
@@ -37,7 +37,6 @@
             </tr>
           </thead>
           <tbody>
-          {%if service_items%}
             {% for service in service_items %}
             <tr>
               <td>{{ service.service_name }}</td>
@@ -45,10 +44,10 @@
               <td class="text-center">{{ service.price }}</td>
             </tr>
             {% endfor %}
-          {%else%}
+          {% comment %} {%else%}
           <tr>
             <td colspan="3" class="text-center">Chưa có dịch vụ nào trong danh mục này</td>
-          </tr>
+          </tr> {% endcomment %}
           {% endif %}
           </tbody>
         </table>

@@ -9,6 +9,12 @@
     </div>
 
     <div class="features-section">
+        <div class="feature-item">
+            <i class='bx bx-home'></i>
+            <h3>Trang nha khoa</h3>
+            <p>Xem thông tin nền tảng đặt lịch khám nha khoa.</p>
+            <a href="{%url "home"%}" class="btn btn-outline-primary">Xem chi tiết</a>
+        </div>
         {%if request.user.role == 'ClinicOwner'%}
         <div class="feature-item">
             <i class='bx bxs-clinic'></i>

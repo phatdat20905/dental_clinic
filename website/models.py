@@ -4,6 +4,7 @@ from tinymce.models import HTMLField
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from .managers import CustomUserManager
+from django.core.validators import RegexValidator
 
 class User(AbstractUser):
     # USER ROLES
@@ -27,7 +28,8 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=USER_ROLES, default='Customer')
     address = models.TextField(null=True, blank=True)
     gender = models.CharField(max_length=20, choices=USER_GENDERS, default='Nam')
-    phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=10,unique=True, blank=True, null=True, validators=[RegexValidator(
+        regex=r"^\d{10}", message="Phone number must be 10 digits only.")])
     image = models.ImageField(upload_to='website/img/dentist', null=True, blank=True)  # Ảnh đại diện
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
 
@@ -59,7 +61,8 @@ class Clinic(models.Model):
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     address = models.TextField(null=True, blank=True)
     description = HTMLField(null=True, blank=True)
-    phone_number = models.CharField(max_length=15, unique=True)
+    phone_number = models.CharField(max_length=10,unique=True, blank=True, null=True, validators=[RegexValidator(
+        regex=r"^\d{10}", message="Phone number must be 10 digits only.")])
     opening_hours = models.CharField(max_length=50)
     max_patients_per_slot = models.PositiveIntegerField()
     max_treatment_per_slot = models.PositiveIntegerField()
