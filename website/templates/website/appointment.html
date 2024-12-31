@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Lịch Khám - {{ doctor_name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/appointment.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Đặt Lịch Khám - {{ doctor_name }}</h2>
+        <p class="text-center text-muted mb-5">Vui lòng điền thông tin để đặt lịch khám với bác sĩ {{ doctor_name }}.</p>
+
+        <div class="row">
+            <!-- Phần thông tin bác sĩ  -->
+            <div class="col-md-6">
+                <div class="doctor-info">
+                    <img src="{% static 'img/doctor1.jpg' %}" alt="{{ doctor_name }}" class="doctor-img">
+                    <h3 class="text-center">{{ doctor_name }}</h3>
+                    <!-- Thông tin bác sĩ -->
+                    <section class="doctor-info">
+                        <h2>Thông tin bác sĩ</h2>
+                        <p>
+                            Ông cũng là người đầu tiên tại Đông Nam Á ứng dụng robot định vị trong quá trình cấy ghép Implant, đưa nha khoa Việt Nam vươn tầm thế giới.
+                        </p>
+                        <p>Đặc biệt ông còn là bác sĩ đã thực hiện nhiều trường hợp khó như:</p>
+                        <ul>
+                            <li>Thực hiện dời dây thần kinh hàm dưới để cấy ghép Implant.</li>
+                            <li>Cấy ghép Implant xương gò má kết hợp dời thần kinh ổ răng dưới.</li>
+                            <li>Cấy ghép Implant gò má cho bệnh nhân thiếu xương hàm trên nhiều.</li>
+                            <li>Cấy ghép Implant và phục hồi răng cho bệnh nhân loạn sản ngoại bì không răng bẩm sinh.</li>
+                        </ul>
+                        <p>
+                            Bác sĩ Nhân không chỉ là người có vốn kiến thức sâu rộng, trình độ chuyên môn cao, dày dặn kinh nghiệm, chu đáo, tận tâm mà còn là một người thầy tận tụy, có tầm đối với thế hệ bác sĩ trẻ cũng như nhiều sinh viên.
+                        </p>
+                        <p>Cho đến thời điểm hiện tại, bác sĩ Võ Văn Nhân đã có hơn 25 năm hoạt động trong nghề, giúp nhiều khách hàng giải quyết triệt để vấn đề răng miệng, sở hữu hàm răng chắc khỏe và nụ cười tự tin rạng rỡ.</p>
+                    </section>
+                    <!-- Kinh nghiệm -->
+                    <section class="experience">
+                        <h2>Kinh nghiệm</h2>
+                        <ul>
+                            <li>Ghép xương 3 chiều năm 2011.</li>
+                            <li>Thực hiện thành công ghép xương khe hở huyệt để cấy Implant cho bệnh nhân khe hở môi năm 2012.</li>
+                            <li>Thực hiện khâu vá màng xoang bị thủng lớn năm 2012.</li>
+                            <li>Phẫu thuật dời thần kinh ổ răng dưới, cấy ghép Implant đồng thời năm 2012.</li>
+                            <li>Cấy ghép Implant xương gò má cải tiến năm 2014.</li>
+                            <li>Ghép Implant xương gò má cải tiến kết hợp dời thần kinh ổ răng dưới năm 2016.</li>
+                            <li>Ứng dụng tế bào gốc trong ghép xương và cấy ghép Implant năm 2017.</li>
+                            <li>Báo cáo viên tại Hội nghị Phẫu thuật Miệng Hàm Mặt tại Úc năm 2015, tại Hồng Kông năm 2017 và Hội nghị quốc tế tại Ý năm 2017.</li>
+                            <li>Hiện đang giữ chức vụ Giám đốc của Nha khoa Nhân Tâm.</li>
+                        </ul>
+                    </section>
+                    <!-- Quá trình đào tạo -->
+                    <section class="education">
+                        <h2>Quá trình đào tạo</h2>
+                        <ul>
+                            <li>Tốt nghiệp Bác sĩ Răng Hàm Mặt loại giỏi vào năm 1997.</li>
+                            <li>Tốt nghiệp Bác sĩ nội trú tại Đại học Y dược TPHCM năm 2002.</li>
+                            <li>Tốt nghiệp khóa đào tạo về phẫu thuật miệng - nha chu trong chương trình hợp tác giữa Đại học Y dược TPHCM và Đại học Marseille năm 2003.</li>
+                            <li>Tốt nghiệp Master Clinician Program in Implant Dentistry ở Đại học UCLA Hoa Kỳ năm 2012.</li>
+                            <li>Bảo vệ thành công luận án Tiến sĩ vào năm 2015.</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+           <!-- Phần form đặt lịch -->
+           <div class="col-md-6">
+                <div class="registration-form-container">
+                    <h3 class="text-center mb-4">Đặt Lịch</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label for="specialist" class="form-label">Chuyên gia</label>
+                            <input type="text" id="specialist" class="form-control" value="{{ doctor_name }}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">Họ và tên</label>
+                            <input type="text" id="full_name" class="form-control" placeholder="Nhập họ và tên" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Chọn ngày</label>
+                            <input type="date" id="date" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Chọn giờ</label>
+                            <input type="time" id="time" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Nhập số điện thoại" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input type="text" id="address" class="form-control" placeholder="Nhập địa chỉ" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100">Đặt Lịch Hẹn</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
