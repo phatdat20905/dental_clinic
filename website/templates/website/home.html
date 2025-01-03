@@ -103,7 +103,7 @@
     </div>
   </div>
 </div>  {% endcomment %}
-<div class="services-container">
+<div class="services-container" id="services">
   <main class="container my-4">
       <h1 class="text-primary">Dịch Vụ Nổi Bật</h1>
       <div class="category-section">
@@ -112,7 +112,7 @@
            <div class="category-card">
               <img src="{{item.image.url}}" alt="Dịch vụ" class="category-image">
               <h2 class="category-title"><a href="{%url 'categories' item.slug%}">{{item.name}}</a></h2>
-          </div>
+            </div>
            {%endfor%}
       </div>
   </main>
@@ -130,6 +130,9 @@
             class="specialty-image"
           />
           <h2 class="user-name">{{item.clinic_name}}</h2>
+          <p class="user-profession">
+            Số điện thoại: {{item.phone_number}}
+          </p>
           <p class="user-profession">
             Thời gian hoạt động: {{item.opening_hours}}
           </p>
@@ -163,7 +166,7 @@
           </h2>
           <p class="user-profession">Chuyên khoa: {{item.specialization}}</p>
           <p class="user-profession">kinh nghiệm: {{item.experience_years}}</p>
-          <a href="#" class="message-button btn">Xem chi tiết</a>
+          <a href="{%url 'dentist' item.slug%}" class="message-button btn">Xem chi tiết</a>
         </div>
         {% endfor %}
       </div>

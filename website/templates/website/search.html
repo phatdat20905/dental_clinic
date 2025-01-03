@@ -62,6 +62,21 @@
               </div>
             </div>
           </div>
+    {%elif service%}
+    <h3>Kết quả dịch vụ</h3>
+    <div class="services-container">
+      <main class="container my-4">
+          <div class="category-section">
+              <!-- Example of a category -->
+               {%for item in service%}
+               <div class="category-card">
+                  <img src="{{item.image.url}}" alt="Dịch vụ" class="category-image">
+                  <h2 class="category-title"><a href="{%url 'categories' item.slug%}">{{item.name}}</a></h2>
+                </div>
+               {%endfor%}
+          </div>
+      </main>
+    </div>
     {% else %}
         <p>Không tìm thấy kết quả phù hợp.</p>
     {% endif %}

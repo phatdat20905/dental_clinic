@@ -180,7 +180,7 @@ class Appointment(models.Model):
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, related_name="appointments")
     full_name = models.CharField(max_length=120, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
-    phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=10, null=True, blank=True)
     appointment_date = models.DateField()
     time = models.CharField(max_length=20,null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Chờ', null=True, blank=True)

@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['email','full_name', 'gender', 'phone_number', 'address', 'password1', 'password2']
+        fields = ['email','full_name', 'gender', 'phone_number', 'address', 'password1', 'password2', 'image']
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment

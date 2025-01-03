@@ -58,7 +58,7 @@ def loginPage(request):
 def registerPage(request):
     form = CreateUserForm()
     if request.method == 'POST':
-        form = CreateUserForm(request.POST)
+        form = CreateUserForm(request.POST, request.FILES)
         if form.is_valid():
             # Lưu thông tin người dùng
             user = form.save()
@@ -110,6 +110,34 @@ def clinicPage(request, slug):
         "customer": customer,
     }
     return render(request, 'website/clinic.html', context)
+
+
+def dentistPage(request, slug):
+    customer = request.user
+    dentist = get_object_or_404(Dentist, slug=slug)  # Sử dụng get_object_or_404 để xử lý lỗi
+    
+    # Lấy danh sách các phòng khám của Dentist
+    clinics = Clinic.objects.filter(dentists=dentist)
+
+    # Lấy danh sách dịch vụ từ tất cả các phòng khám của Dentist
+    services = Service.objects.filter(clinic__in=clinics)
+    
+    # Tạo dictionary cho lịch làm việc của dentist tại từng phòng khám
+    schedules_by_clinic = {
+        clinic: Schedule.objects.filter(clinic=clinic, dentist=dentist)
+        for clinic in clinics
+    }
+
+    context = {
+        "dentist": dentist,
+        "clinics": clinics,
+        "services": services,
+        "schedules_by_clinic": schedules_by_clinic,
+        "customer": customer,
+    }
+
+    return render(request, 'website/dentist_detail.html', context)
+
 
 def get_available_times(request):
     """
@@ -193,16 +221,10 @@ def book_appointment(request):
 
             # Lấy thông tin khách hàng từ người dùng đang đăng nhập
             customer = request.user
-            # # Tìm hoặc tạo khách hàng
-            # customer, created = User.objects.get_or_create(
-            #     full_name=customer_name,
-            #     phone_number=phone,
-            #     defaults={"address": address, "role": "Customer"}
-            # )
 
-            # Kiểm tra nếu khách hàng đã có lịch hẹn
-            if Appointment.objects.filter(customer=customer).exists():
-                raise ValueError("Khách hàng này đã có lịch hẹn. Vui lòng hủy lịch hẹn trước đó để đặt lịch mới.")
+            # Kiểm tra nếu khách hàng đã có lịch hẹn chưa hoàn thành
+            if Appointment.objects.filter(customer=customer).exclude(status="Hoàn thành").exists():
+                raise ValueError("Khách hàng này đã có lịch hẹn chưa hoàn thành. Vui lòng hoàn thành hoặc hủy lịch hẹn trước đó để đặt lịch mới.")
 
             # Kiểm tra xem đã có lịch hẹn trùng không
             if Appointment.objects.filter(
@@ -262,7 +284,7 @@ def book_appointment(request):
         except Exception as e:
             messages.error(request, f"Có lỗi xảy ra: {e}")
 
-        return redirect("home")
+        return redirect("appointment_fail")
 
     else:
         clinics = Clinic.objects.all()
@@ -277,28 +299,29 @@ def book_appointment(request):
 def appointment_access(request):
     return render(request, "website/appointment_access.html")
 
+def appointment_fail(request):
+    return render(request, "website/appointment_fail.html")
+
+
 
 def searchPage(request):
     if request.method == "POST":
         search = request.POST.get("searched", "").strip()  # Lấy từ khóa tìm kiếm và loại bỏ khoảng trắng thừa
-        
+
         # Tìm kiếm phòng khám (không phân biệt hoa thường)
         clinic_results = Clinic.objects.filter(clinic_name__icontains=search)
         
         # Tìm kiếm nha sĩ (không phân biệt hoa thường)
-        dentist_results = User.objects.filter(full_name__icontains=search, role="Dentist")
+        dentist_details = Dentist.objects.filter(dentist__full_name__icontains=search)  # Tìm kiếm theo tên trong bảng Dentist
         
-        # Lấy thông tin từ Dentist model (nếu có)
-        dentist_ids = dentist_results.values_list('id', flat=True)  # Lấy danh sách ID của nha sĩ
-        dentist_details = Dentist.objects.filter(id__in=dentist_ids)  # Lấy thông tin từ bảng Dentist
-        
-        print('Dentist IDs:', list(dentist_ids))  # Debug: In ra danh sách ID của nha sĩ
-        print('Dentist Details:', dentist_details)  # Debug: In ra thông tin chi tiết nha sĩ
+        # Tìm kiếm dịch vụ (không phân biệt hoa thường)
+        service_results = Category.objects.filter(name__icontains=search)
         
         context = {
             "search": search,
             "clinic": clinic_results,
             "dentist": dentist_details,  # Trả về thông tin chi tiết từ bảng Dentist
+            "service": service_results,
         }
         return render(request, "website/search.html", context)
     
@@ -395,12 +418,6 @@ def medical_records(request, slug):
     return render(request, 'website/medical_record_detail.html', context)
 
 
-
-def testPage(request):
-    return render(request, "website/test.html")
-
-
-
 def categories(request, slug):
     selected_category = get_object_or_404(Category, slug=slug)
     service_items = ServiceItem.objects.filter(category=selected_category)
@@ -410,8 +427,14 @@ def categories(request, slug):
     }
     return render(request, 'website/services.html', context)
 
+def aboutPage(request):
+    return render(request, "website/about.html")
 
+def contactPage(request):
+    return render(request, "website/contact.html")
 
+def testPage(request):
+    return render(request, "website/test.html")
 
 
 

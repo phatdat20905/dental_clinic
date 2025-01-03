@@ -42,7 +42,6 @@
     <link rel="stylesheet" href="{% static 'website/css/services.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/medical_record.css' %}?{% now "U" %}" />
 
-
     
 
     <!--js-->
@@ -64,9 +63,6 @@
       integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
       crossorigin="anonymous"
     ></script>
-    {% comment %} <script type="text/javascript">
-      var user = {{request.user}}
-    </script> {% endcomment %}
   </head>
   <body>
      <!-- Topbar Start -->
@@ -80,10 +76,10 @@
           <div class="col-md-6 text-center text-lg-end">
               <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
                   <div class="me-3 pe-3 border-end py-2">
-                      <p class="m-0"><i class="fa fa-envelope-open me-2"></i>nhakhoaapec@gmail.com</p>
+                      <p class="m-0"><i class="fa fa-envelope-open me-2"></i>dentalhealth@gmail.com</p>
                   </div>
                   <div class="py-2">
-                      <p class="m-0"><i class="fa fa-phone-alt me-2"></i>+0909 902 626</p>
+                      <p class="m-0"><i class="fa fa-phone-alt me-2"></i>+0373 684 908</p>
                   </div>
               </div>
           </div>
@@ -111,7 +107,7 @@
                           <a href="{%url 'categories' item.slug%}" class="dropdown-item">{{ item.name }}</a>
                       {% endfor %}
                   </div>
-              </div>              
+                </div>              
                 <a href="" class="nav-item nav-link">Liên hệ</a>
             </div>
             {% if user.is_authenticated %}
@@ -153,41 +149,11 @@
         </div>
       </nav> 
   <!-- Navbar End -->
-   
-  {% comment %} <div class="home-header-container">
-    <div class="home-header-content">
-      <div class="left-content">
-        <img class="bt-dautrang" height="40" src="{% static "website/img/logo/logo-dentalhealth.png"%}" alt="DentalHealth/">
-      </div>
-      <div class="center-content">
-        <div className='child-content'> 
-            <div><b>Giới thiệu</b></div>
-            <div className='subs-title'>Về DentalHealth</div>
-        </div>
-        <div className='child-content'> 
-            <div><b>Cẩm nang</b></div>
-            <div className='subs-title'>Chăm sóc răng miệng</div>
-        </div>
-        <div className='child-content'> 
-            <div><b>Phòng nha</b></div>
-            <div className='subs-title'>Nha khoa uy tín</div>
-        </div>
-        <div className='child-content'> 
-            <div><b>Liên hệ</b></div>
-            <div className='subs-title'>Liên hệ hợp tác</div>
-        </div>
-      </div>
-      <div class="right-content">
-        <a href="" class="btn btn-primary py-2 px-4 ms-3" style="min-width: 105px">Đặt lịch</a>
-        <a href="/login" class="btn btn-outline-primary py-2 px-4 ms-3" style="min-width: 130px">Đăng nhập</a>
-      </div>
-    </div>
-  </div> {% endcomment %}
+
     {% block banner-slider%} {% endblock banner-slider%}
     {% block register-content%} {% endblock register-content%}
     {% block clinic-content%} {% endblock clinic-content%}
     {% block search-content%} {% endblock search-content%}
-    
     <!--main body-->
     {% block main-content %}{% endblock main-content %}
 
@@ -198,29 +164,27 @@
               <div class="col-lg-3 col-md-6">
                   <h3 class="text-white mb-4">Quick Links</h3>
                   <div class="d-flex flex-column justify-content-start">
-                      <a class="text-light mb-2" href="{%url 'home'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Trang chủ</a>
-                      <a class="text-light mb-2" href=""><i class="bi bi-arrow-right text-primary me-2"></i>Giới thiệu</a>
-                      <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Liên hệ</a>
-                      {% comment %} <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i></a> {% endcomment %}
-                      <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
+                    <a class="text-light mb-2" href="{%url 'home'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Trang chủ</a>
+                    <a class="text-light mb-2" href="{%url 'about' %}"><i class="bi bi-arrow-right text-primary me-2"></i>Giới thiệu về chúng tôi</a>
+                    <a class="text-light mb-2" href="#services"><i class="bi bi-arrow-right text-primary me-2"></i>Dịch vụ</a>
+                    <a class="text-light" href="{%url 'contact'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Liên hệ</a>
                   </div>
               </div>
               <div class="col-lg-3 col-md-6">
                   <h3 class="text-white mb-4">Popular Links</h3>
                   <div class="d-flex flex-column justify-content-start">
-                      <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
-                      <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
-                      <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
-                      <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Latest Blog</a>
-                      <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
+                      <a class="text-light mb-2" href="{%url 'home'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Trang chủ</a>
+                      <a class="text-light mb-2" href="{%url 'about' %}"><i class="bi bi-arrow-right text-primary me-2"></i>Giới thiệu về chúng tôi</a>
+                      <a class="text-light mb-2" href="#services"><i class="bi bi-arrow-right text-primary me-2"></i>Dịch vụ</a>
+                      <a class="text-light" href="{%url 'contact'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Liên hệ</a>
                   </div>
               </div>
               <div class="col-lg-3 col-md-6">
                   <h3 class="text-white mb-4">Get In Touch</h3>
                   <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>Địa chỉ 1: 359C – 359D Đỗ Xuân Hợp, Phường Phước Long B – TP. Thủ Đức, TP. HCM</p>
                   <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>Địa chỉ 2: A3 – A4 Số 99 Lê Văn Việt, Phường Tăng Nhơn Phú A, TP. Thủ Đức, TP.HCM</p>
-                  <p class="mb-2"><i class="bi bi-envelope-open text-primary me-2"></i>nhakhoaapec@gmail.com</p>
-                  <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+0909 902 626</p>
+                  <p class="mb-2"><i class="bi bi-envelope-open text-primary me-2"></i>dentalhealth@gmail.com</p>
+                  <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+0373 684 908</p>
               </div>
               <div class="col-lg-3 col-md-6">
                   <h3 class="text-white mb-4">Follow Us</h3>

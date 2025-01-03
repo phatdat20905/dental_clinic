@@ -10,8 +10,8 @@ from datetime import datetime, timedelta
 
 # Create your views here.
 def indexPage(request):
-    # if request.user.role != 'ClinicOwner':
-    #     return render(request, '403.html', {"message": "You are not authorized to view this page."})
+    if request.user.role == 'Customer':
+        return render(request, '403.html', {"message": "You are not authorized to view this page."})
 
     clinics = Clinic.objects.filter(owner=request.user)
     context = {
@@ -59,7 +59,7 @@ def cancel_schedule(request, schedule_id):
         # Lấy lịch hẹn theo ID
         schedule = get_object_or_404(Schedule, id=schedule_id)
         schedule.delete()
-        # Kiểm tra trạng thái lịch hẹn
+        # # Kiểm tra trạng thái lịch hẹn
         # if schedule.status == "Xác nhận":
         #     messages.error(request, "Lịch hẹn đã được xác nhận và không thể hủy.")
         # else:
@@ -83,7 +83,7 @@ def add_schedule(request):
             raise ValueError("Bạn không có quyền thêm lịch làm việc.")
 
         dentist = Dentist.objects.get(dentist=user)  # Lấy thông tin nha sĩ từ người dùng
-        clinics = Clinic.objects.all()  # Lấy danh sách phòng khám để hiển thị trong form
+        clinics = Clinic.objects.filter(dentists=dentist)  # Lấy danh sách phòng khám để hiển thị trong form
 
         if request.method == "POST":
             # Lấy dữ liệu từ form
