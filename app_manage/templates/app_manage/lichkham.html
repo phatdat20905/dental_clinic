@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentalHealth</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2563eb;
+            color: white;
+            height: 100vh;
+            padding: 1rem;
+        }
+        .sidebar h2 {
+            margin-bottom: 1.5rem;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar ul li {
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar ul li a span {
+            margin-left: 0.5rem;
+        }
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 5px;
+            padding: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+        }
+        .search-bar button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        table th {
+            background-color: #f9fafb;
+            font-weight: bold;
+        }
+        .actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .actions .btn-add {
+            background-color: #4caf50;
+            color: white;
+        }
+        .actions .btn-cancel {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>DentalHealth</h2>
+        <ul>
+            <li><a href="#"><span>🏠</span> Trang chủ</a></li>
+            <li><a href="#"><span>📊</span> Dashboard</a></li>
+            <li><a href="#"><span>📅</span> Lịch làm việc</a></li>
+            <li><a href="#"><span>📋</span> Lịch hẹn</a></li>
+            <li><a href="#"><span>👤</span> Hồ sơ cá nhân</a></li>
+            <li><a href="#"><span>⚙️</span> Settings</a></li>
+            <li><a href="#" style="color: #f44336;"><span>🔓</span> Logout</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <header>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <button>🔍</button>
+            </div>
+            <div class="notifications">
+                <button>🔔</button>
+                <button>👤</button>
+            </div>
+        </header>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nha sĩ</th>
+                        <th>Phòng khám</th>
+                        <th>Ngày</th>
+                        <th>Thời gian</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Trần Văn Tùng</td>
+                        <td>Phòng khám Tâm Đức</td>
+                        <td>Jan. 2, 2025</td>
+                        <td>13:00-13:45</td>
+                        <td class="actions">
+                            <button class="btn-add">Thêm</button>
+                            <button class="btn-cancel">Hủy</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Nguyễn Thị Mai</td>
+                        <td>Phòng khám Đại Việt</td>
+                        <td>Jan. 2, 2025</td>
+                        <td>14:00-14:45</td>
+                        <td class="actions">
+                            <button class="btn-add">Thêm</button>
+                            <button class="btn-cancel">Hủy</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Phạm Hoàng Nam</td>
+                        <td>Phòng khám Hồng Hà</td>
+                        <td>Jan. 3, 2025</td>
+                        <td>15:00-15:45</td>
+                        <td class="actions">
+                            <button class="btn-add">Thêm</button>
+                            <button class="btn-cancel">Hủy</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Trần Văn Tùng</td>
+                        <td>Phòng khám Tâm Đức</td>
+                        <td>Dec. 27, 2024</td>
+                        <td>08:00-08:45</td>
+                        <td class="actions">
+                            <button class="btn-add">Thêm</button>
+                            <button class="btn-cancel">Hủy</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Nguyễn Minh Hải</td>
+                        <td>Phòng khám Đại An</td>
+                        <td>Dec. 28, 2024</td>
+                        <td>08:00-08:45</td>
+                        <td class="actions">
+                            <button class="btn-add">Thêm</button>
+                            <button class="btn-cancel">Hủy</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>zzz
+        </div>
+    </div>
+</body>
+</html>
