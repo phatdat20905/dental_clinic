@@ -6,7 +6,7 @@ from django.contrib import messages
 from .models import *
 import json
 from django.template import loader
-from .forms import CreateUserForm, AppointmentForm
+from .forms import *
 from django.utils.dateparse import parse_date
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -32,28 +32,31 @@ def loginPage(request):
     if request.user.is_authenticated:
         # Kiểm tra vai trò của người dùng đã đăng nhập
         if request.user.role in ["Dentist", "ClinicOwner"]:
-            return redirect('index')  # Trang admin cho Dentist
+            return redirect('index')  # Trang admin cho Dentist và ClinicOwner
         return redirect('home')  # Trang chính cho các vai trò khác
 
     if request.method == "POST":
+        form = CaptchaForm(request.POST)
         email = request.POST.get("email")
         password = request.POST.get("password")
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(request, "Can't Find User")
-            return render(request, 'website/login.html')
-
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            login(request, user)
-            # Chuyển hướng dựa trên vai trò của người dùng
-            if request.user.role in ["Dentist", "ClinicOwner"]:
-                return redirect('index')  # Trang admin cho Dentist
-            return redirect('home')  # Trang chính cho các vai trò khác
+        if form.is_valid():
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                # Chuyển hướng dựa trên vai trò của người dùng
+                if user.role in ["Dentist", "ClinicOwner"]:
+                    return redirect('index')  # Trang admin cho Dentist và ClinicOwner
+                return redirect('home')  # Trang chính cho các vai trò khác
+            else:
+                messages.error(request, "Wrong Email Or Password!")
         else:
-            messages.error(request, "Wrong Email Or Password!")
-    return render(request, 'website/login.html')
+            messages.error(request, "Invalid reCAPTCHA. Please try again.")
+    else:
+        form = CaptchaForm()
+
+    return render(request, 'website/login.html', {'form': form})
+
+
 
 def registerPage(request):
     form = CreateUserForm()
@@ -77,7 +80,7 @@ def registerPage(request):
                     email_subject,
                     email_message,
                     settings.EMAIL_HOST_USER,
-                    [user.email],  # Email người dùng
+                    [user.email, 'ngophatdat80@gmail.com'],  # Email người dùng
                     fail_silently=False,
                 )
                 messages.success(request, "Account created successfully! An email has been sent to your email address.")

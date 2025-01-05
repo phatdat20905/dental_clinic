@@ -1,4 +1,4 @@
-{% load static %}
+{% comment %} {% load static %}
 <!DOCTYPE html>
 <!-- Coding by CodingLab | www.codinglabweb.com-->
 <html lang="en">
@@ -21,5 +21,100 @@
   </form>
   <!-- JavaScript -->
   <script src="{%static "website/js/login.js"%}"></script>
+</body>
+</html> {% endcomment %}
+
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <link rel="stylesheet" href="{% static 'website/css/register.css' %}?{% now "U" %}" />
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="register-container">
+    <a href="/" class="home-icon">
+      <i class='bx bx-home'></i>
+    </a>
+    <h2>Tạo Tài Khoản</h2>
+    <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            {% if form.errors.email %}
+                <div class="error">{{ form.errors.email }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <input type="text" id="full_name" name="full_name" placeholder="Họ và Tên" required>
+            {% if form.errors.full_name %}
+                <div class="error">{{ form.errors.full_name }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+          <input type="text" id="address" name="address" placeholder="Địa chỉ" required>
+          {% if form.errors.address %}
+              <div class="error">{{ form.errors.address }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-row">
+            <select id="gender" name="gender" required>
+                <option value="">Giới tính</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+            {% if form.errors.gender %}
+                <div class="error">{{ form.errors.gender }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <input type="tel" id="phone_number" name="phone_number" placeholder="Số Điện Thoại" required>
+            {% if form.errors.phone_number %}
+                <div class="error">{{ form.errors.phone_number }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <input type="password" id="password1" name="password1" placeholder="Mật Khẩu" required>
+            {% if form.errors.password1 %}
+                <div class="error">{{ form.errors.password1 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <input type="password" id="password2" name="password2" placeholder="Xác Nhận Mật Khẩu" required>
+            {% if form.errors.password2 %}
+                <div class="error">{{ form.errors.password2 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <input type="file" id="image" name="image" accept="image/*">
+            {% if form.errors.image %}
+                <div class="error">{{ form.errors.image }}</div>
+            {% endif %}
+        </div>
+        <div class="form-row">
+          {{ form.captcha }}
+          {% if form.errors.captcha %}
+              <div class="error">{{ form.errors.captcha }}</div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn-register">Đăng Ký</button>
+    </form>
+    <p style="text-align: center;">Có tài khoản? <a href="/register">Đăng nhập ngay!</a></p>
+</div>
+
 </body>
 </html>

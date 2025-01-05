@@ -8,29 +8,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Responsive Login and Signup Form </title>
   <!-- CSS -->
-  <link rel="stylesheet" href="{%static "website/css/login.css"%}">
+  <link rel="stylesheet" href="{% static 'website/css/login.css' %}?{% now "U" %}" />
+
   <!-- Boxicons CSS -->
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-  <h5>Login</h5>
-  <form method="post" action=''>
-    {% csrf_token %}
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required/>
+  <div class="login-container">
+    <div class="login-content">
+        <a href="/" class="home-icon">
+          <i class='bx bx-home'></i>
+        </a>
+        <h2 style="text-align: center;">Đăng Nhập</h2>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" required/>
+            {% if form.errors.email %}
+                <div class="error">{{ form.errors.email }}</div>
+            {% endif %}
+            
+            <label for="password">Mật khẩu:</label>
+            <input type="password" id="password" name="password" required style="margin-bottom: 10px">
+            {% if form.errors.password %}
+                <div class="error">{{ form.errors.password }}</div>
+            {% endif %}
+            
+            {{ form.captcha }}
+            {% if form.errors.captcha %}
+                <div class="error">{{ form.errors.captcha }}</div>
+            {% endif %}
+            
+            <button type="submit">Đăng Nhập</button>
+        </form>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <p style="text-align: center;">Chưa có tài khoản? <a href="/register">Đăng ký ngay!</a></p>
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required/>
-      <i class='bx bx-hide eye-icon'></i>
-    </div>
-    <button type="submit">Login</button>
-    <div class="form-link">
-      <span>Don't have an account? <a href="">Signup</a></span>
-    </div>
-  </form>
+  </div>
+
   <!-- JavaScript -->
   <script src="{%static "website/js/login.js"%}"></script>
 </body>
 </html>
+
+{% comment %} {%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'website/css/login.css' %}?{% now "U" %}" />
+
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-content">
+        <a href="/" class="home-icon">
+          <i class="fas fa-home"></i>
+        </a>
+        <h2>Đăng Nhập</h2>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" required/>
+
+            <label for="password">Mật khẩu:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Đăng Nhập</button>
+        </form>
+        <p>Chưa có tài khoản? <a href="/register">Đăng ký ngay!</a></p>
+    </div>
+</div>
+
+
+</body>
+</html> {% endcomment %}

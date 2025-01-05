@@ -1,12 +1,15 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import *
+from django_recaptcha.fields import ReCaptchaField 
+from django_recaptcha.widgets import ReCaptchaV2Checkbox 
 from django.core.exceptions import ValidationError
+from .models import *
 
 class CreateUserForm(UserCreationForm):
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)  
     class Meta:
         model = User
-        fields = ['email','full_name', 'gender', 'phone_number', 'address', 'password1', 'password2', 'image']
+        fields = ['email','full_name', 'gender', 'phone_number', 'address', 'password1', 'password2', 'image', 'captcha']
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
@@ -37,4 +40,5 @@ class ClinicAdminForm(forms.ModelForm):
         self.fields['owner'].queryset = User.objects.filter(role='ClinicOwner')
 
    
-
+class CaptchaForm(forms.Form): 
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)  

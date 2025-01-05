@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app_manage',
     'tinymce',
     'django_cleanup.apps.CleanupConfig', # should be placed after your apps
+    'django_recaptcha',
 ]
 
 MIDDLEWARE = [
@@ -161,3 +162,9 @@ TINYMCE_DEFAULT_CONFIG = {
     "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount",
     "toolbar": "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
 }
+
+
+#captcha
+RECAPTCHA_PUBLIC_KEY = "6LeEe64qAAAAAHMTTLjQoqMweHftWIkibs45fK7u"
+RECAPTCHA_PRIVATE_KEY = "6LeEe64qAAAAAIri-jTVfFUjfi2PzAXLBpP0nQUA"
+# SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
