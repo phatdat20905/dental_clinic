@@ -38,6 +38,8 @@
     <link rel="stylesheet" href="{% static 'website/css/services.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/medical_record.css' %}?{% now "U" %}" />
     <link rel="stylesheet" href="{% static 'website/css/appointment.css' %}?{% now "U" %}" />
+    <link rel="stylesheet" href="{% static 'website/css/about.css' %}?{% now "U" %}" />
+    <link rel="stylesheet" href="{% static 'website/css/contact.css' %}?{% now "U" %}" />
 
 
     
@@ -68,7 +70,7 @@
       <div class="row gx-0">
           <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
               <div class="d-inline-flex align-items-center">
-                  <small class="py-2"><i class="far fa-clock text-primary me-2"></i>Opening Hours: Mon - Fri : 8.00 am - 10.00 pm Sat : 8:00 am - 7:00 pm</small>
+                  <small class="py-2"><i class="far fa-clock text-primary me-2"></i>Giờ làm việc: Thứ 2 - Thứ 7 : 8.00 am - 10.00 pm Chủ nhật : 8:00 am - 7:00 pm</small>
               </div>
           </div>
           <div class="col-md-6 text-center text-lg-end">
@@ -92,12 +94,12 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <form class="d-flex" method="POST" action="{%url 'search'%}">
             {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched" required>
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searched" required>
+            <button class="btn btn-outline-success" type="submit" style="min-width: 95px;">Tìm kiếm</button>
           </form>
             <div class="navbar-nav ms-auto py-0">
                 <a href="{%url 'home'%}" class="nav-item nav-link active">Trang chủ</a>
-                <a href="" class="nav-item nav-link">Giới thiệu</a>           
+                <a href="{%url 'about'%}" class="nav-item nav-link">Giới thiệu</a>           
                 <div class="nav-item dropdown">
                   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dịch vụ</a>
                   <div class="dropdown-menu m-0">
@@ -106,7 +108,7 @@
                       {% endfor %}
                   </div>
                 </div>              
-                <a href="" class="nav-item nav-link">Liên hệ</a>
+                <a href="{%url 'contact'%}" class="nav-item nav-link">Liên hệ</a>
             </div>
             {% if user.is_authenticated %}
             <div>
@@ -116,7 +118,7 @@
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
                   {%if request.user.image%}
-                  src="{{request.user.image.url}}"
+                  src="{{request.user.ImageURL}}"
                   {%else%}
                   src="https://mdbootstrap.com/img/Photos/Avatars/img%20(9).jpg"
                   {%endif%}
@@ -165,6 +167,8 @@
                     <a class="text-light mb-2" href="{%url 'home'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Trang chủ</a>
                     <a class="text-light mb-2" href="{%url 'about' %}"><i class="bi bi-arrow-right text-primary me-2"></i>Giới thiệu về chúng tôi</a>
                     <a class="text-light mb-2" href="#services"><i class="bi bi-arrow-right text-primary me-2"></i>Dịch vụ</a>
+                    <a class="text-light mb-2" href="#clinic"><i class="bi bi-arrow-right text-primary me-2"></i>Phòng khám</a>
+                    <a class="text-light mb-2" href="#dentist"><i class="bi bi-arrow-right text-primary me-2"></i>Nha sĩ</a>
                     <a class="text-light" href="{%url 'contact'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Liên hệ</a>
                   </div>
               </div>
@@ -174,18 +178,20 @@
                       <a class="text-light mb-2" href="{%url 'home'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Trang chủ</a>
                       <a class="text-light mb-2" href="{%url 'about' %}"><i class="bi bi-arrow-right text-primary me-2"></i>Giới thiệu về chúng tôi</a>
                       <a class="text-light mb-2" href="#services"><i class="bi bi-arrow-right text-primary me-2"></i>Dịch vụ</a>
+                      <a class="text-light mb-2" href="#clinic"><i class="bi bi-arrow-right text-primary me-2"></i>Phòng khám</a>
+                      <a class="text-light mb-2" href="#dentist"><i class="bi bi-arrow-right text-primary me-2"></i>Nha sĩ</a>
                       <a class="text-light" href="{%url 'contact'%}"><i class="bi bi-arrow-right text-primary me-2"></i>Liên hệ</a>
                   </div>
               </div>
               <div class="col-lg-3 col-md-6">
-                  <h3 class="text-white mb-4">Get In Touch</h3>
+                  <h3 class="text-white mb-4">Địa chỉ</h3>
                   <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>Địa chỉ 1: 359C – 359D Đỗ Xuân Hợp, Phường Phước Long B – TP. Thủ Đức, TP. HCM</p>
                   <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>Địa chỉ 2: A3 – A4 Số 99 Lê Văn Việt, Phường Tăng Nhơn Phú A, TP. Thủ Đức, TP.HCM</p>
                   <p class="mb-2"><i class="bi bi-envelope-open text-primary me-2"></i>dentalhealth@gmail.com</p>
                   <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+0373 684 908</p>
               </div>
               <div class="col-lg-3 col-md-6">
-                  <h3 class="text-white mb-4">Follow Us</h3>
+                  <h3 class="text-white mb-4">Liên hệ chúng tôi</h3>
                   <div class="d-flex">
                       <a class="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
                       <a class="btn btn-lg btn-primary btn-lg-square rounded me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>

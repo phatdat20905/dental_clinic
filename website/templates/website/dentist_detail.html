@@ -7,6 +7,10 @@
     <div class="info-container">
       <div class="clinic-info">
         <h1>{{dentist.dentist.full_name}}</h1>
+        <p class="phone">
+          <i class="fas fa-phone"></i>
+          {{dentist.dentist.phone_number}}
+        </p>
         <p class="address">
           <i class="fas fa-map-marker-alt"></i>
           {{dentist.dentist.address}}
@@ -31,64 +35,66 @@
         </div>
       </div>
     </div>
+    {% if request.user.role == "Customer"%}
     <div class="col-md-3">
       <!-- Hiển thị thông báo -->
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-      <div class="booking-form"> 
-        <h3>Đặt lịch</h3>
-        <form method="POST" action="{% url 'book_appointment' %}">
-          {% csrf_token %}
-          <label for="clinic">Phòng khám</label>
-          <select id="clinic" name="clinic" required>
-            {%for clinic in clinics%}
-            <option value="{{ clinic.id }}">{{ clinic.clinic_name }}</option>
-            {% endfor %}
-          </select>
-
-          <label for="dentist">Bác sĩ:</label>
-          <select id="dentist" name="dentist" required>
-            <option value="{{ dentist.id }}">{{ dentist.dentist.full_name }}</option>
-          </select>
-
-          <label for="service">Dịch vụ</label>
-          <select id="service" name="service" required>
-            {%for item in services%}
-            <option value="{{ item.id }}">{{item.service_name}}</option>
-            {% endfor %}
-          </select>
-
-          <label for="date">Ngày:</label>
-          <input type="date" id="date" name="date" required/>
-
-          <label for="time">Thời gian:</label>
-          <select id="time" name="time" required>
-            <option value="">Chọn thời gian</option>
-          </select>
-          
-          <label for="name">Họ và tên</label>
-          <input type="text" id="name" name="name" required/>
-
-          <label for="phone">Số điện thoại</label>
-          <input type="tel" id="phone" name="phone" required/>
-
-          <label for="address">Địa chỉ</label>
-          <input type="text" id="address" name="address" required/>
-          {%for message in messages%}
-          <p id="message">{{message}}</p>
-          {%endfor%}
-
-          <button type="submit" style="margin-top: 5px">Đặt lịch hẹn</button>
-        </form>
+      {% if messages %}
+      <div class="messages">
+          {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+              {{ message }}
+          </div>
+          {% endfor %}
       </div>
+      {% endif %}
+        <div class="booking-form"> 
+          <h3>Đặt lịch</h3>
+          <form method="POST" action="{% url 'book_appointment' %}">
+            {% csrf_token %}
+            <label for="clinic">Phòng khám</label>
+            <select id="clinic" name="clinic" required>
+              {%for clinic in clinics%}
+              <option value="{{ clinic.id }}">{{ clinic.clinic_name }}</option>
+              {% endfor %}
+            </select>
+
+            <label for="dentist">Bác sĩ:</label>
+            <select id="dentist" name="dentist" required>
+              <option value="{{ dentist.id }}">{{ dentist.dentist.full_name }}</option>
+            </select>
+
+            <label for="service">Dịch vụ</label>
+            <select id="service" name="service" required>
+              {%for item in services%}
+              <option value="{{ item.id }}">{{item.service_name}}</option>
+              {% endfor %}
+            </select>
+
+            <label for="date">Ngày:</label>
+            <input type="date" id="date" name="date" required/>
+
+            <label for="time">Thời gian:</label>
+            <select id="time" name="time" required>
+              <option value="">Chọn thời gian</option>
+            </select>
+            
+            <label for="name">Họ và tên</label>
+            <input type="text" id="name" name="name" required/>
+
+            <label for="phone">Số điện thoại</label>
+            <input type="tel" id="phone" name="phone" required/>
+
+            <label for="address">Địa chỉ</label>
+            <input type="text" id="address" name="address" required/>
+            {%for message in messages%}
+            <p id="message">{{message}}</p>
+            {%endfor%}
+
+            <button type="submit" style="margin-top: 5px">Đặt lịch hẹn</button>
+          </form>
+        </div>
     </div>
+    {%endif%}
   </div>
 </div>
 {% endblock clinic-content%}

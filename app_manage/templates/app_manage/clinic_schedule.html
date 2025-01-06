@@ -4,7 +4,7 @@
 <div class="schedule-container">
     <h2 class="text-center">Lịch làm việc của phòng khám: {{ clinic.clinic_name }}</h2>
     {% if schedules %}
-        <ul class="schedule-list">
+        {% comment %} <ul class="schedule-list">
             {% for schedule in schedules %}
                 <li class="schedule-item">
                     <div class="schedule-details">
@@ -14,7 +14,7 @@
                     </div>
                 </li>
             {% endfor %}
-        </ul>
+        </ul> {% endcomment %}
         <div class="appointment-table-container">
             <table id="example" class="display" style="width:100%">
                 <thead>

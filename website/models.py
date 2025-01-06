@@ -56,6 +56,10 @@ class Clinic(models.Model):
     """
     Clinic model to store information about the dental clinics.
     """
+    STATUS_CHOICES = [
+        ('Chờ', 'Chờ'),
+        ('Xác nhận', 'Xác nhận'),
+    ]
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owned_clinics")
     clinic_name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
@@ -69,6 +73,7 @@ class Clinic(models.Model):
     slot_duration_minutes = models.PositiveIntegerField(default=45)
     is_approved = models.BooleanField(default=False)
     image = models.ImageField(upload_to='website/img/clinic', null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Chờ', null=True, blank=True)
 
     def __str__(self):
         return self.clinic_name

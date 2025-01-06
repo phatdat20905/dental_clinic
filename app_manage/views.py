@@ -250,7 +250,7 @@ def my_clinics(request):
     if request.user.role != 'ClinicOwner':
         return render(request, '403.html', {"message": "You are not authorized to view this page."})
 
-    clinics = Clinic.objects.filter(owner=request.user)
+    clinics = Clinic.objects.filter(owner=request.user, status = "Xác nhận")
     context = {
         'clinics': clinics,
     }

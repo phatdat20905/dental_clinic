@@ -117,7 +117,7 @@
       </div>
   </main>
 </div>
-<div class="clinic-container">
+<div class="clinic-container" id="clinic">
   <div class="title">Phòng nha uy tín</div>
   <div class="container swiper">
     <div class="slider-wrapper">
@@ -149,7 +149,7 @@
     </div>
   </div>
 </div>
-<div class="dentist-container">
+<div class="dentist-container" id="dentist">
   <div class="title">Nha sĩ nổi bật</div>
   <div class="container swiper">
     <div class="slider-wrapper">
@@ -165,7 +165,7 @@
             {{item.position}}: {{item.dentist.full_name}}
           </h2>
           <p class="user-profession">Chuyên khoa: {{item.specialization}}</p>
-          <p class="user-profession">kinh nghiệm: {{item.experience_years}}</p>
+          <p class="user-profession">Số điện thoại: {{item.dentist.phone_number}}</p>
           <a href="{%url 'dentist' item.slug%}" class="message-button btn">Xem chi tiết</a>
         </div>
         {% endfor %}

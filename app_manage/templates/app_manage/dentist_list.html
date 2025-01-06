@@ -2,7 +2,7 @@
 
 {% block main-content %}
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Danh sách nha sĩ của phòng khám: {{ clinic.clinic_name }}</h1>
+    <h1 class="text-center mb-4" style="color: #007bff;">Danh sách nha sĩ của phòng khám: {{ clinic.clinic_name }}</h1>
     <div class="text-center" style="margin-bottom: 20px">
         <a href="{% url 'add_dentist' clinic.slug %}" class="btn btn-success btn-lg">Thêm nha sĩ</a>
     </div>
@@ -22,7 +22,7 @@
                                 <strong>Vị trí:</strong> {{ dentist.position }}<br>
                                 <strong>Kinh nghiệm:</strong> {{ dentist.experience_years|default:"Chưa cập nhật" }} năm
                             </p>
-                            {% comment %} <a href="{% url 'dentist_detail' dentist.id %}" class="btn btn-primary btn-sm">Chi tiết</a> {% endcomment %}
+                            <a href="{% url 'dentist' dentist.slug %}" class="btn btn-primary btn-sm">Chi tiết</a>
                             <a href="{% url 'edit_dentist' clinic.slug dentist.id %}" class="btn btn-success btn-sm">Sửa</a>
                             <a href="{% url 'delete_dentist' clinic.slug dentist.id %}" class="btn btn-danger btn-sm">Xóa</a>
                         </div>

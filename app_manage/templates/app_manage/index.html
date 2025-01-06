@@ -73,7 +73,7 @@
             <li><a href="{%url 'list_dentists' clinic.slug%}"><i class='bx bx-group'></i>Nha sĩ</a></li>
             {%endfor%} {% endcomment %}
             {%endif%}
-            <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
+            {% comment %} <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li> {% endcomment %}
         </ul>
         <ul class="side-menu">
             <li>
@@ -104,7 +104,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="{{request.user.image.url}}">
+                <img src="{{request.user.ImageURL}}">
             </a>
         </nav>
 

@@ -7,6 +7,10 @@
     <div class="info-container">
       <div class="clinic-info">
         <h1>{{clinic.clinic_name}}</h1>
+        <p class="phone">
+          <i class="fas fa-phone"></i>
+          {{clinic.phone_number}}
+        </p>
         <p class="address">
           <i class="fas fa-map-marker-alt"></i>
           {{clinic.address}}
@@ -97,6 +101,7 @@
         </div>
       </div>
     </div>
+    {%if request.user.role == "Customer"%}
     <div class="col-md-4">
       <div class="booking-form"> 
         <h3>Đặt lịch</h3>
@@ -145,6 +150,7 @@
         </form>
       </div>
     </div>
+    {%endif%}
   </div>
 </div>
 {% endblock clinic-content%}

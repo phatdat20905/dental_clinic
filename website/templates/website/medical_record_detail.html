@@ -3,6 +3,7 @@
 {% block main-content %}
 <div class="container">
     <h1>Kết Quả Khám Bệnh</h1>
+    {%if medical_record%}
     <div class="card">
         <div class="card-body">
             <h2>Thông tin chi tiết</h2>
@@ -19,5 +20,8 @@
             {% endif %}
         </div>
     </div>
+    {%else%}
+    <p>Chưa có kết quả khám nào cho bệnh nhân này.</p>
+    {% endif %}
 </div>
 {% endblock %}

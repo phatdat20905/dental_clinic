@@ -1,0 +1,17 @@
+.about-container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.about-container h1, h2, h3 {
+    color: #35424a;
+}
+.about-container p, ul {
+    line-height: 1.6;
+}
+.about-container ul {
+    list-style-type: none;
+    padding: 0;
+}
