@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mssql
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver2022
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'YourPassword123!'
+      MSSQL_HOST: 'localhost' 
+      MSSQL_PORT: '1433' 
+      MSSQL_DB: 'dental_clinic'
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./data:/var/opt/mssql/data
+      - ./log:/var/opt/mssql/log
+      - ./secrets:/var/opt/mssql/secrets
+    command: > 
+      /bin/bash -c " /opt/mssql/bin/sqlservr & sleep 30 & /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P YourPassword123! -Q 'CREATE DATABASE dental_clinic;' & wait"
+volumes: 
+  mssql_data: 
+  mssql_log: 
+  mssql_secrets:

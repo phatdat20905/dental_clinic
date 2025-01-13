@@ -84,11 +84,13 @@ DATABASES = {
         "NAME": "dental_clinic",
         "USER": "SA",
         "PASSWORD": "YourPassword123!",
-        "HOST": "localhost",
-        "PORT": "1444",
+        "HOST": "mssql",
+        "PORT": "1433",
         "OPTIONS": {
             "driver": "ODBC Driver 17 for SQL Server", 
             "trusted_connection": "yes",
+            "TrustServerCertificate": "yes",
+            "Connection Timeout": 600, # Tăng thời gian chờ kết nối
         }
     }
 }
