@@ -71,7 +71,6 @@ class Clinic(models.Model):
     max_patients_per_slot = models.PositiveIntegerField()
     max_treatment_per_slot = models.PositiveIntegerField()
     slot_duration_minutes = models.PositiveIntegerField(default=45)
-    is_approved = models.BooleanField(default=False)
     image = models.ImageField(upload_to='website/img/clinic', null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Chờ', null=True, blank=True)
 
@@ -89,16 +88,16 @@ class Clinic(models.Model):
             url = ""
         return url
 
-class Specialty(models.Model):
-    """
-    Specialty model to represent specialties in the system.
-    """
-    name = models.CharField(max_length=100, unique=True)  # Tên chuyên khoa
-    description = HTMLField()  # Mô tả chuyên khoa
-    image = models.ImageField(upload_to='website/img/specialties', null=True, blank=True)  # Ảnh đại diện
+# class Specialty(models.Model):
+#     """
+#     Specialty model to represent specialties in the system.
+#     """
+#     name = models.CharField(max_length=100, unique=True)  # Tên chuyên khoa
+#     description = HTMLField()  # Mô tả chuyên khoa
+#     image = models.ImageField(upload_to='website/img/specialties', null=True, blank=True)  # Ảnh đại diện
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 class Dentist(models.Model):
     """
@@ -215,18 +214,18 @@ class MedicalRecord(models.Model):
         return f"Medical Record - {self.appointment.customer.full_name or 'Unnamed Customer'}"
 
 
-class Notification(models.Model):
-    """
-    Notification model for reminders and updates.
-    """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
-    message = models.TextField()  # Nội dung thông báo
-    is_read = models.BooleanField(default=False)  # Trạng thái đã đọc
-    created_at = models.DateTimeField(auto_now_add=True)  # Thời gian tạo
-    send_at = models.DateTimeField(null=True, blank=True)  # Thời gian gửi
+# class Notification(models.Model):
+#     """
+#     Notification model for reminders and updates.
+#     """
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+#     message = models.TextField()  # Nội dung thông báo
+#     is_read = models.BooleanField(default=False)  # Trạng thái đã đọc
+#     created_at = models.DateTimeField(auto_now_add=True)  # Thời gian tạo
+#     send_at = models.DateTimeField(null=True, blank=True)  # Thời gian gửi
 
-    def __str__(self):
-        return f"Notification for {self.user.full_name or 'Unnamed User'}"
+#     def __str__(self):
+#         return f"Notification for {self.user.full_name or 'Unnamed User'}"
 
 
 

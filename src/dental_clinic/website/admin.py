@@ -23,7 +23,7 @@ class UserAdmin(admin.ModelAdmin):
     
 
 class ClinicAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'clinic_name', 'address', 'phone_number', 'opening_hours', 'is_approved')
+    list_display = ('owner', 'clinic_name', 'address', 'phone_number', 'opening_hours', 'status')
     search_fields = ('clinic_name', 'address')
     form = ClinicAdminForm
 
@@ -61,11 +61,11 @@ class ServiceItemAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Clinic, ClinicAdmin)
 admin.site.register(Dentist, DentistAdmin)
-admin.site.register(Specialty)
+# admin.site.register(Specialty)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(MedicalRecord, MedicalRecordAdmin)
-admin.site.register(Notification)
+# admin.site.register(Notification)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(ServiceItem, ServiceItemAdmin)

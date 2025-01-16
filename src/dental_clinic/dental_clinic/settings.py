@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from elasticsearch_dsl.connections import connections
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -83,7 +84,7 @@ DATABASES = {
         "ENGINE": "mssql",
         "NAME": "dental_clinic",
         "USER": "SA",
-        "PASSWORD": "YourPassword123!",
+        "PASSWORD": "Abc@123456789",
         "HOST": "mssql",
         "PORT": "1433",
         "OPTIONS": {
@@ -95,6 +96,15 @@ DATABASES = {
     }
 }
 
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9200/'  # Elasticsearch service name in docker-compose.yml
+    }
+}
+
+# Establish connection
+connections.create_connection(hosts=['http://localhost:9200/'])
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -113,6 +123,19 @@ AUTH_PASSWORD_VALIDATORS = [
     #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     # },
 ]
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',  # Use the Redis service name
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 
 # Internationalization
@@ -170,3 +193,8 @@ TINYMCE_DEFAULT_CONFIG = {
 RECAPTCHA_PUBLIC_KEY = "6LeEe64qAAAAAHMTTLjQoqMweHftWIkibs45fK7u"
 RECAPTCHA_PRIVATE_KEY = "6LeEe64qAAAAAIri-jTVfFUjfi2PzAXLBpP0nQUA"
 # SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CSRF_TRUSTED_ORIGINS = ["https://*.fly.dev"] # new
+SECURE_CROSS_ORIGIN_OPENER_POLICY =["https://app.powerbi.com/reportEmbed?reportId=bf53e685-5aca-432e-90a4-7f14759fbb52&autoAuth=true&embeddedDemo=true"]

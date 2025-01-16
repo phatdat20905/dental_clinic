@@ -14,25 +14,31 @@ services:
       - "8000:8000"
     depends_on:
       - mssql
+      - redis
+      - elasticsearch
 
   mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04
     container_name: sqlserver2022
     environment:
       ACCEPT_EULA: 'Y'
-      SA_PASSWORD: 'YourPassword123!'
-      MSSQL_HOST: 'localhost' 
-      MSSQL_PORT: '1433' 
-      MSSQL_DB: 'dental_clinic'
-    ports:
-      - "1433:1433"
-    volumes:
-      - ./data:/var/opt/mssql/data
-      - ./log:/var/opt/mssql/log
-      - ./secrets:/var/opt/mssql/secrets
+      SA_PASSWORD: 'Abc@123456789'
+    ports: 
+      - "1435:1433" 
+    volumes: 
+      - my-volume-2:/var/opt/mssql
     command: > 
-      /bin/bash -c " /opt/mssql/bin/sqlservr & sleep 30 & /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P YourPassword123! -Q 'CREATE DATABASE dental_clinic;' & wait"
+      /bin/bash -c " /opt/mssql/bin/sqlservr & sleep 30 & /opt/mssql-tools/bin/sqlcmd -S localhost,1435 -U SA -P 'Abc@123456789' -Q 'CREATE DATABASE dental_clinic;' & wait"
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    ports:
+      - "9200:9200"
 volumes: 
-  mssql_data: 
-  mssql_log: 
-  mssql_secrets:
+  my-volume-2:
