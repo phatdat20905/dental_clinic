@@ -1,0 +1,100 @@
+/* Reset margin và padding */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://images.pexels.com/photos/305568/pexels-photo-305568.jpeg?auto=compress&cs=tinysrgb&w=600');
+    background-size: cover;
+    background-position: center;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Đảm bảo chiều cao 100% */
+    width: 100%;  /* Đảm bảo chiều rộng 100% */
+}  
+
+/* Container chính */
+.register-container {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+    animation: fadeIn 1s ease-in-out;
+    position: relative; /* Cần thiết để đặt biểu tượng home theo vị trí tuyệt đối */
+    text-align: center;
+}
+
+.home-icon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 30px;  /* Kích thước của biểu tượng home */
+    height: 30px;
+    font-size: 40px;
+}
+
+/* Tiêu đề */
+.register-container h2 {
+    color: #2196f3;
+    margin-bottom: 20px;
+}
+
+/* Form */
+.form-row {
+    margin-bottom: 15px;
+}
+
+input, select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #2196f3;
+}
+
+.error {
+    color: #f44336;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Button */
+.btn-register {
+    background: #2196f3;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+    background: #1976d2;
+}
+
+.register-container a {
+    color: #0056b3;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .register-container {
+        padding: 15px;
+    }
+
+    .btn-register {
+        font-size: 0.9rem;
+    }
+}

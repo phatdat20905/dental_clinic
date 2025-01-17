@@ -1,0 +1,39 @@
+{% extends "app_manage/index.html" %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4" style="color: #007bff;">Danh sách nha sĩ của phòng khám: {{ clinic.clinic_name }}</h1>
+    <div class="text-center" style="margin-bottom: 20px">
+        <a href="{% url 'add_dentist' clinic.slug %}" class="btn btn-success btn-lg">Thêm nha sĩ</a>
+    </div>
+    {% if dentists %}
+        <div class="row">
+            {% for dentist in dentists %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img 
+                            src="{{ dentist.ImageURL|default:'https://via.placeholder.com/150' }}" 
+                            class="card-img-top" 
+                            alt="Ảnh nha sĩ">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ dentist.dentist.full_name }}</h5>
+                            <p class="card-text">
+                                <strong>Chuyên môn:</strong> {{ dentist.specialization|default:"Chưa cập nhật" }}<br>
+                                <strong>Vị trí:</strong> {{ dentist.position }}<br>
+                                <strong>Kinh nghiệm:</strong> {{ dentist.experience_years|default:"Chưa cập nhật" }} năm
+                            </p>
+                            <a href="{% url 'dentist' dentist.slug %}" class="btn btn-primary btn-sm">Chi tiết</a>
+                            <a href="{% url 'edit_dentist' clinic.slug dentist.id %}" class="btn btn-success btn-sm">Sửa</a>
+                            <a href="{% url 'delete_dentist' clinic.slug dentist.id %}" class="btn btn-danger btn-sm">Xóa</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            Phòng khám hiện chưa có nha sĩ nào. Hãy thêm nha sĩ mới!
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'website/base.html' %} 
+{% load static %} 
+{% block main-content %}
+<div class="service-content">
+  <div class="container my-4">
+    <div class="service-header">
+      <span>
+        <a class="home" href="/Trang-chu">Trang chủ</a> &#187;
+      </span> 
+      <span>
+        <a class="service" href="/Dich-vu">Dịch vụ</a> &#187;
+      </span>
+      <!-- Banner -->
+      <div class="main-banner mb-4">
+        <img
+          class="img-fluid w-100"
+          src="{{selected_category.image.url}}"
+          alt="Niềng Răng Bao Nhiêu Tiền"
+        />
+      </div>
+    </div>
+    <!-- Content Section -->
+    <div>
+      <div class="description">
+        {{ selected_category.description|safe}}
+      </div>
+      {%if service_items%}
+      <h2>Bảng giá các dịch vụ</h2>
+      <div class="table-price-service">
+        <div class="heading-table">Bảng Giá {{selected_category.name}}</div>
+        <table class="table table-striped table-price-detail">
+          <thead>
+            <tr class="tr-title">
+              <th>Tên dịch vụ</th>
+              <th class="text-center">Đơn vị</th>
+              <th class="text-center">Giá tham khảo (VNĐ)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for service in service_items %}
+            <tr>
+              <td>{{ service.service_name }}</td>
+              <td class="text-center">{{ service.unit }}</td>
+              <td class="text-center">{{ service.price }}</td>
+            </tr>
+            {% endfor %}
+          {% comment %} {%else%}
+          <tr>
+            <td colspan="3" class="text-center">Chưa có dịch vụ nào trong danh mục này</td>
+          </tr> {% endcomment %}
+          {% endif %}
+          </tbody>
+        </table>
+        <div class="note">
+          <strong>Lưu ý:</strong> Dữ liệu giá dịch vụ được tổng hợp từ các phòng khám mà Booking Smile liên kết hoặc phòng khám có công bố giá dịch vụ trực tuyến. Dữ liệu này có thể thay đổi theo thời gian.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+    

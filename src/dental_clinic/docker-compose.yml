@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mssql
+      - redis
+      - elasticsearch
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04
+    container_name: sqlserver2022
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'Abc@123456789'
+    ports: 
+      - "1435:1433" 
+    volumes: 
+      - my-volume-2:/var/opt/mssql
+    command: > 
+      /bin/bash -c " /opt/mssql/bin/sqlservr & sleep 30 & /opt/mssql-tools/bin/sqlcmd -S localhost,1435 -U SA -P 'Abc@123456789' -Q 'CREATE DATABASE dental_clinic;' & wait"
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    ports:
+      - "9200:9200"
+volumes: 
+  my-volume-2:

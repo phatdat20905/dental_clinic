@@ -1,0 +1,85 @@
+{% extends 'website/base.html' %} 
+{% load static %} 
+{% block search-content %}
+<h2>Kết quả tìm kiếm cho "{{ search }}"</h2>
+
+<div>
+    {% if dentist %}
+        <h3>Kết quả nha sĩ {{dentist.full_name}}</h3>
+        <div class="dentist-container">
+            <div class="container swiper">
+              <div class="slider-wrapper">
+                <div class="card-list swiper-wrapper">
+                  {% for item in dentist%}
+                  <div class="card-item swiper-slide">
+                    <img
+                      src="{{item.ImageURL}}"
+                      alt="User Image"
+                      class="user-image"
+                    />
+                    <h2 class="user-name">
+                      {{item.position}}: {{item.dentist.full_name}}
+                    </h2>
+                    <p class="user-profession">Chuyên khoa: {{item.specialization}}</p>
+                    <p class="user-profession">kinh nghiệm: {{item.experience_years}}</p>
+                    <a href="#" class="message-button btn">Đặt lịch</a>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-slide-button swiper-button-prev"></div>
+                <div class="swiper-slide-button swiper-button-next"></div>
+              </div>
+            </div>
+          </div>
+    {% elif clinic %}
+        <h3>Kết quả phòng khám</h3>
+        <div class="clinic-container">
+            <div class="container swiper">
+              <div class="slider-wrapper">
+                <div class="card-list swiper-wrapper">
+                  {% for item in clinic%}
+                  <div class="card-item swiper-slide">
+                    <img
+                      src="{{item.ImageURL}}"
+                      alt="User Image"
+                      class="specialty-image"
+                    />
+                    <h2 class="user-name">{{item.clinic_name}}</h2>
+                    <p class="user-profession">
+                      Thời gian hoạt động: {{item.opening_hours}}
+                    </p>
+                    <p class="user-profession">Địa chỉ: {{item.address}}</p>
+                    <a href="{%url 'clinic' slug=item.slug%}" class="message-button btn"
+                      >Đặt lịch</a
+                    >
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-slide-button swiper-button-prev"></div>
+                <div class="swiper-slide-button swiper-button-next"></div>
+              </div>
+            </div>
+          </div>
+    {%elif service%}
+    <h3>Kết quả dịch vụ</h3>
+    <div class="services-container">
+      <main class="container my-4">
+          <div class="category-section">
+              <!-- Example of a category -->
+               {%for item in service%}
+               <div class="category-card">
+                  <img src="{{item.image.url}}" alt="Dịch vụ" class="category-image">
+                  <h2 class="category-title"><a href="{%url 'categories' item.slug%}">{{item.name}}</a></h2>
+                </div>
+               {%endfor%}
+          </div>
+      </main>
+    </div>
+    {% else %}
+        <p>Không tìm thấy kết quả phù hợp.</p>
+    {% endif %}
+</div>
+
+{% endblock search-content %}
