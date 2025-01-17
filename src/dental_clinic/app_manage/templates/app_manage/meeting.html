@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Lịch Khám - {{ doctor_name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/appointment.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="py-4 text-center bg-light">
+        <h1>Đặt Lịch Khám</h1>
+    </header>
+
+    <main class="container py-5">
+        <h2 class="text-center mb-4">Đặt Lịch Khám - {{ doctor_name }}</h2>
+        <p class="text-center text-muted mb-5">Vui lòng điền thông tin để đặt lịch khám với bác sĩ {{ doctor_name }}.</p>
+
+        <div class="row">
+            <!-- Phần thông tin bác sĩ -->
+            <section class="col-md-6">
+                <div class="doctor-info">
+                    <img src="{% static 'img/doctor1.jpg' %}" alt="Hình ảnh bác sĩ {{ doctor_name }}" class="doctor-img rounded mb-3">
+                    <h3 class="text-center">{{ doctor_name }}</h3>
+                    <section>
+                        <h4>Thông tin bác sĩ</h4>
+                        <p>
+                            Ông là người đầu tiên tại Đông Nam Á ứng dụng robot định vị trong quá trình cấy ghép Implant, đưa nha khoa Việt Nam vươn tầm thế giới.
+                        </p>
+                        <ul>
+                            <li>Thực hiện dời dây thần kinh hàm dưới để cấy ghép Implant.</li>
+                            <li>Cấy ghép Implant xương gò má kết hợp dời thần kinh ổ răng dưới.</li>
+                            <li>Cấy ghép Implant và phục hồi răng cho bệnh nhân loạn sản ngoại bì không răng bẩm sinh.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Kinh nghiệm</h4>
+                        <ul>
+                            <li>Ghép xương 3 chiều năm 2011.</li>
+                            <li>Ứng dụng tế bào gốc trong ghép xương năm 2017.</li>
+                            <li>Hiện đang giữ chức vụ Giám đốc của Nha khoa Nhân Tâm.</li>
+                        </ul>
+                    </section>
+                </div>
+            </section>
+
+            <section class="col-md-6">
+                <h3>📅 Đặt Lịch Hẹn Ngay</h3>
+                <fieldset>
+                    <legend>Thông Tin Đặt Lịch</legend>
+                    <form>
+                        <label for="specialist">👨‍⚕️ Chuyên gia:</label><br>
+                        <input type="text" id="specialist" value="{{ doctor_name }}" readonly style="width: 100%; padding: 8px; margin: 8px 0;"><br>
+
+                        <label for="full_name">📛 Họ và tên:</label><br>
+                        <input type="text" id="full_name" placeholder="Nhập họ và tên" required style="width: 100%; padding: 8px; margin: 8px 0;"><br>
+
+                        <label for="date">📆 Chọn ngày:</label><br>
+                        <input type="date" id="date" required style="width: 100%; padding: 8px; margin: 8px 0;"><br>
+
+                        <label for="time">⏰ Chọn giờ:</label><br>
+                        <input type="time" id="time" required style="width: 100%; padding: 8px; margin: 8px 0;"><br>
+
+                        <label for="phone">📞 Số điện thoại:</label><br>
+                        <input type="tel" id="phone" placeholder="Nhập số điện thoại" pattern="[0-9]{10}" required style="width: 100%; padding: 8px; margin: 8px 0;"><br>
+
+                        <label for="address">🏠 Địa chỉ:</label><br>
+                        <input type="text" id="address" placeholder="Nhập địa chỉ" required style="width: 100%; padding: 8px; margin: 8px 0;"><br>
+
+                        <button type="submit" style="background-color: green; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 10px;">Xác Nhận Đặt Lịch</button>
+
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="text-center py-3 bg-light">
+        <p>&copy; 2025 Phòng Khám Nha Khoa. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
