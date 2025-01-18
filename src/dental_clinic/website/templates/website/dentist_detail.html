@@ -6,7 +6,7 @@
     </div>
     <div class="info-container">
       <div class="clinic-info">
-        <h1>{{dentist.dentist.full_name}}</h1>
+        <h1>{{dentist.position}} {{dentist.dentist.full_name}}</h1>
         <p class="phone">
           <i class="fas fa-phone"></i>
           {{dentist.dentist.phone_number}}
@@ -22,11 +22,11 @@
   <div class="row">
     <div class="col-md-9">
       <div class="main-content">
-        <ul class="navigation-bar d-none d-md-flex d-sm-none">
+        {% comment %} <ul class="navigation-bar d-none d-md-flex d-sm-none">
           <li class="active"><a href="#information">Thông tin chung</a></li>
           <li><a href="#about">Giới thiệu</a></li>
           <li><a href="#service">Bảng giá & dịch vụ</a></li>
-        </ul>
+        </ul> {% endcomment %}
         <div class="description">
           <h2>Thông tin nha sĩ</h2>
           <div>

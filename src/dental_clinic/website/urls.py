@@ -32,5 +32,4 @@ urlpatterns = [
 
     path('search/', views.searchPage, name="search"),
 
-    path('test/', views.testPage, name="test"),
 ]

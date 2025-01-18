@@ -59,39 +59,3 @@
   <script src="{%static "website/js/login.js"%}"></script>
 </body>
 </html>
-
-{% comment %} {%load static%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'website/css/login.css' %}?{% now "U" %}" />
-
-</head>
-<body>
-  <div class="login-container">
-    <div class="login-content">
-        <a href="/" class="home-icon">
-          <i class="fas fa-home"></i>
-        </a>
-        <h2>Đăng Nhập</h2>
-        <form action="{% url 'login' %}" method="post">
-            {% csrf_token %}
-            <label for="email">Email: </label>
-            <input type="email" id="email" name="email" required/>
-
-            <label for="password">Mật khẩu:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Đăng Nhập</button>
-        </form>
-        <p>Chưa có tài khoản? <a href="/register">Đăng ký ngay!</a></p>
-    </div>
-</div>
-
-
-</body>
-</html> {% endcomment %}

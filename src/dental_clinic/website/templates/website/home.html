@@ -1,9 +1,7 @@
-{% extends 'website/base.html' %} {% load static%} {% block banner-slider%}
-<div
-  id="carouselExampleIndicators"
-  class="carousel slide"
-  data-bs-ride="carousel"
->
+{% extends 'website/base.html' %} 
+{% load static%} 
+{% block banner-slider%}
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button
       type="button"
@@ -59,50 +57,8 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-{% endblock banner-slider%} {% block main-content %}
-{% comment %} <div class="specialty-container">
-  <div class="title">Chuyên khoa nổi bật</div>
-  <div class="container swiper">
-    <div class="slider-wrapper"> 
-      <div class="card-list swiper-wrapper">
-        {% for item in categories%}
-        <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image"
-          class="specialty-image">
-          <h2 class="user-name">James Wilson</h2>
-          <p class="user-profession">Software Developer</p>
-          <a href="{%url 'categories' item.slug%}" class="message-button btn">chi tiết</a>
-        </div>
-        {%endfor%}
-        <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image"
-          class="specialty-image">
-          <h2 class="user-name">Sarah Johnson</h2>
-          <p class="user-profession">Graphic Designer</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
-        </div>
-        <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image"
-          class="specialty-image">
-          <h2 class="user-name">Michael Brown</h2>
-          <p class="user-profession">Project Manager</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
-        </div>
-        <div class="card-item swiper-slide">
-          <img src="{%static "website/img/dentist/bs1.jpg"%}" alt="User Image"
-          class="specialty-image">
-          <h2 class="user-name">Emily Davis</h2>
-          <p class="user-profession">Marketing Specialist</p>
-          <a href="#" class="message-button btn">Go somewhere</a>
-        </div>
-      </div>
-      
-      <div class="swiper-pagination"></div>
-      <div class="swiper-slide-button swiper-button-prev"></div>
-      <div class="swiper-slide-button swiper-button-next"></div>
-    </div>
-  </div>
-</div>  {% endcomment %}
+{% endblock banner-slider%} 
+{% block main-content %}
 <div class="services-container" id="services">
   <main class="container my-4">
       <h1 class="text-primary">Dịch Vụ Nổi Bật</h1>
@@ -122,7 +78,7 @@
   <div class="container swiper">
     <div class="slider-wrapper">
       <div class="card-list swiper-wrapper">
-        {% for item in clinic%}
+        {% for item in clinics%}
         <div class="card-item swiper-slide">
           <img
             src="{{item.ImageURL}}"
@@ -154,7 +110,7 @@
   <div class="container swiper">
     <div class="slider-wrapper">
       <div class="card-list swiper-wrapper">
-        {% for item in dentist%}
+        {% for item in dentists%}
         <div class="card-item swiper-slide">
           <img
             src="{{item.ImageURL}}"

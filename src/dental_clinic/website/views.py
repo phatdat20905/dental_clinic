@@ -13,16 +13,31 @@ from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-
+from django.core.cache import cache
+from elasticsearch_dsl import Q
+from django.views.decorators.cache import cache_page
 # Create your views here.
+@cache_page(60 * 15)  # Cache trong 15 phút
+def clear_cache(request):
+    cache.delete('clinics')  # Xóa cache theo key
+    cache.delete('dentists')
+    cache.delete('categories')
 def homePage(request):
-    clinic = Clinic.objects.all()
-    dentist = Dentist.objects.all()
-    categories = Category.objects.all()
+    categories = cache.get('categories') # tim kiem data theo key: categories
+    clinics = cache.get('clinics') # tim kiem data theo key: clinics
+    dentists = cache.get('dentists') # tim kiem data theo key: dentists
+    if not categories or not clinics or not dentists:
+      # Nếu không có, tạo dữ liệu và lưu vào cache
+      categories = Category.objects.all()
+      clinics = Clinic.objects.all()
+      dentists = Dentist.objects.all()
+      cache.set('categories', categories, timeout=60*3)  # Lưu cache trong 60 giây
+      cache.set('clinics', clinics, timeout=60*3)  # Lưu cache trong 60 giây
+      cache.set('dentists', dentists, timeout=60*3)  # Lưu cache trong 60 giây
     
     context = {
-        'clinic': clinic,
-        'dentist': dentist,
+        'clinics': clinics,
+        'dentists': dentists,
         'categories': categories,
     }
     return render(request, 'website/home.html', context)
@@ -435,9 +450,6 @@ def aboutPage(request):
 
 def contactPage(request):
     return render(request, "website/contact.html")
-
-def testPage(request):
-    return render(request, "website/test.html")
 
 
 
