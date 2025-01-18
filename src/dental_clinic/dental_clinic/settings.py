@@ -197,4 +197,4 @@ RECAPTCHA_PRIVATE_KEY = "6LeEe64qAAAAAIri-jTVfFUjfi2PzAXLBpP0nQUA"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = ["https://*.fly.dev"] # new
-SECURE_CROSS_ORIGIN_OPENER_POLICY =["https://app.powerbi.com/reportEmbed?reportId=bf53e685-5aca-432e-90a4-7f14759fbb52&autoAuth=true&embeddedDemo=true"]
+SECURE_CROSS_ORIGIN_OPENER_POLICY =["https://app.powerbi.com/reportEmbed?reportId=4b1eefdc-0638-4d6a-b3bc-0bd39130e96e&autoAuth=true&embeddedDemo=true"]
