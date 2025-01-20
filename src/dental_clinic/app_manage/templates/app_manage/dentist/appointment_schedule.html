@@ -1,10 +1,9 @@
-{% extends "app_manage/index.html" %}
-{%load static%}
+{% extends 'index.html' %} {% load static%} 
 {% block main-content %}
 <main>
     <div class="header">
         <div class="left">
-            <h1>Lịch làm việc</h1>
+            <h1>Lịch hẹn</h1>
             <ul class="breadcrumb">
                 <li>
                     <a href="{%url 'index'%}">
@@ -12,35 +11,41 @@
                     </a>
                 </li>
                 /
-                <li><a href="{%url 'schedule' %}" class="active">Lịch làm việc</a></li>
+                <li><a href="{%url 'appointment_schedule'%}" class="active">Lịch hẹn</a></li>
             </ul>
         </div>
     </div>
-    {%if schedule%}
+    {%if appointments%}
     <div class="appointment-table-container">
         <table id="example" class="display" style="width:100%">
             <thead>
                 <tr>
+                    <th>Khách</th>
                     <th>Nha sĩ</th>
                     <th>Phòng khám</th>
+                    <th>Dịch vụ</th>
                     <th>Ngày</th>
                     <th>Thời gian</th>
+                    <th>Trạng thái</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
-                {%for item in schedule%}
+                {%for item in appointments%}
                 <tr>
+                    <td>{{item.customer}}</td>
                     <td>{{item.dentist}}</td>
                     <td>{{item.clinic}}</td>
-                    <td>{{item.day}}</td>
+                    <td>{{item.service}}</td>
+                    <td>{{item.appointment_date}}</td>
                     <td>{{item.time}}</td>
+                    <td>{{item.status}}</td>
                     <td>
-                        
-                        <a href="{%url 'add_schedule'%}" class="btn btn-sm btn-primary"
-                        >Thêm</a
-                    >
-                        <a href="{% url 'cancel_schedule' item.id %}" class="btn btn-danger btn-sm">Hủy</a>
+                        <a href="{%url 'update_appointments' item.id%}" class="btn btn-primary btn-sm"
+                            >Xác nhận</a
+                        >
+                        <a href="{% url 'add_medical_record' item.id %}" class="btn btn-success btn-sm mt-2">Hoàn thành</a>
+
                     </td>
                 </tr>
                 {%endfor%}
@@ -48,7 +53,7 @@
         </table>
     </div>
     {% else %}
-        <p class="text-center">Nha sĩ chưa có lịch làm việc nào.</p>
+        <p class="text-center">Nha sĩ hiện chưa có lịch làm việc nào.</p>
     {% endif %}
-</main> 
+</main>
 {% endblock main-content %}

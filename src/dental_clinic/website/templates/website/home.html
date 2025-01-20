@@ -1,4 +1,4 @@
-{% extends 'website/base.html' %} 
+{% extends 'base.html' %} 
 {% load static%} 
 {% block banner-slider%}
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -120,7 +120,7 @@
           <h2 class="user-name">
             {{item.position}}: {{item.dentist.full_name}}
           </h2>
-          <p class="user-profession">Chuyên khoa: {{item.specialization}}</p>
+          <p class="user-profession">Chuyên môn: {{item.specialization}}</p>
           <p class="user-profession">Số điện thoại: {{item.dentist.phone_number}}</p>
           <a href="{%url 'dentist' item.slug%}" class="message-button btn">Xem chi tiết</a>
         </div>

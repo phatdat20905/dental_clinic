@@ -7,7 +7,7 @@ from django.contrib import messages
 from .forms import *
 from django.utils.text import slugify
 from datetime import datetime, timedelta
-
+from .searchs import search_all
 # Create your views here.
 def indexPage(request):
     if request.user.role == 'Customer':
@@ -43,7 +43,7 @@ def schedulePage(request):
             'dentist': dentist,
             'schedule': schedule,  # Truyền danh sách lịch làm việc vào context
         }
-        return render(request, 'app_manage/schedule.html', context)
+        return render(request, 'app_manage/dentist/schedule.html', context)
 
     except ValueError as e:
         messages.error(request, str(e))
@@ -116,7 +116,7 @@ def add_schedule(request):
             "clinics": clinics,
             "time_slots": Schedule.TIME_SLOTS,
         }
-        return render(request, "app_manage/add_schedule.html", context)
+        return render(request, "app_manage/dentist/add_schedule.html", context)
 
     except ValueError as e:
         messages.error(request, str(e))
@@ -149,7 +149,7 @@ def appointment_schedule(request):
         context = {
             'appointments': appointments,  # Truyền danh sách lịch làm việc vào context
         }
-        return render(request, 'app_manage/appointment_schedule.html', context)
+        return render(request, 'app_manage/dentist/appointment_schedule.html', context)
 
     except ValueError as e:
         messages.error(request, str(e))
@@ -204,7 +204,7 @@ def add_medical_record(request, appointment_id):
     else:
         form = MedicalRecordForm()
 
-    return render(request, 'app_manage/add_medical_record.html', {'form': form, 'appointment': appointment})
+    return render(request, 'app_manage/dentist/add_medical_record.html', {'form': form, 'appointment': appointment})
 
 @login_required
 def profileDentist(request, slug):
@@ -213,7 +213,7 @@ def profileDentist(request, slug):
     context = {
             "dentist": dentist,
         }
-    return render(request, "app_manage/profile_dentist.html", context)
+    return render(request, "app_manage/dentist/profile_dentist.html", context)
 @login_required
 def update_profile(request, slug):
     user = get_object_or_404(User, slug=slug)
@@ -243,7 +243,7 @@ def update_profile(request, slug):
             messages.error(request, f"Có lỗi xảy ra: {e}")
 
     context = {"user": user}
-    return render(request, 'app_manage/update_profile.html', context)
+    return render(request, 'app_manage/dentist/update_profile.html', context)
 
 @login_required
 def my_clinics(request):
@@ -254,7 +254,7 @@ def my_clinics(request):
     context = {
         'clinics': clinics,
     }
-    return render(request, 'app_manage/my_clinics.html', context)
+    return render(request, 'app_manage/clinic/my_clinics.html', context)
 @login_required
 def add_clinic(request):
     if request.method == "POST":
@@ -291,7 +291,7 @@ def add_clinic(request):
             messages.error(request, "Invalid clinic owner.")
         except Exception as e:
             messages.error(request, f"Error: {e}")
-    return render(request, "app_manage/add_clinic.html")
+    return render(request, "app_manage/clinic/add_clinic.html")
 
 @login_required
 def edit_clinic(request, slug):
@@ -316,7 +316,7 @@ def edit_clinic(request, slug):
         'form': form,
         'clinic': clinic,
     }
-    return render(request, 'app_manage/edit_clinic.html', context)
+    return render(request, 'app_manage/clinic/edit_clinic.html', context)
 
 @login_required
 def list_dentists(request, slug):
@@ -330,7 +330,7 @@ def list_dentists(request, slug):
     if not dentists.exists():
         messages.info(request, "Phòng khám hiện chưa có nha sĩ nào. Hãy thêm nha sĩ mới!")
 
-    return render(request, 'app_manage/dentist_list.html', {'clinic': clinic, 'dentists': dentists})
+    return render(request, 'app_manage/dentist/dentist_list.html', {'clinic': clinic, 'dentists': dentists})
 
 
 @login_required
@@ -364,7 +364,7 @@ def add_dentist(request, slug):
         'user_form': user_form,
         'dentist_form': dentist_form,
     }
-    return render(request, 'app_manage/add_dentist.html', context)
+    return render(request, 'app_manage/dentist/add_dentist.html', context)
 
 @login_required
 def edit_dentist(request, slug, dentist_id):
@@ -390,7 +390,7 @@ def edit_dentist(request, slug, dentist_id):
         'dentist_form': dentist_form,
         'clinic': clinic,
     }
-    return render(request, 'app_manage/edit_dentist.html', context)
+    return render(request, 'app_manage/dentist/edit_dentist.html', context)
 
 @login_required
 def delete_dentist(request, slug, dentist_id):
@@ -406,7 +406,7 @@ def delete_dentist(request, slug, dentist_id):
         'dentist': dentist,
         'clinic': clinic,
     }
-    return render(request, 'app_manage/delete_dentist.html', context)
+    return render(request, 'app_manage/dentist/delete_dentist.html', context)
 
 
 def clinic_schedule(request, slug):
@@ -416,7 +416,7 @@ def clinic_schedule(request, slug):
         'clinic': clinic,
         'schedules': schedules,
     }
-    return render(request, 'app_manage/clinic_schedule.html', context)
+    return render(request, 'app_manage/clinic/clinic_schedule.html', context)
 
 
 @login_required
@@ -432,7 +432,7 @@ def cancel_schedule_clinic(request, slug, schedule_id):
         'schedule': schedule,
         'clinic': clinic,
     }
-    return render(request, 'app_manage/delete_schedule_clinic.html', context)
+    return render(request, 'app_manage/clinic/delete_schedule_clinic.html', context)
 
 @login_required(login_url='login')  # Chỉ cho phép người dùng đã đăng nhập
 def add_schedule_clinic(request, slug):
@@ -454,7 +454,7 @@ def add_schedule_clinic(request, slug):
         'form': form,
         'clinic': clinic,
     }
-    return render(request, 'app_manage/add_schedule_clinic.html', context)
+    return render(request, 'app_manage/clinic/add_schedule_clinic.html', context)
 
 
 @login_required(login_url='login')  # Chỉ cho phép người dùng đã đăng nhập
@@ -499,5 +499,18 @@ def dashboard(request):
         messages.error(request, "Vai trò người dùng không hợp lệ.")
         return redirect('home')  # Chuyển hướng đến trang chủ hoặc trang khác nếu cần
 
+def search_view(request):
+    query = request.GET.get('q')
+    if query:
+        results = search_all(query)
+    else:
+        results = {
+            'clinics': [],
+            'dentists': [],
+            'categories': []
+        }
+    return render(request, 'app_manage/search_results.html', {'results': results})
 
-    
+
+
+

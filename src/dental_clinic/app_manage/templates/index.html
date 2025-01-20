@@ -66,7 +66,7 @@
             <li><a href="{%url 'appointment_schedule'%}"><i class='bx bx-calendar'></i></i>Lịch hẹn</a></li>
             {%endif%}
             <li><a href="{%url "profile_dentist" user.slug%}"><i class='bx bx-user-circle'></i>Hồ sơ cá nhân</a></li>
-            {%if request.user.role == 'ClinicOwner'%}
+            {%if request.user.role == 'ClinicOwner' %}
             <li><a href="{%url 'my_clinics'%}"><i class='bx bx-clinic' ></i></i>Phòng khám</a></li>
             {% comment %} <!-- Dropdown for Phòng khám -->
             {%for clinic in clinics%}
@@ -91,9 +91,9 @@
         <!-- Navbar -->
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#">
+            <form method="GET" action="{% url 'search_view' %}">
                 <div class="form-input">
-                    <input type="search" placeholder="Search...">
+                    <input type="search" placeholder="Search..." value="{{ request.GET.q }}" name="q">
                     <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
                 </div>
             </form>
@@ -103,7 +103,7 @@
                 <i class='bx bx-bell'></i>
                 <span class="count">12</span>
             </a>
-            <a href="#" class="profile">
+            <a href="{%url "profile_dentist" user.slug%}" class="profile">
                 <img src="{{request.user.ImageURL}}">
             </a>
         </nav>

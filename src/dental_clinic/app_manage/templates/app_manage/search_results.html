@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+
+{% block main-content %}
+<h1>Kết quả tìm kiếm</h1>
+<div class="clinic-list-container">
+    {% if results.clinics %}
+        <ul class="clinic-list">
+            {% for clinic in results.clinics %}
+                <li class="clinic-item">
+                    <div class="clinic-header">
+                        <h3>{{ clinic.clinic_name }}</h3>
+                        <a href="{%url 'edit_clinic' clinic.slug%}" class="btn btn-success ms">Sửa</a>
+                        <a href="{%url 'list_dentists' clinic.slug%}" class="btn  btn-success ms" >Danh sách nha sĩ</a>
+                        <a href="{%url 'clinic_schedule' clinic.slug%}" class="btn  btn-success ms mt-2">Lịch làm việc</a>
+                    </div> 
+                    
+                    <div class="clinic-details">
+                        <p><i class="fa fa-map-marker"></i> Địa chỉ: {{ clinic.address }}</p>
+                        <p><i class="fa fa-phone"></i> Số điện thoại: {{ clinic.phone_number }}</p>
+                        <p><i class="fa fa-clock"></i> Giờ mở cửa: {{ clinic.opening_hours }}</p>
+                        <a href="{%url 'clinic' clinic.slug%}">Xem chi tiết</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif results.dentists %}
+                {% for dentist in results.dentists %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img 
+                                src="{{ dentist.image|default:'https://via.placeholder.com/150' }}" 
+                                class="card-img-top" 
+                                alt="Ảnh nha sĩ">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ dentist.dentist_name }}</h5>
+                                <p class="card-text">
+                                    <strong>Chuyên môn:</strong> {{ dentist.specialization|default:"Chưa cập nhật" }}<br>
+                                    <strong>Vị trí:</strong> {{ dentist.position }}<br>
+                                    <strong>Kinh nghiệm:</strong> {{ dentist.experience_years|default:"Chưa cập nhật" }} năm
+                                </p>
+                                
+                                <a href="{% url 'dentist' dentist.slug %}" class="btn btn-primary btn-sm">Chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</div>
+{% endblock %}

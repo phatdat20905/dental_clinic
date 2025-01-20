@@ -16,6 +16,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from elasticsearch_dsl import Q
 from django.views.decorators.cache import cache_page
+from django.core.exceptions import ObjectDoesNotExist
+from app_manage.searchs import search_all
+
 # Create your views here.
 @cache_page(60 * 15)  # Cache trong 15 phút
 def clear_cache(request):
@@ -69,7 +72,7 @@ def loginPage(request):
     else:
         form = CaptchaForm()
 
-    return render(request, 'website/login.html', {'form': form})
+    return render(request, 'website/auth/login.html', {'form': form})
 
 
 
@@ -105,7 +108,7 @@ def registerPage(request):
             return redirect('login')
 
     context = {'form': form}
-    return render(request, 'website/register.html', context)
+    return render(request, 'website/auth/register.html', context)
 
 def logoutPage(request):
     logout(request)
@@ -315,36 +318,25 @@ def book_appointment(request):
         })
 
 def appointment_access(request):
-    return render(request, "website/appointment_access.html")
+    return render(request, "website/appointment/appointment_access.html")
 
 def appointment_fail(request):
-    return render(request, "website/appointment_fail.html")
+    return render(request, "website/appointment/appointment_fail.html")
 
 
 
 def searchPage(request):
-    if request.method == "POST":
-        search = request.POST.get("searched", "").strip()  # Lấy từ khóa tìm kiếm và loại bỏ khoảng trắng thừa
-
-        # Tìm kiếm phòng khám (không phân biệt hoa thường)
-        clinic_results = Clinic.objects.filter(clinic_name__icontains=search)
-        
-        # Tìm kiếm nha sĩ (không phân biệt hoa thường)
-        dentist_details = Dentist.objects.filter(dentist__full_name__icontains=search)  # Tìm kiếm theo tên trong bảng Dentist
-        
-        # Tìm kiếm dịch vụ (không phân biệt hoa thường)
-        service_results = Category.objects.filter(name__icontains=search)
-        
-        context = {
-            "search": search,
-            "clinic": clinic_results,
-            "dentist": dentist_details,  # Trả về thông tin chi tiết từ bảng Dentist
-            "service": service_results,
+    query = request.GET.get('q')
+    if query:
+        results = search_all(query)
+    else:
+        results = {
+            'clinics': [],
+            'dentists': [],
+            'categories': []
         }
-        return render(request, "website/search.html", context)
+    return render(request, 'website/search_results.html', {'results': results})
     
-    # Trường hợp không có POST request
-    return render(request, "website/search.html", {"search": None})
 
 
 def appointment(request, slug):
@@ -359,9 +351,9 @@ def appointment(request, slug):
             "customer": customer,
             "appointments": appointments,
         }
-        return render(request, "website/appointment_table.html", context)
+        return render(request, "website/appointment/appointment_table.html", context)
     except Exception as e:
-        return render(request, "website/appointment_table.html", {"error": str(e)})
+        return render(request, "website/appointment/appointment_table.html", {"error": str(e)})
     
 def cancel_appointment(request, appointment_id):
     try:
@@ -425,8 +417,11 @@ def medical_records(request, slug):
     # Lấy danh sách lịch hẹn đã hoàn thành của khách hàng
     completed_appointments = Appointment.objects.filter(customer=customer, status="Hoàn thành")
 
-    # Lấy danh sách kết quả khám tương ứng
-    medical_record = MedicalRecord.objects.get(appointment__in=completed_appointments)
+    # Lấy danh sách kết quả khám tương ứng 
+    try: 
+        medical_record = MedicalRecord.objects.get(appointment__in=completed_appointments) 
+    except ObjectDoesNotExist: 
+        medical_record = None
     # Truyền dữ liệu vào context
     context = {
         'customer': customer,

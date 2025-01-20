@@ -1,15 +1,15 @@
-{% extends 'app_manage/index.html' %}
+{% extends 'index.html' %}
 
 {% block main-content %}
 <div class="delete-container">
-    <h2 class="text-center">Xóa Lịch Làm Việc</h2>
+    <h2 class="text-center">Xóa Nha Sĩ</h2>
     <div class="alert alert-warning text-center">
-        <p>Bạn có chắc chắn muốn xóa lịch làm việc vào ngày <strong>{{ schedule.date }}</strong> lúc <strong>{{ schedule.time }}</strong> của bác sĩ <strong>{{ schedule.dentist.full_name }}</strong> không?</p>
+        <p>Bạn có chắc chắn muốn xóa nha sĩ <strong>{{ dentist.dentist.full_name }}</strong> không?</p>
     </div>
     <form method="POST" class="text-center">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger btn-lg mx-2">Xóa</button>
-        <a href="{% url 'clinic_schedule' clinic.slug %}" class="btn btn-secondary btn-lg mx-2">Hủy</a>
+        <a href="{% url 'list_dentists' clinic.slug %}" class="btn btn-secondary btn-lg mx-2">Hủy</a>
     </form>
 </div>
 

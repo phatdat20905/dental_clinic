@@ -92,9 +92,9 @@
             <h1 class="m-1 text-primary" style="font-size: 25px;"><i class="fa fa-tooth me-2"></i>DentalHealth</h1>
         </a>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-          <form class="d-flex" method="POST" action="{%url 'search'%}">
+          <form class="d-flex" method="GET" action="{%url 'search'%}">
             {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searched" required>
+            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="q" required>
             <button class="btn btn-outline-success" type="submit" style="min-width: 95px;">Tìm kiếm</button>
           </form>
             <div class="navbar-nav ms-auto py-0">

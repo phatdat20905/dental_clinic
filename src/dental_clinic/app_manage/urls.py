@@ -33,4 +33,6 @@ urlpatterns = [
 
 
     path('dashboard/', views.dashboard, name='dashboard'),
+
+    path('search_view/', views.search_view, name='search_view'),
 ]

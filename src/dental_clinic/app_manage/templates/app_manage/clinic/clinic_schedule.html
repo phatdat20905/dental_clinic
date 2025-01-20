@@ -1,8 +1,9 @@
-{% extends 'app_manage/index.html' %}
+{% extends 'index.html' %}
 
 {% block main-content %}
 <div class="schedule-container">
     <h2 class="text-center">Lịch làm việc của phòng khám: {{ clinic.clinic_name }}</h2>
+    <a href="{%url 'add_schedule_clinic' clinic.slug%}" class="btn btn-sm btn-primary">Thêm lịch làm việc</a>
     {% if schedules %}
         {% comment %} <ul class="schedule-list">
             {% for schedule in schedules %}
@@ -16,6 +17,7 @@
             {% endfor %}
         </ul> {% endcomment %}
         <div class="appointment-table-container">
+
             <table id="example" class="display" style="width:100%">
                 <thead>
                     <tr>
@@ -34,10 +36,6 @@
                         <td>{{item.day}}</td>
                         <td>{{item.time}}</td>
                         <td>
-                            
-                            <a href="{%url 'add_schedule_clinic' item.clinic.slug%}" class="btn btn-sm btn-primary"
-                            >Thêm</a
-                        >
                             <a href="{% url 'cancel_schedule_clinic' item.clinic.slug item.id %}" class="btn btn-danger btn-sm">Hủy</a>
                         </td>
                     </tr>
