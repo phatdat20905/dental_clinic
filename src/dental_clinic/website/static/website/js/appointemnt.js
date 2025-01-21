@@ -20,6 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Số điện thoại không hợp lệ! Vui lòng nhập 10 chữ số.");
             return;
         }
+         // Kiểm tra ngày không được nhỏ hơn ngày hiện tại
+         const today = new Date().toISOString().split('T')[0];
+         if (date < today) {
+             alert("Ngày không được nhỏ hơn ngày hiện tại!");
+             return;
+         }
+ 
+         // Kiểm tra giờ không để trống
+         if (time === "") {
+             alert("Vui lòng chọn giờ hẹn!");
+             return;
+         }
         // Gửi form nếu tất cả điều kiện hợp lệ
         alert("Bạn đã đặt lịch thành công !");
         form.submit();
