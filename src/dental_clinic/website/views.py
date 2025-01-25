@@ -43,7 +43,7 @@ def homePage(request):
         'dentists': dentists,
         'categories': categories,
     }
-    return render(request, 'website/home.html', context)
+    return render(request, 'website/home/home.html', context)
 
 def loginPage(request):
     if request.user.is_authenticated:
@@ -361,7 +361,7 @@ def searchPage(request):
             'dentists': [],
             'categories': []
         }
-    return render(request, 'website/search_results.html', {'results': results})
+    return render(request, 'website/home/search_results.html', {'results': results})
     
 
 
@@ -464,13 +464,13 @@ def categories(request, slug):
         'selected_category': selected_category,
         'service_items': service_items,
     }
-    return render(request, 'website/services.html', context)
+    return render(request, 'website/home/services.html', context)
 
 def aboutPage(request):
-    return render(request, "website/about.html")
+    return render(request, "website/home/about.html")
 
 def contactPage(request):
-    return render(request, "website/contact.html")
+    return render(request, "website/home/contact.html")
 
 
 

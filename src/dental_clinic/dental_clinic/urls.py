@@ -1,5 +1,5 @@
 """
-URL configuration for Dental_Clinic project.
+URL configuration for dental_clinic project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
