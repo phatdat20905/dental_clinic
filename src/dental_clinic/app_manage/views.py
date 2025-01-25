@@ -255,43 +255,24 @@ def my_clinics(request):
         'clinics': clinics,
     }
     return render(request, 'app_manage/clinic/my_clinics.html', context)
+
 @login_required
 def add_clinic(request):
     if request.method == "POST":
-        clinic_name = request.POST.get("clinic_name")
-        address = request.POST.get("address")
-        description = request.POST.get("description")
-        phone_number = request.POST.get("phone_number")
-        opening_hours = request.POST.get("opening_hours")
-        max_patients_per_slot = request.POST.get("max_patients_per_slot")
-        max_treatment_per_slot = request.POST.get("max_treatment_per_slot")
-        slot_duration_minutes = request.POST.get("slot_duration_minutes")
-        image = request.FILES.get("image")
-        # owner_id = request.POST.get(id=request.user.id)
-
-        try:
-            # owner = User.objects.get(id=owner_id, role="ClinicOwner")
-            owner = request.user
-            clinic = Clinic.objects.create(
-                owner=owner,
-                clinic_name=clinic_name,
-                address=address,
-                description=description,
-                phone_number=phone_number,
-                opening_hours=opening_hours,
-                max_patients_per_slot=max_patients_per_slot,
-                max_treatment_per_slot=max_treatment_per_slot,
-                slot_duration_minutes=slot_duration_minutes,
-                image=image,
-            )
+        form = ClinicForm(request.POST, request.FILES)
+        if form.is_valid():
+            clinic = form.save(commit=False)
+            clinic.owner = request.user
             clinic.save()
             messages.success(request, "Clinic added successfully!")
-            return redirect("clinic_list")
-        except User.DoesNotExist:
-            messages.error(request, "Invalid clinic owner.")
-        except Exception as e:
-            messages.error(request, f"Error: {e}")
-    return render(request, "app_manage/clinic/add_clinic.html")
+            return redirect("my_clinics")
+        else:
+            messages.error(request, "There was an error in the form. Please correct it and try again.")
+    else:
+        form = ClinicForm()
+    
+    return render(request, "app_manage/clinic/add_clinic.html", {"form": form})
+
 
 @login_required
 def edit_clinic(request, slug):
@@ -353,7 +334,7 @@ def add_dentist(request, slug):
             dentist.save()
 
             messages.success(request, "Nha sĩ đã được thêm thành công!")
-            return redirect('add_dentist', slug=slug)
+            return redirect('list_dentists', slug=slug)
         else:
             messages.error(request, "Vui lòng kiểm tra lại thông tin.")
     else:
@@ -363,6 +344,7 @@ def add_dentist(request, slug):
     context = {
         'user_form': user_form,
         'dentist_form': dentist_form,
+        'clinic': clinic,
     }
     return render(request, 'app_manage/dentist/add_dentist.html', context)
 

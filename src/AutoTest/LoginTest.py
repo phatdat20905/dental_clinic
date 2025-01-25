@@ -1,196 +1,136 @@
-# import unittest
-# from selenium import webdriver
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.common.by import By
-# import time
-# from selenium.webdriver.support.ui import WebDriverWait 
-# from selenium.webdriver.support import expected_conditions as EC
-# # inherit TestCase Class and create a new test class
-# username ='ADMIN'
-# access_key = ''
-# class DjangoTest(unittest.TestCase):
-#     # initialization of webdriver
-#     def setUp(self):
-#         self.driver = webdriver.Chrome()
-      
-  
-#     # cleanup method called after every test performed
-#     # TH1 nhap email đ, pw sai  ---> KQ kỳ vọng login f
-#     # TH2 Nhap email sai, pw đúng --> login f 
-#     # TH3 nhập đúng cả 2 --> loging thành công ---> vào trong trang hệ thông 
-#     # TH4 Nhap sai ca email, pw
-#     # khong nhap gi het --- login f 
-#     def tearDown(self):
-#         self.driver.close()
-#     # unittest
-#     # quy tac dat ten : test_unit_[ten functoin]
-#     def test_unit_login_3(self): 
-#         """
-#         Test the login functionality of the admin site.
-#         This test performs the following steps:
-#         1. Opens the admin login page.
-#         2. Enters the email "ngophatdat2k5@gmail.com".
-#         3. Enters the password "123456".
-#         4. Submits the login form.
-#         5. Verifies that the page title is "Site administration | Django site admin".
-#         Assertions:
-#         - The page title should be "Site administration | Django site admin" after login.
-#         """
-#         # try:
-#         # get driver
-#         print('bat dau')
-#         driver = self.driver
-#         # get python.org using selenium
-#         driver.get("http://127.0.0.1:8000/admin/login/?next=/admin/")
-#         # Chờ đợi email input hiện diện 
-#         inputEmail = WebDriverWait(driver, 10).until( EC.presence_of_element_located((By.NAME, "email")) ) 
-#         inputEmail.send_keys("ngophatdat2k5@gmail.com")
-
-#         password  = driver.find_element(By.NAME,value="password")
-   
-#         password.send_keys("123456")
-#         # time.sleep(5)
-
-#         password.send_keys(Keys.RETURN)
-
-#         # time.sleep(10)
-#         actualTitle = driver.title 
-#         print(actualTitle)
-#         # assert actualTitle ,"Site administration | Django site admin"
-#         assert(actualTitle == "Site administration | Django site admin")
-
-#         # receive data
-#         # elem.send_keys(Keys.RETURN)
-#         # assert "No results found." not in driver.page_source
-
-#     # def test_unit_login_2(self): 
-#     #     """
-#     #     Test the login functionality of the Django admin site.
-#     #     This test performs the following steps:
-#     #     1. Opens the Django admin login page.
-#     #     2. Enters the email "ngophatdat2k5@gmail.com".
-#     #     3. Enters the password "qqqqqqqqqq".
-#     #     4. Submits the login form.
-#     #     5. Verifies that the page title after login is "Log in | Django site admin".
-#     #     Asserts:
-#     #         The page title after login is "Log in | Django site admin".
-#     #     """
-#     #     # try:
-#     #     # get driver
-#     #     print('bat dau')
-#     #     driver = self.driver
-#     #     # get python.org using selenium
-#     #     driver.get("http://127.0.0.1:8000/admin/login/?next=/admin/")
-#     #     inputEmail  = driver.find_element(By.NAME,value="email")
-    
-#     #     inputEmail.send_keys("ngophatdat2k5@gmail.com")
-#     #     # time.sleep(5)
-#     #     password  = driver.find_element(By.NAME,value="password")
-#     #     password.send_keys("qqqqqqqqqq")
-#     #     # time.sleep(5)
-
-#     #     password.send_keys(Keys.RETURN)
-
-#     #     # time.sleep(10)
-#     #     actualTitle = driver.title 
-#     #     print(actualTitle)
-#     #     # assert actualTitle ,"Site administration | Django site admin"
-#     #     assert(actualTitle == "Log in | Django site admin")
-#     # def test_unit_login_1(self): 
-#     #     """
-#     #     Test the login functionality of the Django admin site.
-#     #     This test performs the following steps:
-#     #     1. Opens the Django admin login page.
-#     #     2. Enters the email "ngophatdat2k5@gmail.com".
-#     #     3. Enters the password "qqqqqqqqqq".
-#     #     4. Submits the login form.
-#     #     5. Verifies that the page title after login is "Log in | Django site admin".
-#     #     Asserts:
-#     #         The page title after login is "Log in | Django site admin".
-#     #     """
-#     #     # try:
-#     #     # get driver
-#     #     print('bat dau')
-#     #     driver = self.driver
-#     #     # get python.org using selenium
-#     #     driver.get("http://127.0.0.1:8000/admin/login/?next=/admin/")
-#     #     inputEmail  = driver.find_element(By.NAME,value="email")
-    
-#     #     inputEmail.send_keys("ngophatdat@gmail.com")
-#     #     # time.sleep(5)
-#     #     password  = driver.find_element(By.NAME,value="password")
-#     #     password.send_keys("123456")
-#     #     # time.sleep(5)
-
-#     #     password.send_keys(Keys.RETURN)
-
-#     #     # time.sleep(10)
-#     #     actualTitle = driver.title 
-#     #     print(actualTitle)
-#     #     # assert actualTitle ,"Site administration | Django site admin"
-#     #     assert(actualTitle == "Log in | Django site admin")
-
-# # execute the script
-# if __name__ == "__main__":
-#     unittest.main()
-
 import unittest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import unittest
+from selenium.common.exceptions import TimeoutException
 
 class LoginTest(unittest.TestCase):
     def setUp(self):
-        # Khởi tạo driver của bạn ở đây, ví dụ:
         self.driver = webdriver.Chrome()
-
+      
     def tearDown(self):
         self.driver.quit()
-
-    def test_unit_login_3(self):
+    
+    def test_login_with_valid_credentials(self):
         """
-        Test the login functionality of the admin site.
+        Test the login functionality with valid credentials.
         This test performs the following steps:
-        1. Opens the admin login page.
-        2. Enters the email "ngophatdat2k5@gmail.com".
-        3. Enters the password "123456".
-        4. Submits the login form.
-        5. Verifies that the page title is "Site administration | Django site admin".
-        Assertions:
-        - The page title should be "Site administration | Django site admin" after login.
+        1. Opens the login page.
+        2. Enters the email and password.
+        3. Submits the login form.
+        4. Verifies the redirection based on user role.
         """
-        print('bat dau')
         driver = self.driver
-        driver.get("http://127.0.0.1:8000/admin/login/?next=/admin/")
+        driver.get("http://127.0.0.1:8000/login/")
         
-        # Chờ trang tải hoàn toàn
-        WebDriverWait(driver, 20).until(
-            lambda driver: driver.execute_script("return document.readyState") == "complete"
-        )
+        # Điền thông tin đăng nhập hợp lệ
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.NAME, "email"))).send_keys("ngophatdat2k5@gmail.com")
+        driver.find_element(By.NAME, "password").send_keys("123456")
         
-        # Sử dụng XPATH để tìm inputEmail
-        inputEmail = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//input[@name='email']"))
-        )
-        inputEmail.send_keys("ngophatdat2k5@gmail.com")
+        # Gửi biểu mẫu
+        driver.find_element(By.NAME, "password").send_keys(Keys.RETURN)
 
-        # Sử dụng XPATH để tìm password
-        password = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//input[@name='password']"))
-        )
-        password.send_keys("123456")
-        password.send_keys(Keys.RETURN)
+        # Đợi và kiểm tra sự chuyển hướng sau khi đăng nhập
+        try:
+            WebDriverWait(driver, 20).until(EC.url_contains("/home/"))
+            self.assertIn("home", driver.current_url)
+        except TimeoutException:
+            # Kiểm tra xem người dùng có đăng nhập thành công hay không
+            try:
+                user_menu = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, ".nav-item.dropdown"))
+                )
+                self.assertTrue(user_menu.is_displayed(), "User menu not displayed; login may have failed")
+            except TimeoutException:
+                self.fail("Redirection to home page failed and user menu not displayed")
+    
+    def test_login_with_invalid_credentials(self):
+        """
+        Test the login functionality with invalid credentials.
+        This test performs the following steps:
+        1. Opens the login page.
+        2. Enters the email and incorrect password.
+        3. Submits the login form.
+        4. Verifies the error message is displayed.
+        """
+        driver = self.driver
+        driver.get("http://127.0.0.1:8000/login/")
+        
+        # Điền thông tin đăng nhập không hợp lệ
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.NAME, "email"))).send_keys("ngophatdat2k5@gmail.com")
+        driver.find_element(By.NAME, "password").send_keys("wrongpassword")
+        
+        # Gửi biểu mẫu
+        driver.find_element(By.NAME, "password").send_keys(Keys.RETURN)
 
-        # Chờ tiêu đề trang
-        WebDriverWait(driver, 10).until(
-            EC.title_is("Site administration | Django site admin")
-        )
-        actualTitle = driver.title 
-        print(actualTitle)
-        assert actualTitle == "Site administration | Django site admin"
+        # Đợi và kiểm tra thông báo lỗi
+        try:
+            error_message = WebDriverWait(driver, 20).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "error"))
+            )
+            self.assertTrue(error_message.is_displayed())
+            self.assertIn("Wrong Email Or Password!", error_message.text)
+        except TimeoutException:
+            self.fail("Error message not displayed within the time limit")
+    
+    def test_login_with_nonexistent_user(self):
+        """
+        Test the login functionality with a non-existent user.
+        This test performs the following steps:
+        1. Opens the login page.
+        2. Enters the email of a non-existent user.
+        3. Submits the login form.
+        4. Verifies the error message is displayed.
+        """
+        driver = self.driver
+        driver.get("http://127.0.0.1:8000/login/")
+        
+        # Điền thông tin đăng nhập của người dùng không tồn tại
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.NAME, "email"))).send_keys("nonexistent@example.com")
+        driver.find_element(By.NAME, "password").send_keys("123456")
+        
+        # Gửi biểu mẫu
+        driver.find_element(By.NAME, "password").send_keys(Keys.RETURN)
+
+        # Đợi và kiểm tra thông báo lỗi
+        try:
+            error_message = WebDriverWait(driver, 20).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "error"))
+            )
+            self.assertTrue(error_message.is_displayed())
+            self.assertIn("Can't Find User", error_message.text)
+        except TimeoutException:
+            self.fail("Error message not displayed within the time limit")
+    
+    def test_login_with_empty_fields(self):
+        """
+        Test the login functionality with empty email and password fields.
+        This test performs the following steps:
+        1. Opens the login page.
+        2. Leaves the email and password fields empty.
+        3. Submits the login form.
+        4. Verifies the validation error messages are displayed.
+        """
+        driver = self.driver
+        driver.get("http://127.0.0.1:8000/login/")
+        
+        # Để trống các trường email và mật khẩu
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.NAME, "email")))
+        
+        # Gửi biểu mẫu
+        driver.find_element(By.NAME, "password").send_keys(Keys.RETURN)
+
+        # Đợi và kiểm tra thông báo lỗi
+        try:
+            error_message = WebDriverWait(driver, 20).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "error"))
+            )
+            self.assertTrue(error_message.is_displayed())
+            self.assertIn("This field is required.", error_message.text)
+        except TimeoutException:
+            self.fail("Error message not displayed within the time limit")
 
 if __name__ == "__main__":
     unittest.main()

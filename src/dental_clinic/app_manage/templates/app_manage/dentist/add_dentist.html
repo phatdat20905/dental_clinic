@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block main-content %}
-<div class="container mt-5">
+<div class="container my-5">
     <h2>Thêm Nha Sĩ</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -14,6 +14,7 @@
             {{ dentist_form.as_p }}
         </div>
         <button type="submit" class="btn btn-primary">Thêm</button>
+        <a href="{%url 'list_dentists' clinic.slug%}" class="btn btn-danger">Hủy</a>
     </form>
 </div>
 {% endblock %}

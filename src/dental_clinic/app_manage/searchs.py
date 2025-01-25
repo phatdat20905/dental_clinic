@@ -34,16 +34,3 @@ def search_all(query):
         'categories': category_results
     }
 
-# from .documents import ClinicDocument
-
-# def search_all(query):
-#     # Sử dụng truy vấn match_phrase để tìm kiếm chính xác
-#     search = ClinicDocument.search().query("match_phrase", clinic_name=query)
-#     response = search.execute()
-    
-#     if response.hits.total.value == 0:
-#         # Nếu không tìm thấy kết quả, bạn có thể thực hiện một tìm kiếm khác hoặc xử lý theo cách khác
-#         search = ClinicDocument.search().query("multi_match", query=query, fields=['clinic_name', 'address', 'description'])
-#         response = search.execute()
-    
-#     return response

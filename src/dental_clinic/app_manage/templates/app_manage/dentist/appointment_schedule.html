@@ -27,7 +27,9 @@
                     <th>Ngày</th>
                     <th>Thời gian</th>
                     <th>Trạng thái</th>
+                    {%if appointments.status == "Chờ"%}
                     <th>Hành động</th>
+                    {%endif%}
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +42,7 @@
                     <td>{{item.appointment_date}}</td>
                     <td>{{item.time}}</td>
                     <td>{{item.status}}</td>
+                    {%if item.status == "Chờ"%}
                     <td>
                         <a href="{%url 'update_appointments' item.id%}" class="btn btn-primary btn-sm"
                             >Xác nhận</a
@@ -47,9 +50,10 @@
                         <a href="{% url 'add_medical_record' item.id %}" class="btn btn-success btn-sm mt-2">Hoàn thành</a>
 
                     </td>
+                    {% endif%}
                 </tr>
                 {%endfor%}
-            </tfoot>
+            </tbody>
         </table>
     </div>
     {% else %}

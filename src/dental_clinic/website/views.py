@@ -45,34 +45,60 @@ def homePage(request):
     }
     return render(request, 'website/home.html', context)
 
-
 def loginPage(request):
     if request.user.is_authenticated:
         # Kiểm tra vai trò của người dùng đã đăng nhập
         if request.user.role in ["Dentist", "ClinicOwner"]:
-            return redirect('index')  # Trang admin cho Dentist và ClinicOwner
+            return redirect('index')  # Trang admin cho Dentist
         return redirect('home')  # Trang chính cho các vai trò khác
 
     if request.method == "POST":
-        form = CaptchaForm(request.POST)
         email = request.POST.get("email")
         password = request.POST.get("password")
-        if form.is_valid():
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
-                login(request, user)
-                # Chuyển hướng dựa trên vai trò của người dùng
-                if user.role in ["Dentist", "ClinicOwner"]:
-                    return redirect('index')  # Trang admin cho Dentist và ClinicOwner
-                return redirect('home')  # Trang chính cho các vai trò khác
-            else:
-                messages.error(request, "Wrong Email Or Password!")
-        else:
-            messages.error(request, "Invalid reCAPTCHA. Please try again.")
-    else:
-        form = CaptchaForm()
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, "Can't Find User")
+            return render(request, 'website/auth/login.html')
 
-    return render(request, 'website/auth/login.html', {'form': form})
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            # Chuyển hướng dựa trên vai trò của người dùng
+            if request.user.role in ["Dentist", "ClinicOwner"]:
+                return redirect('index')  # Trang admin cho Dentist
+            return redirect('home')  # Trang chính cho các vai trò khác
+        else:
+            messages.error(request, "Wrong Email Or Password!")
+    return render(request, 'website/auth/login.html')
+
+# def loginPage(request):
+#     if request.user.is_authenticated:
+#         # Kiểm tra vai trò của người dùng đã đăng nhập
+#         if request.user.role in ["Dentist", "ClinicOwner"]:
+#             return redirect('index')  # Trang admin cho Dentist và ClinicOwner
+#         return redirect('home')  # Trang chính cho các vai trò khác
+
+#     if request.method == "POST":
+#         form = CaptchaForm(request.POST)
+#         email = request.POST.get("email")
+#         password = request.POST.get("password")
+#         if form.is_valid():
+#             user = authenticate(request, email=email, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 # Chuyển hướng dựa trên vai trò của người dùng
+#                 if user.role in ["Dentist", "ClinicOwner"]:
+#                     return redirect('index')  # Trang admin cho Dentist và ClinicOwner
+#                 return redirect('home')  # Trang chính cho các vai trò khác
+#             else:
+#                 messages.error(request, "Wrong Email Or Password!")
+#         else:
+#             messages.error(request, "Invalid reCAPTCHA. Please try again.")
+#     else:
+#         form = CaptchaForm()
+
+#     return render(request, 'website/auth/login.html', {'form': form})
 
 
 
@@ -311,7 +337,7 @@ def book_appointment(request):
         clinics = Clinic.objects.all()
         dentists = Dentist.objects.all()
         services = Service.objects.all()
-        return render(request, "book_appointment.html", {
+        return render(request, "website/clinic.html", {
             "clinics": clinics,
             "dentists": dentists,
             "services": services,

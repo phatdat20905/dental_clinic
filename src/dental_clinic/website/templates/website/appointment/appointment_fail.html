@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
 {% block main-content %}
-<div class="container mt-5">
-    <h2>Đặt lịch hẹn thất bại</h2>
-    <!-- Hiển thị thông báo -->
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
+<div class="container mt-5 text-center">
+    <div class="card shadow p-4">
+        <h2 class="text-danger">Đặt lịch hẹn thất bại</h2>
+        <!-- Hiển thị thông báo -->
+        {% if messages %}
+        <div class="messages mt-3">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        {% endif %}
+        <a href="{% url 'home' %}" class="btn btn-primary mt-4">Quay lại trang chủ</a>
     </div>
-    {% endif %}
-    <a href="{% url 'home' %}" class="btn btn-primary">Quay lại trang chủ</a>
 </div>
 {% endblock %}
