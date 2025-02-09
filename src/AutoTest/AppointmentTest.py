@@ -209,6 +209,7 @@ class AppointmentTest(unittest.TestCase):
         )
         dat_lich_button.click()
 
+        sleep(2)
         # Điền form đặt lịch hẹn
         clinic_select = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, 'clinic')))
         clinic_select.send_keys('Phòng Khám Nha Khoa Kim')  # Thay thế bằng tên phòng khám thực tế
@@ -223,10 +224,13 @@ class AppointmentTest(unittest.TestCase):
         date_input.send_keys('01/22/2025')
 
         # Chọn thời gian từ danh sách thả xuống
+        # time_select = driver.find_element(By.NAME, 'time')
+        # time_select.click()
+        # time_option = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//option[@value='08:00-08:45']")))
+        # time_option.click()
+        
         time_select = driver.find_element(By.NAME, 'time')
-        time_select.click()
-        time_option = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//option[@value='08:00-08:45']")))
-        time_option.click()
+        time_select.send_keys('08:00-08:45')  # Thay thế bằng tên bác sĩ thực tế
 
         name_input = driver.find_element(By.NAME, 'name')
         name_input.send_keys('Ngô Phát Đạt')

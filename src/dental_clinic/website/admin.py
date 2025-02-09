@@ -35,7 +35,7 @@ class DentistAdmin(admin.ModelAdmin):
 
 
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ('dentist', 'clinic')
+    list_display = ('dentist', 'clinic', 'day', 'time')
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('service_name', 'unit', 'price', 'clinic')

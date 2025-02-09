@@ -33,7 +33,7 @@ class UpdateUserTest(unittest.TestCase):
         # Đăng nhập
         email_input = driver.find_element(By.NAME, "email")
         password_input = driver.find_element(By.NAME, "password")
-        email_input.send_keys("ngophatdat80@gmail.com")
+        email_input.send_keys("ngophatdat160@gmail.com")
         password_input.send_keys("123456")
         password_input.send_keys(Keys.RETURN)
 
@@ -41,7 +41,7 @@ class UpdateUserTest(unittest.TestCase):
         sleep(3)  # Thêm khoảng chờ 3 giây
 
         # Mở trang hồ sơ người dùng
-        driver.get("http://127.0.0.1:8000/profile/ngo-phat-dat/")  # Thay thế bằng URL thực tế của trang hồ sơ người dùng
+        driver.get("http://127.0.0.1:8000/profile/tran-van-a/")  # Thay thế bằng URL thực tế của trang hồ sơ người dùng
 
         # Chờ và bấm vào nút "Edit"
         edit_button = WebDriverWait(driver, 10).until(
